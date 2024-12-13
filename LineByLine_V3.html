@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+      <meta charset="utf-8">
+      <meta name="description" content="Line By Line - A tool to practice language comprehension">
+      <meta name="license" content="license MIT: you can share and modify the software, but you must include the license file">
+      <meta name="author" content="Antonio Cigna">
+      <meta name="date" content="2024">
+      <meta name="keywords" content="LineByLine, language, learning, tool, comprehension">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Line By Line V3 - Antonio Cigna 2024</title>
+      <link href="./LineByLineV3/cbc_1_style.css" rel="stylesheet">
+	  <link href="./LineByLineV3/cbc_2_style.css" rel="stylesheet">	  
+   </head>
+   
+	<!--
+		 questo file crea un altro file html contenente il testo che sarà letto dalle voci sintetiche   
+	  -->
+
+   <body id="id_body">  
+ 
+      <div id="page1" class="onePage1" style="border:5px solid blue;">
+         <div id="id_h03" style="margin:auto; text-align:center;width:100%;    font-weight:bold;">
+            <br>
+            <span  id="id_h1c" style="font-size:1.2em; color:blue;">Line By Line V3</span>
+            <br> <span id="id_h11c" style="font-size:0.6em;">Antonio Cigna 2024</span>
+            <div style="font-size:0.8em;" ><br>
+               <span id="m014_2" class="msg"><br>per migliorare la comprensione delle lingue straniere</span><br>
+               <br>
+               <span id="m015_2" class="msg">
+               by listening to a text <br>read line by line, word by word
+               </span>
+               <br>
+            </div>
+         </div>
+         <br>
+         <!--    style="text-align: center;font-weight:bold;"    --> 
+         <div class="centerLex">            
+			 <textarea  id="id_outTitle" cols="80" placeholder="scrivi qui il titolo" style="text-align:center; font-weight:bold; font-size:1.2em;" ></textarea>
+         </div>
+         <br>   
+         <table id="id_table16" style="width:100%;border:1% solid red; border-collapse: collapse;">
+            <tr>
+               <th style="width:50%;border:0px solid black;text-align:center;">
+                   <span id="m017" class="msg f_blue">Incolla qui sotto il testo da studiare</span>
+                   <br><span style="visibility: hidden;">...</span>
+			   </th>
+               <th style="width:50%;border:0px solid black;text-align:center;">
+                  <span id="m017" class="msg f_blue">Incolla qui sotto la traduzione automatica del testo</span><br>
+                  <span id="m018" class="msg" style="font-size:0.8em;">(per ignorare la traduzione scrivi 3 puntini ...)</span>						
+               </th>
+            </tr>
+            <tr>
+               <td style="width:50%;border:0px solid black;text-align:center;">
+                  <div>
+                     <div id="inpFileTypeOrig" style="display:none;"></div>
+                     <textarea style="border:4px solid green;width:100%;" 
+                        id="txt_pagOrig" rows="20" cols="150">
+					</textarea>
+                  </div>
+               </td>
+               <td style="width:50%;border:0px solid black;text-align:center;">
+                  <div>
+                     <div id="inpFileTypeTran" style="display:none;"></div>
+                     <textarea style="border:4px solid green;width:100%;" 
+                        id="txt_pagTrad" rows="20" cols="150">
+					 </textarea>
+                  </div>
+               </td>
+            </tr>
+         </table>
+         <br><br>
+         <div>
+            <!-- <button id="match1" class="button" onclick='onclick_tts_getInput( document.getElementById("page1"))' -->
+            <button onclick="onclick_get2TextArea()"
+               style="width:20rem;"><span id="Xm004" class="msg">continue</span>
+            </button>
+            <div id="id_msg16" style="display:none;font-size:1em;text-align:center;"></div>
+         </div>
+      </div>
+      <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  -->
+     
+      <style>
+         #id_tabText td { border:1px solid green;  }
+		 #id_tabSub tr { width:100%;}
+		 .butTabText {
+			font-size:1em; font-weight:bold;  margin-top:1em; margin-bottom:1em;
+		 }
+      </style>
+      <div id="newPage1" class="onePage1" style="display:none;  border:5px solid blue;">
+         <div id="id_outTitle2" class="centerFlex"  style="font-weight:bold;font-size:1.2em;">
+         </div>
+         <div id="id_commTitle" class="centerFlex"  style="font-weight:bold;font-size:0.6em;">
+            Controlla che le righe di traduzione siano allineate con le corrispondenti originali.  <br>
+            <br>Se necessario è possibile con i pulsanti spostare in basso o in alto le righe di traduzione o le originali. 
+            <br>(lo spostamento avviene in blocco dalla riga dove si trova il pulsante fino alla fine)  
+            <br>E' possibile modificare il testo della traduzione e dell'originale.  
+         </div>
+         <br>    
+         <table id="id_tabText" style="width:100%;border:1% solid red; border-collapse: collapse; text-align:left;"  >
+			<colgroup>
+				<col span="1" style="background-color: #f0f0f0;">
+				<col span="2" style="background-color: #f0f0f0;">
+				<col span="1">
+				<col span="2" style="background-color: #eaece5;">						   
+				<col span="1" style="background-color: #eaece5;">
+			</colgroup>
+			<tbody id="id_tabTextBody">
+			</tbody>		
+		
+         </table>
+         <div  class="center">
+            <!-- <button onclick="onclick_do_download()">Conferma</button>-->
+            <button onclick='onclick_build_runPage()'>Conferma</button>
+         </div>
+      </div>
+	  <div id="pre_page2" class="onePage1 centerFlex" style="display:none; border:5px solid blue; padding:0.2em;">
+			 <div  style="text-align:center;  font-size:1.2em;">
+				nella cartella dei <i>download</i>
+				<br>
+				è stato scaricato il file 
+				<br><br>
+				<b><span id="id_pre2_downFN" style="color:blue;">download file</span></b>    
+				<br><br><span>che contiene gli esercizi di comprensione di ascolto e lettura in </span><b><span id="id_laName3" ></span></b>
+				<br><br><span style="font-size:0.6em;">questo file può essere spostato in un'altra cartella</br>
+						e può essere eseguito con un doppio clic tutte le volte che si desidera    </span>
+			
+			</div>
+	  </div>		
+
+      <script src="./LineByLineV3/lbl1_lineByLine_script1.js"         ></script>
+	  <script src="./LineByLineV3/lbl1_lineByLine_lev2HtmlEndPage.js" ></script>
+	  
+   </body>
+</html>

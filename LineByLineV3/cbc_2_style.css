@@ -1,0 +1,264 @@
+/*----------------------------------------------------------------*/
+body,
+html {
+	height: 100%;
+	width: 100%;
+}
+
+.onePage1 {
+	width: calc(100vw - 30px);
+	height: calc(100vh - 30px);
+	border: 5px solid black;
+}
+
+.msg {
+	/* used only to be selected by classname*/
+}
+
+.header_1 {
+	vertical-align: bottom;
+	color: black;
+	font-weight: bold;
+}
+
+.fsize1 {
+	font-size: 1em;
+}
+
+.c_m2 {
+	padding: 0.4em 0;
+	background-color: lightblue;
+}
+.c_m1 {
+	border-bottom: 1px solid black;
+	padding: 0;
+	margin: 0;
+	background-color: grey;
+}
+.c_m1g {
+	padding: 0;
+	margin: 0;
+	background-color: lightgrey;
+	/*background-image: linear-gradient(to right, lightgrey, grey,grey, lightgrey); */
+}
+
+.c_m0 {
+	min-width: 2em;
+}
+
+.arrow12 {
+	width: 1em;
+	text-align: right;
+	color: black;
+	font-size: 0.5em;
+}
+
+.playBut1 {
+	width: 1em;
+	padding: 0;
+	text-align: center;
+}
+
+.timerow1 {
+	width: 1em;
+	font-size: 0.6em;
+	color: black;
+	padding: 0 0.5em;
+	vertical-align: top;
+	text-align: center;
+}	 
+.print_row {
+	margin-top:0.5em;	
+	font-size:1em;
+	text-align:left;
+	}
+.print_orig {
+	font-weight: bold; 
+	text-align:left;
+}
+.print_origOnly {
+	margin-top:0.1em;	
+	text-align:left;
+}
+.print_tran {
+	text-align:left;
+	
+}   
+
+
+/*---------------------------------------------------------*/
+.td_c1 {
+	border: 0px solid green;
+	text-align: center;
+}
+
+.td_c2 {
+	border: 0px solid green;
+	left-padding: 0;
+	left-margin: 0;
+	text-align: left;
+	vertical-align: middle;
+	font-size: 0.8em;
+}
+
+.timerow2 {
+	width: 4em;
+	font-size: 0.6em;
+	color: black;
+	padding: 0 0.2em;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.max_slider {
+	padding: 0 2px;
+	text-align: right;
+	color: black;
+	font-size: 0.5em;
+	vertical-align: middle;
+}
+
+.input_delta_slider {
+	width: 4em;
+	display: inline;
+	text-align: right;
+}
+
+.beg_end_slider {
+	border: 0px solid black;
+	font-size: 0.5em;
+	text-align: center;
+	vertical-align: bottom;
+	color: black;
+	margin: 0;
+	padding: 0;
+}
+
+.big {
+	font-size: 1.2em;
+}
+
+.speed_numR1 {
+	width: 24%;
+	text-align: right;
+	font-weight: bold;
+	font-size: 1em;
+	justify-content: right;
+	align-item: right;
+	vertical-align: top;
+}
+
+.speed_numR2 {
+	width: 1em;
+	transform: rotate(-270deg);
+	text-align: center;
+}
+
+.speed_num {
+	width: 25%;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1em;
+}
+
+.td_c1 {
+	border: 0px solid green;
+	text-align: center;
+}
+
+.td_c2 {
+	border: 0px solid green;
+	left-padding: 0;
+	left-margin: 0;
+	text-align: left;
+	vertical-align: middle;
+	font-size: 0.8em;
+}
+
+.toricFrame {
+	border: 1px solid black;
+	color: black;
+	background-color: lightgrey;
+	text-align: center;
+	vertical-align: middle;
+	margin: auto;
+	border-radius: 1.4em;
+}
+
+.h_buttonWhite {
+	background-color: white;
+	border: 2px solid black;
+	font-weight: bold;
+	font-size: 1.0em;
+	color: black;
+	text-align: center;
+	vertical-align: middle;
+	padding-left: 0.3em;
+	padding-right: 0.3em;
+	border-radius: 1.4em;
+	box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.6);
+	width: 100%;
+	height: 3.0em;
+}
+
+.h_buttonWhite:hover {
+	background-color: orange;
+}
+
+.h_backcolor {
+	/*
+         padding: 0;
+         background-color:lightgrey;
+         */
+}
+
+.h_backcolor2 {
+	/*
+         padding:0; margin:0;border:0; 
+         background-color:grey;
+         */
+}
+
+.c_voice {
+	text-align: center;
+	padding: 0 0.2em;
+	min-width: 1.5em;
+}
+
+.c_voice_m1 {
+	text-align: center;
+	padding: 0 0.2em;
+	min-width: 1.5em;
+	border: 2px solid black;
+}
+
+
+.speedTD {
+	margin: -0.2em;
+}
+
+.speedTD2 {
+	margin: 0 -0.0em 0 -0.5em;
+}
+
+.divRowText {
+	width: 100%;
+	height:100%;
+	/*resize: vertical;*/
+	overflow: auto;
+}
+
+.twoButts {
+	line-height: 0.7;
+}
+
+.f_blue {
+	color: blue;
+	/*background-color:yellow;*/
+}
+
+.f_big {
+	font-size: 1.2em;
+}		 
+/*---------------------------------------------------------*/
+		 
