@@ -2150,8 +2150,28 @@ function bold_spoken_line(eleObjToSpeak) {
 async function play_accum(swOrigAndTran) {
 	
 	let ltr_vox, ltr_txt, ltr_speedP, eleObjToSpeak;
-	consoleRed("play_accum " , righeDaLeggere.length + " righe da leggere" + 
-		" tot. sound=" + tot_ixsound + ", orig=" + tot_ixorig + ", tran=" + tot_ixtran + ", msg=" + tot_ixsetmsg); 
+	var msgLog="";
+	for(var g=0; g < righeDaLeggere.length; g++) {
+		[ltr_vox, ltr_txt,ltr_speedP, eleObjToSpeak] = righeDaLeggere[g]; // 
+		if (ltr_vox == IX_SetMSG) {
+			if (ltr_txt == "") continue;	   
+			msgLog = ltr_txt; 
+			break; 
+		}
+	}
+	if (msgLog.indexOf("loop g") > 0) {	
+		msgLog = ridOutOfSpan( msgLog) ; 
+		//consoleGreen( msgLog, " *** " , righeDaLeggere.length + " righe da leggere" + " tot. sound=" + tot_ixsound + ", orig=" + tot_ixorig + ", tran=" + tot_ixtran + ", msg=" + tot_ixsetmsg); 
+		var jm = msgLog.indexOf("loop g"); 
+		var jm2 = msgLog.indexOf(" giro ", jm); 
+		if (jm2 > 0) {
+			var msgLog2 = (msgLog.substring(jm2+6)).trim();
+			var numG = msgLog2.split(" ")[0]; 		
+			var msgLog3 = msgLog.substring(0, jm2+6) + " " + numG;  
+			consoleGreen( "", msgLog3 );
+		}
+	}	
+	
 	for(var g=0; g < righeDaLeggere.length; g++) {
 		[ltr_vox, ltr_txt,ltr_speedP, eleObjToSpeak] = righeDaLeggere[g]; // 
 		
@@ -2301,7 +2321,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 		switch( thisLineList_loopTypeX ) {
 			case "Tg10":  
 				if (z > 0) {
-					righeDaLeggere.push( [IX_SOUND,null, soundFreq[0], null] ); 
+					righeDaLeggere.push( [IX_SOUND,null, soundFreq[0], z] ); 
 					tot_ixsound++; 
 				} 
 				break;
@@ -2309,7 +2329,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 				break; 				
 			case "Tr21":	
 			case "Tr22":
-				righeDaLeggere.push( [IX_SOUND,null, soundFreq[0], null ] );  
+				righeDaLeggere.push( [IX_SOUND,null, soundFreq[0], z ] );  
 				tot_ixsound++;   
 				break;
 			default: break;	
@@ -2436,7 +2456,7 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 			righeDaLeggere = [];			
 			tot_ixsound=0; tot_ixorig=0; tot_ixtran=0; tot_ixsetmsg=0;
 			
-			righeDaLeggere.push( [IX_SOUND,null, soundFreq[0], null ] ); 
+			righeDaLeggere.push( [IX_SOUND,null, soundFreq[0], f1 ] ); 
 			tot_ixsound++; 	
 		}
 		/**
