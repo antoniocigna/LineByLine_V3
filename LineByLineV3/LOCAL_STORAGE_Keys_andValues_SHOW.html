@@ -17,6 +17,26 @@
 
 <script>
 
+//---------------------------
+function remove_localStorageItems() {
+	let cbc_LOCALSTOR_key = "LineByLineV3";
+    try {
+        for (var i = 0, len = localStorage.length; i < len; i++) {
+            var key = localStorage.key(i);
+			//console.log("remove key=" + key  + ", cbc_LOCALSTOR_key=" + cbc_LOCALSTOR_key);  
+			if (key == cbc_LOCALSTOR_key) {
+				console.log("remove key=" + key  + ", cbc_LOCALSTOR_key=" + cbc_LOCALSTOR_key);  
+				localStorage.removeItem(key);
+				return;
+			}	
+        }
+    } catch (e1) {}
+} // end of remove_localStorageItems()
+
+//-------------------------------------------------
+//remove_localStorageItems()
+
+//============================================================
 
 list_localStorageItems();
 //------------------------------------

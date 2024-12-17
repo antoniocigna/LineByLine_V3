@@ -1,0 +1,85 @@
+<html>
+
+
+<body>
+<style>
+  table, tr, th, td {
+	vertical-align:top; 
+	text-align:left;  
+	padding:1em; 
+	border:1px solid black; 
+	border-collapse: collapse;
+  }
+</style>
+
+<h2>local storage</h2>
+<div id="out"></div>
+
+<script>
+
+//---------------------------
+function remove_localStorageItems() {
+	let cbc_LOCALSTOR_key = "LineByLineV3";
+    try {
+        for (var i = 0, len = localStorage.length; i < len; i++) {
+            var key = localStorage.key(i);
+			//console.log("remove key=" + key  + ", cbc_LOCALSTOR_key=" + cbc_LOCALSTOR_key);  
+			if (key == cbc_LOCALSTOR_key) {
+				console.log("remove key=" + key  + ", cbc_LOCALSTOR_key=" + cbc_LOCALSTOR_key);  
+				localStorage.removeItem(key);
+				return;
+			}	
+        }
+    } catch (e1) {}
+} // end of remove_localStorageItems()
+
+//-------------------------------------------------
+remove_localStorageItems()
+
+//============================================================
+
+list_localStorageItems();
+//------------------------------------
+function list_localStorageItems() {	
+	const spazio = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"   
+	var str="<table>"; 
+	
+	str+= "<tr><th>" + "key" +"</th><th>" + "value" + "</th></tr> \n";
+	
+	for (var i = 0, len = localStorage.length; i < len; i++) {
+		var key = localStorage.key(i);
+		var value = localStorage[key];
+		value = value.replaceAll("==loop_T", "<br><br>" + "==loop_T");
+		value =   value.replaceAll("::",  "<br>" + spazio + "::" ) ;
+		
+		str+= "<tr><td>" + key +"</td><td>" + value + "</td></tr> \n";
+	}
+	str+="</table>"; 
+	document.getElementById("out").innerHTML = str;
+} // end of list_localStorageItems()
+
+//------------------------------------
+function TOGLIlist_localStorageItems() {	
+	const spazio = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"   
+	var str="<table>"; 
+	
+	str+= "<tr><th>" + "key" +"</th><th>" + "value" + "</th></tr> \n";
+	
+	for (var i = 0, len = localStorage.length; i < len; i++) {
+		var key = localStorage.key(i);
+		var value = localStorage[key];
+		value = value.replaceAll("==loop_T", "<br><br>" + "==loop_T");
+		value =   value.replaceAll("::4s",  "<br>" + spazio + "::4s" ). 
+						replaceAll("::5r",  "<br>" + spazio + "::5r" ).
+ 						replaceAll("::6t",  "<br>" + spazio + "::6t" ) ; 
+		
+		str+= "<tr><td>" + key +"</td><td>" + value + "</td></tr> \n";
+	}
+	str+="</table>"; 
+	document.getElementById("out").innerHTML = str;
+} // end of list_localStorageItems()
+
+
+</script>
+</body>
+</html>

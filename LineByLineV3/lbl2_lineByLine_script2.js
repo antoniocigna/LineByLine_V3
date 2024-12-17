@@ -12,7 +12,8 @@ var currScript = document.currentScript.src; var bar1 = currScript.lastIndexOf("
 console.log("LOADED file SCRIPT " + currScript.substring( 1+Math.max(bar1,bar2) )) ;	
 //----------------------------------------------------------------------------------------
 
-
+const listaTipi = ",Tr00,Tr10,Tr20,Tr21,Tr22,Tg00,Tg10,Tg20,Tg21,Tg22,Tg30,Tg31,Tg32," ;  // row and group
+const typeList = listaTipi.split(",").slice(1); 
 var audioCtx ; // sound effect
 var sw_audioCtx_not_active = true;  
 
@@ -106,8 +107,7 @@ let sel_numVoices       = [ 0, 0];
 let sel_voice_rotate    = [false, false];      
 let sel_loopTypeSet     = ["","","","","","","","","","","",""];  
 let sel_loopTypeSet_str = "";
- 
-let printStringBilingual =""; 
+let sw_told_group_row_list = [];
 //---------------------
 //let maxNumVoices = 9999; // 9
 
@@ -519,10 +519,10 @@ let div_voices =  `
 				<div  style="width:60%; border:0px solid blue;background-color: var(--main-bg-color);margin-left:20%;margin-right:20%;
 					border-radius:0.8em;">
 					<div style="display: inline-block; width:30%;text-align:right;">
-						<button class="buttonTD2" style="width:12em;text-align:center;" onclick="onclick_showtabLoop('id_show_voices')">hide/change<br>voice parameters</button>
+						<button class="buttonTD" style="width:12em;text-align:center;" onclick="onclick_showtabLoop('id_show_voices')">hide/change<br>voice parameters</button>
 					</div>
 					<div style="display: inline-block; width:30%;text-align:left;">
-						<button class="buttonTD2" style="width:12em;text-align:center;" onclick="onclick_showtabLoop('id_tabLoopShow')">hide/change<br>loop parameters</button>
+						<button class="buttonTD" style="width:12em;text-align:center;" onclick="onclick_showtabLoop('id_tabLoopShow')">hide/change<br>loop parameters</button>
 					</div>
 				</div>
 				</th>	
@@ -542,8 +542,8 @@ let div_voices =  `
 			
 				<th id="id_h_textCol" class="bott1 bordLeft borderRight"  style="text-align:center;  vertical-align:bottom;        color:black;font-weight:bold;">		
 			      <div  class="centerFlex"   style="width:100%;border:0px solid brown;">
-                     <div  style="border:0px solid green; font-size:0.5em;">	
-                        <table style="border:0px solid blue;font-size:90%;">
+                     <div  style="border:0px solid green; font-size:0.5em;width:100%;">	
+                        <table style="border:0px solid blue;font-size:90%;width:100%;">
                            <tr>
                               <td style="border:0px solid violet; vertical-align:top;" >                                
                               </td>
@@ -596,13 +596,13 @@ let div_voices =  `
                               </td>
                            </tr>
                            <tr>
-                              <td colspan="2" id="showVoice_0"></td>
+                              <td colspan="2" id="showVoice_0" style="text-align:left;" ></td>
                            </tr>
                            <tr>
-                              <td colspan="2" id="showVoice_1"></td>
+                              <td colspan="2" id="showVoice_1" style="text-align:left;" ></td>
                            </tr>
 						    <tr>
-                              <td colspan="2" id="id_showLoop"></td>
+                              <td colspan="2" id="id_showLoop" style="text-align:left;" ></td>
                            </tr>
                         </table>
                      </div>
@@ -635,40 +635,78 @@ let div_voices =  `
 var table_read_rowspeed = `   
 								<table style="text-align:center;">
 									<tr style="background-color:lightgrey;">
-										<td style="text-align:left;" rowspan="2">lettura riga per riga</td><td colspan="5">numero lettura</td>
+										<td id="§§_headSpe" style="text-align:left;" rowspan="2"></td>
+										<td colspan="5">numero lettura</td>
 									</tr>
 									<tr style="background-color:lightgrey;">	
 										<td>n.1</td><td>n.2</td><td>n.3</td><td>n.4</td><td>altre</td>
 									</tr>
 									<tr id="§§_sepW">
 										<td style="text-align:left;">separa le parole</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","sepw" )'></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","sepw" )'></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","sepw" )' checked></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","sepw" )'></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","sepw" )'></td>
+										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
+										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
+										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>  
+										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
+										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
 									</tr>
 									<tr id="§§_spRedSw">
 										<td style="text-align:left;">
 											<span>velocità ridotta</span> 
 											<input id="§§_lowSpeed1" type="number" value="80"  min="50" max="100" style="width:3em;text-align:right;" onchange='onclick_refresh_loopParms("§§","spRedSw" , true,this)'>%</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","spRedSw" )'></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","spRedSw" )' checked></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","spRedSw" )' checked></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","spRedSw" )' checked></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","spRedSw" )'></td>
+										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>  
+										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
 									</tr>  
 									<tr id="§§_tranSw">
 										<td style="text-align:left;">traduzione</td>
 										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>  
+										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
+										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>  
 										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
 										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
 									</tr>  
 								</table>
  `  ; // end of table_read_rowspeed
  
+ var table_tran_rowspeed = `   
+								<table style="text-align:center;">
+									<tr style="background-color:lightgrey;">
+										<td id="§§_headSpe" style="text-align:left;" rowspan="2"></td>
+										<td colspan="5">numero lettura</td>
+									</tr>
+									<tr style="background-color:lightgrey;visibility: collapse;">	
+										<td>n.1</td><td>n.2</td><td>n.3</td><td>n.4</td><td>altre</td>
+									</tr>
+									<tr id="§§_sepW" style="visibility: collapse;">	
+										<td style="text-align:left;">separa le parole</td>
+										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
+										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
+										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>  
+										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
+										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
+									</tr>
+									<tr id="§§_spRedSw" >
+										<td style="text-align:left;">
+											<span>velocità ridotta</span> 
+											<input id="§§_lowSpeed1" type="number" value="80"  min="50" max="100" style="width:3em;text-align:right;" onchange='onclick_refresh_loopParms("§§","spRedSw" , true,this)'>%</td>
+										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>  
+										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+									</tr>  
+									<tr id="§§_tranSw">
+										<td style="text-align:left;">traduzione</td>
+										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
+										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
+										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>  
+										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
+										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
+									</tr>  
+								</table>
+ `  ; // end of table_tran_rowspeed
 //----------------------------------
 var table_idTabHloop = `   		
 		<div id="divTabHloop" style="width:100%;margin:auto;border:0px solid black;  ">	
@@ -708,30 +746,33 @@ var table_idTabHloop = `
 						<tr style="margin-top:5em;">
 							<th colspan="4" style="border:0;margin-top:5em;padding:0.5em;vertical-align:top;"></th>
 						</tr>
+						
+						
 						<tr style="display:none;" >
 							<th id="Tr0_rLoop" colspan="4" style="text-align:center;font-size:1.2em;border:1px solid black;border-top:2px solid black;">no&nbsp;loop</th>
 						</tr>
 						<tr style="display:none; text-align:left;">
 							<td></td>
-							<td>legge 
+							<td>ripete 
 								<input id="Tr00_rLoop" class="tabHloopInput" type="number" value="1" onchange="onclick_refresh_loopParms('Tr00')">&nbsp;<span>volta</span>
 							</td>
-							<td style="padding-bottom:0.5em;">
-								la riga richiesta 
-								<input id="Tr00_nrLoop" class="tabHloopInput" type="number" value="1" onchange="onclick_refresh_loopParms('Tr00')" style="display:none;">
+							<td style="padding-bottom:0.5em;">la riga richiesta
+								<input id="Tr00_nrLoop" class="tabHloopInput" type="number" value="1"  onchange="onclick_refresh_loopParms('Tr00')" style="display:none;">
 							</td>
 							<td id="Tr00_read_rowspeed"></td>
 						</tr>
+						
+						
 						<!--    -->
 						<tr style="margin-top:5em;">
 						<th colspan="4" style="border:0;margin-top:5em;padding:0.5em;vertical-align:top;"></th>
 						</tr>
 						<tr>
-							<th id="Tr1_rLoop" colspan="4" style="text-align:center;font-size:1.2em;border:1px solid black;border-top:2px solid black;">loop&nbsp;r1</th>
+							<th id="Tr1_rLoop" colspan="4" style="padding-top:1em;text-align:center;font-size:1.2em;border:1px solid black;border-top:2px solid black;">loop r1</th>
 						</tr>
 						<tr style="text-align:left;">
 							<td></td>
-							<td>legge 
+							<td>ripete 
 								<input id="Tr10_rLoop" class="tabHloopInput" type="number" value="4" onchange="onclick_refresh_loopParms('Tr10')">&nbsp;<span>volte</span>
 							</td>
 							<td style="padding-bottom:0.5em;">la riga richiesta 
@@ -741,14 +782,14 @@ var table_idTabHloop = `
 							</td>
 						</tr>
 						<tr>
-							<th id="Tr2_rLoop" colspan="4" style="text-align:center;border:1px solid black;border-top:2px solid black;">
-								<span style="font-size:1.2em;">loop&nbsp;r2</span>	
+							<th id="Tr2_rLoop" colspan="4" style="padding-top:1em;text-align:center;border:1px solid black;border-top:2px solid black;">
+								<span style="font-size:1.2em;">loop r2</span>	
 								<span style="font-size:0.8em;"><br>vengono eseguiti 3 loop di lettura, uno sulla riga richiesta e gli altri anche con le righe precedenti</span>
 							</th>
 						</tr>						
 						<tr style="text-align:left;">
 							<td>1)</td>
-							<td>legge <input id="Tr20_rLoop" class="tabHloopInput" type="number" value="4" 
+							<td>ripete <input id="Tr20_rLoop" class="tabHloopInput" type="number" value="4" 
 								onchange="onclick_loopType_change()">&nbsp;<span>volte</span>
 							</td>
 							<td style="padding-bottom:0.5em;">la riga richiesta 
@@ -759,7 +800,7 @@ var table_idTabHloop = `
 						</tr>
 						<tr style="text-align:left;">
 							<td>2)</td>
-							<td>legge <input id="Tr21_rLoop" class="tabHloopInput" type="number" value="3" onchange="onclick_refresh_loopParms('Tr21')">&nbsp;<span>volte</span></td>
+							<td>ripete <input id="Tr21_rLoop" class="tabHloopInput" type="number" value="3" onchange="onclick_refresh_loopParms('Tr21')">&nbsp;<span>volte</span></td>
 							<td style="padding-bottom:0.5em;">
 								prima le ultime <input id="Tr21_nrLoop" class="tabHloopInput" type="number" value="3" onchange="onclick_refresh_loopParms('Tr21')"> 
 								<br>righe precedenti<br>e poi quella richiesta
@@ -768,7 +809,7 @@ var table_idTabHloop = `
 						</tr>
 						<tr style="text-align:left;">
 							<td>3)</td>
-							<td>legge <input id="Tr22_rLoop" class="tabHloopInput" type="number" value="1" onchange="onclick_refresh_loopParms('Tr22')">&nbsp;<span>volta</span></td>
+							<td>ripete <input id="Tr22_rLoop" class="tabHloopInput" type="number" value="1" onchange="onclick_refresh_loopParms('Tr22')">&nbsp;<span>volta</span></td>
 							<td style="padding-bottom:0.5em;">
 								prima le ultime <input id="Tr22_nrLoop" class="tabHloopInput" type="number" value="5" onchange="onclick_refresh_loopParms('Tr22')"> 
 								<br>righe precedenti<br>e poi quella richiesta
@@ -804,7 +845,7 @@ var table_idTabHloop = `
 						</tr>
 						<tr style="display:none; text-align:left;">
 							<td></td>
-							<td>legge 
+							<td>ripete 
 								<input id="Tg00_rLoop" class="tabHloopInput" type="number" value="1" onchange="onclick_refresh_loopParms('Tg00')">&nbsp;<span>volta</span>
 							</td>
 							<td style="padding-bottom:0.5em;">il gruppo richiesto
@@ -816,11 +857,11 @@ var table_idTabHloop = `
 							<th colspan="4" style="border:0;margin-top:5em;padding:0.5em;vertical-align:top;"></th>
 						</tr>
 						<tr>
-							<th id="Tg1_rLoop" colspan="4" style="text-align:center;font-size:1.2em;border:1px solid black;border-top:2px solid black;">loop&nbsp;g1</th>
+							<th id="Tg1_rLoop" colspan="4" style="padding-top:1em;text-align:center;font-size:1.2em;border:1px solid black;border-top:2px solid black;">loop g1</th>
 						</tr>
 						<tr style="text-align:left;">
 							<td></td>
-							<td>legge 
+							<td>ripete 
 								<input id="Tg10_rLoop" class="tabHloopInput" type="number" value="4" onchange="onclick_refresh_loopParms('Tg10')">&nbsp;<span>volte</span>
 							</td>
 							<td style="padding-bottom:0.5em;">il gruppo richiesto 
@@ -830,13 +871,13 @@ var table_idTabHloop = `
 						</tr>
 
 						<tr>
-							<th id="Tg2_rLoop" colspan="4" style="text-align:center;font-size:1.2em;border:1px solid black;border-top:2px solid black;">loop&nbsp;g2								
+							<th id="Tg2_rLoop" colspan="4" style="padding-top:1em;text-align:center;font-size:1.2em;border:1px solid black;border-top:2px solid black;">loop g2								
 							</th>
 						</tr>				
 						
 						<tr style="text-align:left;">
 							<td></td>
-							<td>legge <input id="Tg20_rLoop" class="tabHloopInput" type="number" value="4" 
+							<td>ripete <input id="Tg20_rLoop" class="tabHloopInput" type="number" value="4" 
 								onchange="onclick_loopType_change()">&nbsp;<span>volte</span>
 							</td>
 							<td style="padding-bottom:0.5em;">
@@ -848,9 +889,55 @@ var table_idTabHloop = `
 							</td>
 							<td id="Tg21_read_rowspeed"></td>
 						</tr>
+					
+					<tr>
+							<th id="Tg3_rLoop" colspan="4" style="padding-top:1em;text-align:center;border:1px solid black;border-top:2px solid black;">
+								<span style="font-size:1.2em;">loop g3 (loop di loop r2)</span>	
+								<span style="font-size:0.8em;"><br>vengono eseguiti 3 loop di lettura, uno sulla riga richiesta e gli altri anche con le righe precedenti</span>
+							</th>
+						</tr>	
+						<tr style="text-align:left;">
+							<td colspan="3" style="padding-top:0.5em;padding-bottom:0.5em;">
+								Ripete <input id="Tg30_loopR2" class="tabHloopInput" type="number" value="999">
+								volte per ogni riga del gruppo il set di loop R2
+							</td>
+						</td>
+						<tr style="text-align:left;">
+							<td></td>
+							<td>1) ripete <input id="Tg30_rLoop" class="tabHloopInput" type="number" value="4" 
+								onchange="onclick_loopType_change()">&nbsp;<span>volte</span>
+							</td>
+							<td style="padding-bottom:0.5em;">la riga richiesta 
+								<input id="Tg30_nrLoop" class="tabHloopInput" type="number" value="1"  onchange="onclick_refresh_loopParms('Tg30')" style="display:none;">
+							</td>
+							<td id="Tg30_read_rowspeed">                                 
+							</td>							 
+						</tr>
+						<tr style="text-align:left;">
+							<td></td>
+							<td>2) ripete <input id="Tg31_rLoop" class="tabHloopInput" type="number" value="3" onchange="onclick_refresh_loopParms('Tg31')">&nbsp;<span>volte</span></td>
+							<td style="padding-bottom:0.5em;">
+								prima le ultime <input id="Tg31_nrLoop" class="tabHloopInput" type="number" value="3" onchange="onclick_refresh_loopParms('Tg31')"> 
+								<br>righe precedenti<br>e poi quella richiesta
+							</td>
+							<td id="Tg31_read_rowspeed"></td>
+						</tr>
+						<tr style="text-align:left;">
+							<td></td>
+							<td>3) ripete <input id="Tg32_rLoop" class="tabHloopInput" type="number" value="1" onchange="onclick_refresh_loopParms('Tg32')">&nbsp;<span>volta</span></td>
+							<td style="padding-bottom:0.5em;">
+								prima le ultime <input id="Tg32_nrLoop" class="tabHloopInput" type="number" value="5" onchange="onclick_refresh_loopParms('Tg32')"> 
+								<br>righe precedenti<br>e poi quella richiesta
+							</td>
+							<td id="Tg32_read_rowspeed"></td>
+						</tr>
+						<tr>
+							<th colspan="4" style="border-bottom:1px solid black"></th>
+						</tr>  
 					</tbody>
 				</table>
 				</div>
+				<br><br>
 			</div>
 		</div>	
  `  ; // end of table_idTabHloop		 
@@ -1217,17 +1304,20 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 				</button>
             </td>
 			<td class="playBut1 c_m2"></td>
-            <td class="c_m2" style="font-size:80%;color:black;">
-				 <span id="idg§1§_text1"></span><br>
-				 <span id="idg§1§_text2"></span>
+            <td class="c_m2" style="font-size:80%;color:black;text-align:center; ">				
+				<b>gruppo §1§-<span id="id_prt2"></span></b>
+				<br>
+				<button onclick="printOrigText()"   class="buttonTD" style="width:20em;">Testo Stampabile</button> 
+				<button onclick="printBilingual()"  class="buttonTD" style="width:20em;">Traduzione interlineare stampabile</button>
 			</td>		
 			
 			<td class="playBut1 c_m2 bordLeft">
-               <button class="buttonWhite buttonSpeak" onclick="onclick_anotherLoopType(this,true,true)" style="text-align:center;">					
+               <button class="buttonWhite buttonSpeak" onclick="onclick_anotherLoopType(this,true,true)" style="text-align:center;">						
 					<span id="tyLoop§1§_m1" style="display:none;">0</span>
-					<span style="font-size:2em;height:1.4em;display:none;">${loop_symb2}</span>
+					<span style="font-size:2em;height:1.4em; display:none;">${loop_symb2}</span>
 					<span>no&nbsp;loop</span> 
-					<div style="font-size:1.5em;"></div>
+					<div style="font-size:1.5em;"></div> 
+					
                </button>			   
 			   <!--<div style="font-size:0.5em;line-height: 80%;"></div> -->
             </td>    
@@ -1380,7 +1470,7 @@ function plus_initial_from_localStorage_values() {
 	var lenS=0; let nFields = 6; 
 	if (stored_cbc_localStor) {
 		lenS = stored_cbc_localStor.length; 
-		console.log("plus_initial_from_localStorage_values() 2 stored_cbc_localStor.length=", lenS);
+		//console.log("plus_initial_from_localStorage_values() 2 stored_cbc_localStor.length=", lenS);
 		if (lenS > VV20) {  
 			sel_voice_ix[0]        = stored_cbc_localStor[VV00];        
 			sel_voiceName[0]       = stored_cbc_localStor[VV01];                  
@@ -1438,7 +1528,7 @@ function plus_initial_from_localStorage_values() {
 //----------------------------------------------------------------
 
 function load_sel_loopTypeSet( set_str) {
-	console.log("load_sel_loopTypeSet()"); // set_str=", set_str); 
+	//console.log("load_sel_loopTypeSet()"); // set_str=", set_str); 
 	set_str = set_str.trim();
 	if (set_str == "") return;  
 	
@@ -1542,6 +1632,7 @@ function removeKey(key) {
 }
 //---------------------------
 function remove_localStorageItems() {
+	let cbc_LOCALSTOR_key = "LineByLineV3";
     try {
         for (var i = 0, len = localStorage.length; i < len; i++) {
             var key = localStorage.key(i);
@@ -1553,6 +1644,7 @@ function remove_localStorageItems() {
 			}	
         }
     } catch (e1) {}
+	
 } // end of remove_localStorageItems()
 
 //-------------------------------------------------
@@ -1998,7 +2090,6 @@ function setNew_varLoop_and_PF() {
 	//set_var_loop1() ;
 	//set_var_rLoopT();
 	//set_var_loop2()
-	//getLoopTypeList();
 	
 	load_loop_parameters_fromHTML_to_vars(2);
 	
@@ -2062,8 +2153,14 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 	
 	onclick_anotherLoopType( eleTyLoop_button, false, false);             // get type loop and copy to thisLineList_nRepeat0, ...  
 	
-	var typL = eleTyLoop_button.children[0].innerHTML;
+	//console.log( "tran_row (1) ",   thisLineList_nome1, " thisLineList_nRighe1=", thisLineList_nRighe1, " tr20 (2) ",   thisLineList_nome2," thisLineList_nRighe2=", thisLineList_nRighe2);
 	
+	
+	var typL = eleTyLoop_button.children[0].innerHTML;	
+	var tXXX = typeList[ parseInt( typL )  ];
+	
+	console.log("\nxxxx ROW onclick_play_Orig_and_Tran_row(numId=", numId,  " typL =" + typL + "<==   tXXX="  + tXXX + "<==");  
+
 	
 	righeDaLeggere = [];
 	tot_ixsound=0; tot_ixorig=0; tot_ixtran=0; tot_ixsetmsg=0;
@@ -2072,8 +2169,8 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 	//var mms1;
 	var minNumId = numId ;	
 	
-	switch (typL) {
-		case "0":	
+	switch (tXXX) {
+		case "Tr00":	
 			minNumId = numId ;		
 			accumRowToPlay(0, minNumId, numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType0,  thisLineList_nome0, 
 							thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSepar0, thisLineList_swSpeedReduce0, thisLineList_swTran0,
@@ -2081,7 +2178,7 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 							
 			play_accum(swOrigAndTran);				
 			return;	
-		case "1":	
+		case "Tr10":	
 			minNumId = numId ;	
 			//mms1 = thisLineList_nRepeat0 + " volte "; 
 			//if (thisLineList_nRepeat0 == 1) mms1 = "1 volta "; 
@@ -2090,44 +2187,44 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 							0, 0, 0, 0);
 			play_accum(swOrigAndTran);				
 			return;	
-		case "2":			
+		case "Tr20":	
+			row_r20();
 			break;
 		default:
 			return;	
 	} // end of switch
-	//---------------
+	//---------------	
+	async function row_r20() {
+		// qui siamo al tipo R2 che comprende 3 elabor. 
+		minNumId = numId ;	
+		//mms1 = thisLineList_nRepeat0 + " volte "; 
+		//if (thisLineList_nRepeat0 == 1) mms1 = "1 volta "; 
+		accumRowToPlay(1, minNumId, numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType0,  thisLineList_nome0, 
+								thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSepar0, thisLineList_swSpeedReduce0, thisLineList_swTran0 , 
+								0, 0, 0 ,0);
+		
+		minNumId = numId - thisLineList_nRighe1;  
+		if (minNumId < 0) { 
+			minNumId = 0;  		
+		}
+		
+		//mms1 = thisLineList_nRepeat1 + " volte "; 
+		//if (thisLineList_nRepeat1 == 1) mms1 = "1 volta "; 
+		accumRowToPlay(2, minNumId, numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType1,  thisLineList_nome1, 
+								thisLineList_nRighe1, thisLineList_nRepeat1, thisLineList_swSepar1, thisLineList_swSpeedReduce1, thisLineList_swTran1 ,  
+								0, 0,  0, 0 );
+		
+		minNumId = numId - thisLineList_nRighe2;  
+		if (minNumId < 0) { minNumId = 0;}
+		
+		//mms1 = thisLineList_nRepeat2 + " volte "; 
+		//if (thisLineList_nRepeat2 == 1) mms1 = "1 volta "; 
+		accumRowToPlay(2, minNumId, numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType2,  thisLineList_nome2, 
+								thisLineList_nRighe2, thisLineList_nRepeat2, thisLineList_swSepar2, thisLineList_swSpeedReduce2, thisLineList_swTran2 ,  
+								0, 0, 0, 0);	
+		play_accum(swOrigAndTran);		
 	
-	// qui siamo al tipo R2 che comprende 3 elabor. 
-	minNumId = numId ;	
-	//mms1 = thisLineList_nRepeat0 + " volte "; 
-	//if (thisLineList_nRepeat0 == 1) mms1 = "1 volta "; 
-	accumRowToPlay(1, minNumId, numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType0,  thisLineList_nome0, 
-							thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSepar0, thisLineList_swSpeedReduce0, thisLineList_swTran0 , 
-							0, 0, 0 ,0);
-	
-	minNumId = numId - thisLineList_nRighe1;  
-	if (minNumId < 0) { minNumId = 0;}
-	
-	//mms1 = thisLineList_nRepeat1 + " volte "; 
-	//if (thisLineList_nRepeat1 == 1) mms1 = "1 volta "; 
-	accumRowToPlay(2, minNumId, numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType1,  thisLineList_nome1, 
-							thisLineList_nRighe1, thisLineList_nRepeat1, thisLineList_swSepar1, thisLineList_swSpeedReduce1, thisLineList_swTran1 ,  
-							0, 0,  0, 0 );
-	
-	minNumId = numId - thisLineList_nRighe2;  
-	if (minNumId < 0) { minNumId = 0;}
-	
-	//mms1 = thisLineList_nRepeat2 + " volte "; 
-	//if (thisLineList_nRepeat2 == 1) mms1 = "1 volta "; 
-	accumRowToPlay(2, minNumId, numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType2,  thisLineList_nome2, 
-							thisLineList_nRighe2, thisLineList_nRepeat2, thisLineList_swSepar2, thisLineList_swSpeedReduce2, thisLineList_swTran2 ,  
-							0, 0, 0, 0);
-
-	
-	
-	
-	play_accum(swOrigAndTran);				
-
+	} // end of tr20
 	
 	
 	
@@ -2147,15 +2244,18 @@ function bold_spoken_line(eleObjToSpeak) {
 } // end of bold_spoken_line 
 
 //----------------------------------------
-async function play_accum(swOrigAndTran) {
+async function play_accum(swOrigAndTran, bigLoop00) {
 	
+	let bigLoop = "";  
+	if (bigLoop00) bigLoop = bigLoop00
+
 	let ltr_vox, ltr_txt, ltr_speedP, eleObjToSpeak;
 	var msgLog="";
 	for(var g=0; g < righeDaLeggere.length; g++) {
 		[ltr_vox, ltr_txt,ltr_speedP, eleObjToSpeak] = righeDaLeggere[g]; // 
 		if (ltr_vox == IX_SetMSG) {
 			if (ltr_txt == "") continue;	   
-			msgLog = ltr_txt; 
+			msgLog = bigLoop + ltr_txt; 
 			break; 
 		}
 	}
@@ -2177,7 +2277,7 @@ async function play_accum(swOrigAndTran) {
 		
 		if (ltr_vox == IX_SetMSG) {
 			if (ltr_txt == "") continue;	 
-			document.getElementById("id_showLoop").innerHTML = ltr_txt;	
+			document.getElementById("id_showLoop").innerHTML = bigLoop + ltr_txt;				
 			//consoleGreen( "", ridOutOfSpan(ltr_txt) ); 
 			
 			continue; 
@@ -2188,14 +2288,26 @@ async function play_accum(swOrigAndTran) {
 			continue;
 		}
 			
-		let ixVoice0 = rotateVoice();
+		let ixVoice0 = rotateVoice();   
+		
+		if (swOrigAndTran) { document.getElementById("showVoice_1").style.display = "block";} else {document.getElementById("showVoice_1").style.display = "none";}
+		
 		if (ltr_vox == 	IX_TRAN) {
 			if (swOrigAndTran == false) continue; 
+			document.getElementById("showVoice_0").style.display = "none";  // orig. voice			
+			document.getElementById("showVoice_1").style.display = "block"; // transl. voice 
+		} else {
+			 document.getElementById("showVoice_0").style.display = "block";  // orig. voice
+			 document.getElementById("showVoice_1").style.display = "none";   // transl. voice 
 		}		
 		//console.log("leggo ", ["originale","traduzione"][ ltr_vox ] , " ", ltr_txt)		
 		await bold_spoken_line(eleObjToSpeak);
 		await sayVoiceNum( ltr_txt, ltr_vox, ixVoice0[ltr_vox], speechVolume[ltr_vox], ltr_speedP * speechRate[ltr_vox], speechPitch[ltr_vox]); // un gruppo"); 		
-	}	
+	} // end for g	
+	
+	righeDaLeggere = [];
+	tot_ixsound=0; tot_ixorig=0; tot_ixtran=0; tot_ixsetmsg=0;
+	
 } // end of play_accum
 
 //-----------------------------------------------------
@@ -2211,7 +2323,7 @@ function ridOutOfSpan(ww) {
 	return str;  
 }	
 //--------------------------	
-function showUpperMsg( idLoop, loopType0 , groupLimit, numPrec, numRiga, totGiri1, numGiro1, totGiri20, numGiro20) {
+function showUpperMsg( idLoop, loopType0 , groupLimit, numPrec, numId, numRiga, totGiri1, numGiro1, totGiri20, numGiro20) {
 	
 	function bmBig(ww) {
 		return '<span style="font-weigth:bold; font-size:1.5em;">' + ww + "</span>";
@@ -2242,7 +2354,12 @@ function showUpperMsg( idLoop, loopType0 , groupLimit, numPrec, numRiga, totGiri
 		case "Tg20": return bm("gruppo") + " righe " + groupLimit + " " + spazio + bm("loop g2") + "(1)" + spazio + " giro " + bmBig(numGiro20) + "/" + totGiri20 + spazio + "riga " + numRiga;
 		**/
 		case "Tg21": return bm("gruppo") + " righe " + groupLimit + " " + spazio + bm("loop g2") + spazio + " giro " + bmBig(numGiro20) + "/" + totGiri20 + spazio + 
-					" loop " + "riga " + numRiga + spazio + " giro " + bm(numGiro1 + "/" + totGiri1);  				
+					" loop " + "riga " + numRiga + spazio + " giro " + bm(numGiro1 + "/" + totGiri1);  			
+		
+		case "Tg30": return bm("gruppo") + " righe " + groupLimit + spazio + " (r2.1) " + numId + spazio + " giro " + bmBig(numGiro1) + "/" + totGiri1 + spazio + "riga " + numRiga; 
+		case "Tg31": return bm("gruppo") + " righe " + groupLimit + spazio + " (r2.2) " + numId + spazio + " giro " + bmBig(numGiro1) + "/" + totGiri1 + spazio + "riga " + numRiga + spazio + bmSmall( "(" + numPrec + " righe precedenti)" ); 			
+		case "Tg32": return bm("gruppo") + " righe " + groupLimit + spazio + " (r2.3) " + numId + spazio + " giro " + bmBig(numGiro1) + "/" + totGiri1 + spazio + "riga " + numRiga + spazio + bmSmall( "(" + numPrec + " righe precedenti)" ) ; 			
+						
 		default:     return "idLoop=" + idLoop + ",  sconosciuto";
 	}
 	
@@ -2263,7 +2380,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 	//-------------------------------------
 	let numeroDiRipetizioni = thisLineList_nRepeatX	; 
 	//let numeroDiRighe       = thisLineList_nRigheX	; // il numero di righe da leggere
-	
+	//console.log("accumRowToPlay( ... thisLineList_loopTypeX=", thisLineList_loopTypeX, " thisLineList_nRigheX=", thisLineList_nRigheX, " thisLineList_nRepeatX=", thisLineList_nRepeatX); 
 	/**
 	var minIndice; 
 	if (type1 < 2) minIndice = numId
@@ -2308,8 +2425,8 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 	let speed0 = speechRate[0];
 	let speed00=1;
 	let speed1 = speechRate[1];
-	let ixVoice0 ;
-	ixVoice0 = rotateVoice();
+	//let ixVoice0 ;
+	//ixVoice0 = rotateVoice(); 2
 	
 	
 	
@@ -2317,9 +2434,12 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 	var speedRed = 1;
 	var msg_ix_set = ""; 
 	var msg_ix_set2= ""; 
+	var minimo = 0;
+	var module = 1 + endix - begix;
+	//--------------------
 	for(let z=0; z < numeroDiRipetizioni; z++) {
 		switch( thisLineList_loopTypeX ) {
-			case "Tg10":  
+			case "Tg10": 
 				if (z > 0) {
 					righeDaLeggere.push( [IX_SOUND,null, soundFreq[0], z] ); 
 					tot_ixsound++; 
@@ -2329,6 +2449,9 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 				break; 				
 			case "Tr21":	
 			case "Tr22":
+			case "Tg31":	
+			case "Tg32":
+				minimo = begix; 
 				righeDaLeggere.push( [IX_SOUND,null, soundFreq[0], z ] );  
 				tot_ixsound++;   
 				break;
@@ -2342,21 +2465,36 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 		if (swPause) {
 			swSep1  = true; 
 		}
-		
-		for(var f=minIndice; f <= numId; f++) {
+		var f; 
+		//console.log("accumRowToPlay( , thisLineList_loopTypeX=", thisLineList_loopTypeX, 
+		//			"minIndice=", minIndice, " numId=", numId, " minimo=", minimo,  " begix=", begix, "  endix=", endix, "module=", module);  
+		for(var f1=minIndice; f1 <= numId; f1++) {
+			f = f1;  
+			if (f < minimo) {
+				if (thisLineList_loopTypeX <= "Tg30") continue; 
+				var f2 =  moduleNormalize( f, begix, module);  // va a prendere dalla fine del gruppo 
+				if (sw_told_group_row_list[f2]) {
+					f = f2; 
+				} else {
+					continue; // non legge righe in coda se non sono già state lette almeno una volta
+				}				
+			}
 			ele_txtOrig = document.getElementById("idc_" + f);		
+			
+			//console.log("              f1=", f1,  "  f=",f, " ele_txtOrig=", ele_txtOrig); 
+			
 			if (ele_txtOrig == null) {
 				continue;
 			} 
 		
 			numGiro1 = z;
 			
-			msg_ix_set2 = showUpperMsg( thisLineList_loopTypeX, thisLineList_nomeX,  groupLimit, numPrec, f, totGiri1, numGiro1, totGiri20, numGiro20); 
-			
-			righeDaLeggere.push( [IX_SetMSG, msg_ix_set2,null,null ] ) ;  // set msg under loop type button
+			msg_ix_set2 = showUpperMsg( thisLineList_loopTypeX, thisLineList_nomeX,  groupLimit, numPrec,numId, f, totGiri1, numGiro1, totGiri20, numGiro20); 
+			//console.log("msg_ix_set2=", msg_ix_set2); 
+			righeDaLeggere.push( [IX_SetMSG, msg_ix_set2,swOrigAndTran,null ] ) ;  // set msg under loop type button
 			tot_ixsetmsg++;  
 			
-			ixVoice0 = rotateVoice();
+			//ixVoice0 = rotateVoice(); 3
 			
 			if (swSep1) {
 				speedRed = speed00;	
@@ -2367,6 +2505,8 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 			} else {	
 				righeDaLeggere.push( [IX_ORIG, ele_txtOrig.innerHTML.replaceAll("<br>", ""),speed00, ele_txtOrig] ) ; 
 				tot_ixorig++;  
+				
+				//console.log("      tot_ixorig=", tot_ixorig, " da leggere =",ele_txtOrig.innerHTML.replaceAll("<br>", "") ); 
 			}
 			
 			if (swTran1) {
@@ -2401,14 +2541,19 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 	let ele_showWh = eleTyLoop_button.children[3];
 	
 	var typL = eleTyLoop_button.children[0].innerHTML;
+	var tXXX = typeList[ parseInt( typL )  ];
 	
+	//console.log("\nxxxx GROUP onclick_play_Orig_and_Tran_group(numId=", numId,  " typL =" + typL + "<==   tXXX="  + tXXX + "<==");  
+
 	//let swNoLoop = (eleTyLoop_button.children[0].innerHTML == "0");
 	//let swLoop1  = (eleTyLoop_button.children[0].innerHTML == "1");
 	//let swLoop2  = (eleTyLoop_button.children[0].innerHTML == "2");
 
 	
-	onclick_anotherLoopType( eleTyLoop_button, true, false);             // get type loop and copy to thisLineList_nRepeat0, ...  
+	onclick_anotherLoopType( eleTyLoop_button, true, false, "group numId=" + numId + " tXXX=" + tXXX);             // get type loop and copy to thisLineList_nRepeat0, ...  
 	
+	//console.log( "tran_group g20/g30 (1) ",   thisLineList_nome1, " thisLineList_nRighe1=", thisLineList_nRighe1, " g20/30 (2) ",   thisLineList_nome2," thisLineList_nRighe2=", thisLineList_nRighe2);
+
 	righeDaLeggere = [];
 	tot_ixsound=0; tot_ixorig=0; tot_ixtran=0; tot_ixsetmsg=0;
 	//console.log("xxxx GRUPPO TIPO = ",  typL)
@@ -2418,15 +2563,15 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 	[begix, endix] = fromIxToIxLimit;
 	
 	//console.log("begix=", begix, ", endix=", endix)
-	
+	var minNumId = 0;
 	
 	var msgtxt="GRUPPO lettura delle righe dal num. "+begix + " al num." + endix + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" ;
 	if (typL != "0") msgtxt += " tipo Loop g" + typL;
 	
 	//var swPause=false;
 	//var mms1;
-	switch (typL) {
-		case "0":
+	switch (tXXX) {
+		case "Tg00":
 			// g00
 			accumRowToPlay(0, begix, endix, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType0,  thisLineList_nome0, 
 							thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSepar0, thisLineList_swSpeedReduce0, thisLineList_swTran0,
@@ -2434,7 +2579,7 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 			play_accum(swOrigAndTran);		
 				
 			return;	
-		case "1":	
+		case "Tg10":	
 			//mms1 = thisLineList_nRepeat0 + " volte "; 
 		    //if (thisLineList_nRepeat0 == 1) mms1 = "1 volta ";  // g10
 			accumRowToPlay(1, begix, endix, swOrigAndTran, swPause, swAlfa, thisLineList_loopType0,  thisLineList_nome0, 
@@ -2443,47 +2588,107 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 			play_accum(swOrigAndTran);				
 			return;	
 			
-		case "2":
+		case "Tg20":
+			group_g20();
 			break;
+		case "Tg30":
+			group_g30();
+			break;	
 		default:
 			return;	
 	} // end of switch
 	//---------------
-	
-	for( var f1=0; f1 < thisLineList_nRepeat0; f1++) {
-		if (f1 > 0) { 
+	async function group_g20() {		
+		for( var f1=0; f1 < thisLineList_nRepeat0; f1++) {			
 			await play_accum(swOrigAndTran);	
-			righeDaLeggere = [];			
-			tot_ixsound=0; tot_ixorig=0; tot_ixtran=0; tot_ixsetmsg=0;
+			if (f1 > 0) { 	
+				righeDaLeggere.push( [IX_SOUND,null, soundFreq[0], f1 ] ); 
+				tot_ixsound++; 	
+			}
 			
-			righeDaLeggere.push( [IX_SOUND,null, soundFreq[0], f1 ] ); 
-			tot_ixsound++; 	
-		}
-		/**
-		// g20
-		accumRowToPlay(0, begix, endix, false, false, false, "Tg20",  thisLineList_nome0, 
-					thisLineList_nRighe0, 1, thisLineList_swSepar0, thisLineList_swSpeedReduce0, thisLineList_swTran0,  
-					begix, endix, f1, thisLineList_nRepeat0, 
-					"loop tipo g2: (g20)" + " ripetizione n." + f1+ " tutte le righe " + begix + "-" + endix , 
-					
-					" GRUPPO primo loop ripetiz. f1=", f1,  " su un totale thisLineList_nRepeat0=", thisLineList_nRepeat0 , 
-					" thisLineList_loopType0=",  thisLineList_loopType0, " groupLimit=",  begix +"-" + endix );   	
-		righeDaLeggere.push( [IX_SOUND,null, soundFreq[0] ]  ); 	
-		**/		
-		for(var f2 = begix; f2 <= endix; f2++) {
-			// g21
-			accumRowToPlay(1, f2, f2, swOrigAndTran, false, false,  "Tg21",  thisLineList_nome1, 
-				thisLineList_nRighe1, thisLineList_nRepeat1, thisLineList_swSepar1, thisLineList_swSpeedReduce1, thisLineList_swTran1,  
-				begix, endix, f1, thisLineList_nRepeat0 );    	
-				
-						
-		}    
+			for(var f2 = begix; f2 <= endix; f2++) {
+				// g21
+				accumRowToPlay(1, f2, f2, swOrigAndTran, false, false,  "Tg21",  thisLineList_nome1, 
+					thisLineList_nRighe1, thisLineList_nRepeat1, thisLineList_swSepar1, thisLineList_swSpeedReduce1, thisLineList_swTran1,  
+					begix, endix, f1, thisLineList_nRepeat0 );    							
+			} 			
+		} 
+		await play_accum(swOrigAndTran);	
+	} // end of g20
+	//---------------
+	async function group_g30() {
+		//console.log("XXX  gruppo 30   ", " begix=", begix,  "  endix=", endix); 
+		var f1=-1;
+
+		sw_told_group_row_list = []
 		
-	} 
+		let bigLoopR2 = document.getElementById("Tg30_loopR2").value; 
+		
+		function bmBig(ww) {
+			return '<span style="font-weigth:bold; font-size:1.5em;">' + ww + "</span>";
+		}
+		//-------------------------
+		for(var bgR2=0; bgR2 < bigLoopR2; bgR2++) { 
+			
+			for (var bg_numId = begix; bg_numId<= endix; bg_numId++) {
+				//console.log("\nLOOP sulla riga ", bg_numId , " -----------------"); 
+				await play_accum(swOrigAndTran,  "loop g3 (loop di loop r2) ripetiz." + bmBig( (1+ bgR2)) + " del set di loop r2 su ogni riga del ");		
+				sw_told_group_row_list[bg_numId] = true;
+				f1++;
+				if (f1 > 0) { 
+					//await play_accum(swOrigAndTran);	
+					//righeDaLeggere = [];			
+					//tot_ixsound=0; tot_ixorig=0; tot_ixtran=0; tot_ixsetmsg=0;				
+					righeDaLeggere.push( [IX_SOUND,null, soundFreq[0], f1 ] ); 
+					tot_ixsound++; 	
+				}
+				//console.log("     XXX  gruppo 30  r2   bg_numId=", bg_numId); 			
+				
+				// qui siamo al tipo R2 che comprende 3 elabor. 
+				//minNumId = bg_numId ;	
+				
+				//console.log("  loop g3 r2  (1) (loop sulla riga richiesta) ", " minNumId=", minNumId, " bg_numId=", bg_numId  , 
+				//				" thisLineList_loopType0=",  thisLineList_loopType0, " thisLineList_nRighe0=", thisLineList_nRighe0	); 
+				
+				accumRowToPlay(1, bg_numId, bg_numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType0,  thisLineList_nome0, 
+										thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSepar0, thisLineList_swSpeedReduce0, thisLineList_swTran0 , 
+										begix, endix, 0, 0);
+				
+				//console.log("                    ----- fine loop (1) -------- ");  
+				
+				//--------------------------
+				minNumId = bg_numId - thisLineList_nRighe1;     // minNumId potrebbe essere inferiore a begix ( gestione in accumRowToPlay)
+				
+				//console.log("                  loop g3 r2  (2) (loop con le precedenti)"," minNumId=", minNumId, " bg_numId=", bg_numId  , 
+				//				" thisLineList_loopType1=",  thisLineList_loopType1, " thisLineList_nRighe1=", thisLineList_nRighe1	);  
+
+				accumRowToPlay(2, minNumId, bg_numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType1,  thisLineList_nome1, 
+										thisLineList_nRighe1, thisLineList_nRepeat1, thisLineList_swSepar1, thisLineList_swSpeedReduce1, thisLineList_swTran1 ,  
+										begix, endix, 0, 0);
+										
+			
+				
+				//console.log("                    ----- fine loop (2) -------- ");  						
+				//------------------------------
+				minNumId = bg_numId - thisLineList_nRighe2;   // minNumId potrebbe essere inferiore a begix ( gestione in accumRowToPlay)
+				
+				console.log("                  loop g3 r2  (3) (loop con le precedenti)", " minNumId=", minNumId, " bg_numId=", bg_numId  , 
+								" thisLineList_loopType2=",  thisLineList_loopType2, " thisLineList_nRighe2=", thisLineList_nRighe2	);  							
+				
+				accumRowToPlay(2, minNumId, bg_numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType2,  thisLineList_nome2, 
+										thisLineList_nRighe2, thisLineList_nRepeat2, thisLineList_swSepar2, thisLineList_swSpeedReduce2, thisLineList_swTran2 ,  
+										begix, endix, 0, 0);	
+				
+				//console.log("                 zzz fine r2 - riprova con numId diverso"); 	
+			} // end bg_numId
+			
+			await play_accum(swOrigAndTran,  "loop g3 (loop di loop r2) ripetiz." + bmBig( (1+ bgR2)) + " del set di loop r2 su ogni riga del ");	
+		
+		} // end of bgR2 
+		
+	} // end of group_g30	
+	//-------------------		
 	
-	play_accum(swOrigAndTran);	
-	
-	return;  
 	
 } // end of onclick_play_Orig_and_Tran_group 
 	
@@ -2557,7 +2762,7 @@ function set_var_rLoopT() {
 	 ele_rLoopTg2  = document.getElementById("rLoopTg2"); 
 	 rLoopT_listEle  = [ele_rLoopT0, ele_rLoopT1, ele_rLoopT2, ele_rLoopTg0, ele_rLoopTg1, ele_rLoopTg2]; 
 	 
-	 rLoopT_listHButt= ["no&nbsp;loop","loop&nbsp;r1" , "loop&nbsp;r2", "no&nbsp;loop","loop&nbsp;g1" , "loop&nbsp;g2"];
+	 rLoopT_listHButt= ["no&nbsp;loop","loop r1" , "loop r2", "no&nbsp;loop","loop g1" , "loop g2"];
 	**/	
 	 //load_loop_parameters_fromHTML_to_vars();	
 	
@@ -2566,7 +2771,7 @@ function set_var_rLoopT() {
 //---------------------
 function restore_prevRun_loop_parameters_to_htmlPage() {
 	
-	console.log("\nxxxxxxxxxxxxx\nrestore_prevRun_loop_parameters_to_htmlPage    ( update html page )\n") 
+	//console.log("\nxxxxxxxxxxxxx\nrestore_prevRun_loop_parameters_to_htmlPage    ( update html page )\n") 
 	
 	restore_fromStor_loopType_toHTML("Tr00"); 
 	restore_fromStor_loopType_toHTML("Tr10");
@@ -2579,6 +2784,10 @@ function restore_prevRun_loop_parameters_to_htmlPage() {
 	restore_fromStor_loopType_toHTML("Tg10");
 	restore_fromStor_loopType_toHTML("Tg20");
 	restore_fromStor_loopType_toHTML("Tg21");
+	
+	restore_fromStor_loopType_toHTML("Tg30");
+	restore_fromStor_loopType_toHTML("Tg31");
+	restore_fromStor_loopType_toHTML("Tg32");
 		
 	//plus_set_localStorage_var();
 	
@@ -2589,11 +2798,11 @@ function restore_prevRun_loop_parameters_to_htmlPage() {
 //---------------------------------------
 function restore_fromStor_loopType_toHTML(loopTypeId ) {
 		
-		//console.log("restore_fromStor_loopType_toHTML(loopTypeId ", loopTypeId) ;
+		//console.log("restore_fromStor_loopType_toHTML(loopTypeId ", loopTypeId,   " id=" +  loopTypeId + "_rLoop" + "<==") ;
 		
 		var ele_rLoop         = document.getElementById( loopTypeId + "_rLoop");  	
 
-		//	console.log("ele_rLoop=", ele_rLoop); 
+		//console.log("ele_rLoop=", ele_rLoop); 
 		
 		if (ele_rLoop == null) { console.log("loop type ", loopTypeId, " does not exist"); return;} 
 		
@@ -2777,21 +2986,25 @@ function lista_loop_parms_byType(loopTypeId) {
 
 function lista_loop_parms(u) {
 	if (txLoopT_limit_nome[u] == undefined) { 
-		console.log("loop parms riga u=",u," 0: ", "XXXXXXX txLoopT_limit_nome MANCANTE XXXXXXXX  r"); 
+		//console.log("loop parms riga u=",u," 0: ", "XXXXXXX txLoopT_limit_nome MANCANTE XXXXXXXX  r"); 
 		return;
 	}
 	if (txLoopT_limit_nome[u]) {  // ATTENZIONE  esiston anche valori undefined 
 		console.log("loop parms u=",u,  " \t nome=", txLoopT_limit_nome[u] ,"\t loopType=" + txLoopT_limit_loopType[u], 
-			"\t n.righe=", txLoopT_limit_nRighe[u], " \t n.repeat=", txLoopT_limit_nRepeat[u],
+			"\t n.righe=", txLoopT_limit_nRighe[u], " \t n.repeat=", txLoopT_limit_nRepeat[u] )
+		/*	,
 		 "\t   sw word separ.=[", txLoopT_limit_swSepar[ u ],"] ", 
 		             ", sw speed reduction=[", txLoopT_limit_swSpeedReduce[u] ,"] ",
 		             ", sw translate =", txLoopT_limit_swTran[u], "]"        );
+		*/			 
 	}
 } // end of lista_loop_parms
 
 //-------------------------------------------------
-function loopIndexOfType( loopTypeId ) {
-	var listaTipi = ",Tr00,Tr10,Tr20,Tr21,Tr22,Tg00,Tg10,Tg20,Tg21,Tg22," ;  // row and group
+function loopIndexOfType( loopTypeId ) {	
+	//const listaTipi = ",Tr00,Tr10,Tr20,Tr21,Tr22,Tg00,Tg10,Tg20,Tg21,Tg22,Tg30,Tg31,Tg32," ;  // row and group
+	//var listaTipi = ",Tr00,Tr01,Tr02,Tr10,Tr11,Tr12,Tr20,Tr21,Tr22,Tg00,Tg01,Tg02,Tg10,Tg11,Tg12,Tg20,Tg21,Tg22,Tg30,Tg31,Tg32," ;  // row and group
+	
 	var pos= listaTipi.indexOf( ","+loopTypeId.trim() + ",") ; 
 	if (loopTypeId == null) signalError(1);
 	if (loopTypeId == undefined) signalError(2);
@@ -2829,8 +3042,8 @@ function onclick_refresh_loopParms( loopTypeId , where, sw0,this1) {
 			
 		
 		//if (sw1) {
-		//		console.log("\nXXXXXXXXXXXXXXXXXXXXXXXXXX\n onclick_refresh_loopParms(" , "loopTypeId=", loopTypeId + " in ",where, " sw0=", sw0, ")"  +    " index=", index)
-		//		if (this1) 	console.log("\t ", this1.parentElement.parentElement.innerHTML)
+		//console.log("\nXXXXXXXXXXXXXXXXXXXXXXXXXX\n onclick_refresh_loopParms(" , "loopTypeId=", loopTypeId + " in ",where, " sw0=", sw0, ")"  +    " index=", index)
+		//if (this1) 	console.log("\t ", this1.parentElement.parentElement.innerHTML)
 		//}		
 		
 		var nome = getTypeName( loopTypeId );
@@ -2841,6 +3054,18 @@ function onclick_refresh_loopParms( loopTypeId , where, sw0,this1) {
 
 		var numRepit = parseInt(ele_rLoop.value ); 
 	  	var numRighe = parseInt(ele_nrLoop.value); 
+		/**
+				console.log("                    onclick_refresh_loopParms(  ...rloopId=", loopTypeId + "_rLoop" )
+				console.log("              ele_rLoop.outerHTML=", ele_rLoop.outerHTML )
+				console.log("        ele_rLoop.type=" +  ele_rLoop.type + "<==" ) 	
+				console.log("        ele_rLoop.value=" +  ele_rLoop.value + "<==" ) 	
+				console.log("        ele_rLoop.innerHTML=" +  ele_rLoop.innerHTML + "<==" ) 	
+				console.log("        numRepit=", numRepit); 
+				console.log("                    onclick_refresh_loopParms(  ...nrloopId=", loopTypeId + "_nrLoop" )
+				console.log("              ele_nrLoop.outerHTML=", ele_nrLoop.outerHTML )
+				console.log("        ele_nrLoop.value=" +  ele_nrLoop.value + "<==" ) 	
+		**/					
+				
 		//-------------------------------------------------
 		// update localStor with values from HTML Page 
 		//---------------------------------------------------------
@@ -2857,15 +3082,21 @@ function onclick_refresh_loopParms( loopTypeId , where, sw0,this1) {
 		
 		if (ele_read_rowspeed) {
 			if (ele_read_rowspeed.innerHTML != "") {
-				//console.log( "1 ele_read_rowspeed=", ele_read_rowspeed)
+				/**
+				if ( loopTypeId == "Tr20") {
+					console.log( "1 ele_read_rowspeed=", ele_read_rowspeed)
+					console.log("Tr20 rowspeed=" + "\n\t" + ele_read_rowspeed.parentElement.parentElement.innerHTML) ;
+				}	
+				**/
 				//var pref= '_' + ele_read_rowspeed.id.substring(0,4);
 				//console.log( "id=" +  "rSepW"    + pref)
-				var eleTr_swList_sepW        = document.getElementById( loopTypeId + "_sepW"    );
+				var eleTr_swList_sepW        = document.getElementById( loopTypeId + "_sepW"    );				
 				var eleTr_swList_SpeedReduce = document.getElementById( loopTypeId + "_spRedSw" );
 				var eleTr_swList_Tran        = document.getElementById( loopTypeId + "_tranSw"  );
-				txLoopT_limit_swSepar[      index] = getListSw_fromHTML(false, eleTr_swList_sepW       );
-				txLoopT_limit_swSpeedReduce[index] = getListSw_fromHTML(true,  eleTr_swList_SpeedReduce);
-				txLoopT_limit_swTran[       index] = getListSw_fromHTML(false, eleTr_swList_Tran       );
+				if (eleTr_swList_sepW) 			txLoopT_limit_swSepar[      index] = getListSw_fromHTML(false, eleTr_swList_sepW       );
+				else {  console.log("ERRORE ", " elem ", loopTypeId + "_sepW" , " non esiste "); signalError(11); }
+				if (eleTr_swList_SpeedReduce)	txLoopT_limit_swSpeedReduce[index] = getListSw_fromHTML(true,  eleTr_swList_SpeedReduce);
+				if (eleTr_swList_Tran       )	txLoopT_limit_swTran[       index] = getListSw_fromHTML(false, eleTr_swList_Tran       );
 			}
 		} 
 		storeLoop+= " ::4s=" + txLoopT_limit_swSepar[index] + " ::5r=" + txLoopT_limit_swSpeedReduce[index] + " ::6t=" + txLoopT_limit_swTran[index] ;  
@@ -2880,7 +3111,7 @@ function onclick_refresh_loopParms( loopTypeId , where, sw0,this1) {
 				
 		//-----------------------------------------
 		function getListSw_fromHTML(swSpeed, eleTrList ) {
-			//console.log("getList swSpeed=", swSpeed, " eleTrList=", eleTrList)
+			//console.log("getList  storeLoop=", storeLoop , " swSpeed=", swSpeed, " eleTrList=", eleTrList)
 			var swList=[false];	var eleTd, eleSw; 	
 			var numCh = eleTrList.children.length;
 			for(var f=1; f < numCh; f++) {			
@@ -2945,27 +3176,39 @@ function fun_getLoopTypeValFromStore( storeLoop ) {
 //-------------------------------------------
 function build_loopType_HTML() {
 
-	build_loopType_rowspeed_inHTML("Tr00");
-	build_loopType_rowspeed_inHTML("Tr10");
-	build_loopType_rowspeed_inHTML("Tr20");
-	build_loopType_rowspeed_inHTML("Tr21");
-	build_loopType_rowspeed_inHTML("Tr22");
+	build_loopType_rowspeed_inHTML("Tr00", ""  );
+	build_loopType_rowspeed_inHTML("Tr10", ""  );
+	build_loopType_rowspeed_inHTML("Tr20", "1)");
+	build_loopType_rowspeed_inHTML("Tr21", "2)");
+	build_loopType_rowspeed_inHTML("Tr22", "3)");
 	
-	build_loopType_rowspeed_inHTML("Tg00");
-	build_loopType_rowspeed_inHTML("Tg10");
-	build_loopType_rowspeed_inHTML("Tg20");
-	build_loopType_rowspeed_inHTML("Tg21");
+	build_loopType_rowspeed_inHTML("Tg00", ""  );
+	build_loopType_rowspeed_inHTML("Tg10", ""  );
+	build_loopType_rowspeed_inHTML("Tg20", ""  );
+	build_loopType_rowspeed_inHTML("Tg21", ""  );
+	
+	build_loopType_rowspeed_inHTML("Tg30", "1)");
+	build_loopType_rowspeed_inHTML("Tg31", "2)");
+	build_loopType_rowspeed_inHTML("Tg32", "3)");
 }
 //----------------------
-function build_loopType_rowspeed_inHTML( loopTypeId ) {
+function build_loopType_rowspeed_inHTML( loopTypeId, headSpeed ) {
 		var ele_rLoop         = document.getElementById( loopTypeId + "_rLoop");  	
 		//var ele_nrLoop        = document.getElementById( loopTypeId + "_nrLoop");  	
 		var ele_read_rowspeed = document.getElementById( loopTypeId + "_read_rowspeed");  
 		
 		if (ele_rLoop == null) { console.log("loop type ", loopTypeId, " does not exist"); return;} 	
 		if (ele_read_rowspeed) {		
-			ele_read_rowspeed.innerHTML = ele_read_rowspeed.innerHTML.replaceAll("§§", loopTypeId);  
+			ele_read_rowspeed.innerHTML = ele_read_rowspeed.innerHTML.replaceAll("§§", loopTypeId);
+			if (headSpeed != ""){
+				var ele_headSpeed = document.getElementById( loopTypeId + "_headSpe" ) ;  
+				if (ele_headSpeed) ele_headSpeed.innerHTML = headSpeed;
+			}	
+		} else {			
+			//console.log("build_loopType_rowspeed_inHTML(loopTypeId=", loopTypeId, "  headSpeed=",  headSpeed  , " elem. " + loopTypeId + "_read_rowspeed ", " non esiste");
+			//signalError(20);
 		}	
+		
 } // end of build_loopType_rowspeed_inHTML
 
 //----------------------------------------------------
@@ -2983,26 +3226,96 @@ function load_loop_parameters_fromHTML_to_vars(wh) {
 	onclick_refresh_loopParms("Tg10", "load_loop_parameters_fromHTML_to_vars" );
 	onclick_refresh_loopParms("Tg20", "load_loop_parameters_fromHTML_to_vars" );
 	onclick_refresh_loopParms("Tg21", "load_loop_parameters_fromHTML_to_vars" );
+	
+	onclick_refresh_loopParms("Tg30", "load_loop_parameters_fromHTML_to_vars" );
+	onclick_refresh_loopParms("Tg31", "load_loop_parameters_fromHTML_to_vars" );	
+	onclick_refresh_loopParms("Tg32", "load_loop_parameters_fromHTML_to_vars" );
+	
+	lista_loop_parms_byType("Tr00")
+	lista_loop_parms_byType("Tr10")	
+	lista_loop_parms_byType("Tr20")
+	lista_loop_parms_byType("Tr21")
+	lista_loop_parms_byType("Tr22")
+	
+	lista_loop_parms_byType("Tg00")
+	lista_loop_parms_byType("Tg10")	
+	lista_loop_parms_byType("Tg20")
+	lista_loop_parms_byType("Tg21")
+	lista_loop_parms_byType("Tg22")
+	lista_loop_parms_byType("Tg30")
+	lista_loop_parms_byType("Tg31")
+	lista_loop_parms_byType("Tg32")
 }		
 //---------------------------------------
+function getLType12( ix, loopTypeId0) { 
 
+	//console.log(" getLType12( ix=", ix , "   loopTypeId0=", loopTypeId0) ;  
+	//console.log(" in getLType12  txLoopT_limit_loopType[ ix ] = ", txLoopT_limit_loopType[ ix ] ); 
+	var loopTypeId1 = "";
+	var loopTypeId2 = "";
+	var ix1 = (ix+1);
+	var ix2 = (ix+2);
+	
+	//console.log(" in getLType12  txLoopT_limit_loopType[ ix1 ] = ", txLoopT_limit_loopType[ ix1 ] ); 
+	//console.log(" in getLType12  txLoopT_limit_loopType[ ix2 ] = ", txLoopT_limit_loopType[ ix2 ] ); 
+	
+	if (txLoopT_limit_loopType.length <= ix1) return [loopTypeId1, loopTypeId2];  
+	
+	loopTypeId1 =  txLoopT_limit_loopType[ix1];
+	
+	//console.log(" in getLType12  loopTypeId1=", loopTypeId1); 
+	
+	if (loopTypeId1 == undefined)  return ["",""];
+	
+	//console.log(" in getLType12  loopTypeId1.substring(0,3) =", loopTypeId1.substring(0,3) ) 
+	
+	if (loopTypeId1.substring(0,3) != loopTypeId0.substring(0,3)) {
+		//console.log(" in getLType12  NO  ", loopTypeId1  , " è un altro tipo" ) 
+		loopTypeId1 = ""; loopTypeId2 = ""; 
+		return ["",""]; 
+	}
+	//---	
+	if (txLoopT_limit_loopType.length <= ix2) return [loopTypeId1, loopTypeId2];
+
+	loopTypeId2 = txLoopT_limit_loopType[ix2];	
+	if (loopTypeId2 == undefined)  return [loopTypeId1, ""];
+	
+	if (loopTypeId2 == "") return [loopTypeId1, loopTypeId2];
+	
+	if (loopTypeId2.substring(0,3) != loopTypeId0.substring(0,3)) {
+		//console.log(" in getLType12  NO ", loopTypeId2  , " è un altro tipo" ) 
+		loopTypeId2 = ""; 
+		return [loopTypeId1, loopTypeId2]; 
+	}
+	return [loopTypeId1, loopTypeId2];
+	
+} // end of getLType12
 //-------------------------------
-function onclick_anotherLoopType(this1, sw_group, sw_incr) {
+function onclick_anotherLoopType(this1, sw_group, sw_incr, wh) {
+	
+	//if (wh) console.log("onclick_anotherLoopType "  , " chiamato da ", wh) 
 	/*
 	this function is used to get loop type parameters, the type is changed at each call (unless sw_incr = false)     
 	this1    = button element: parent = TD, children[0] = loop type 
 	sw_group = false: it's a row to play, true: it's a group of rows 
 	sw_incr  = true: each click gets a new type, false: no-type rotation, the function is called by other functions     	
 	*/
+	
+	/**
 	if (this1) {
-		//console.log("\nXXXXXXXXXXXXXXXXXX\n1 onclick_anotherLoopType  this1=", this1.id, " sw_group=", sw_group, " sw_incr=", sw_incr , "( loop_type rotate)" ); 
+		console.log("\nXXXXXXXXXXXXXXXXXX\n1 onclick_anotherLoopType  this1=", this1.id, " sw_group=", sw_group, " sw_incr=", sw_incr , "( loop_type rotate)" ); 
 	} else {
 		console.log("1 onclick_anotherLoopType  this1=", " null = ", this1.id); 
 		signalError(4);
 	}
+	**/
+	
 	let loopTypeId0 =""; 
 	let loopTypeId1 =""; 
 	let loopTypeId2 =""; 
+	//-----
+	//for(var h=0; h < txLoopT_limit_nome.length; h++) { console.log("      ZZZ txLoopT_limit_nome[",h,"] = ", txLoopT_limit_nome[ h ] , " ",txLoopT_limit_loopType[ h ] );  	  } 
+	//-------
 	
 	//let td1= this1.parentElement;
 	//console.log("2 onclick_anotherLoopType  td=", td1.outerHTML); 
@@ -3010,27 +3323,57 @@ function onclick_anotherLoopType(this1, sw_group, sw_incr) {
 	//let ele_showWh = td1.children[2]; 	
 	
 	let ch= this1.children;
-	//console.log("4 onclick_anotherLoopType   ch=", ch, " num ch =", ch.length ) 
+	let ix = parseInt( ch[0].innerHTML); 	
 	
-	var fromI=0,  toI=3;  // index of: no loop, loop_r1, loop r2
+	loopTypeId0 = txLoopT_limit_loopType[ix];
 	
-	let ix = parseInt( ch[0].innerHTML); 					
-	if (sw_incr) {
+	//console.log("4 onclick_anotherLoopType   ch=", ch, " num ch =", ch.length , " ix=", ix, "    loopTypeId0=" , loopTypeId0 ) ; 
+	
+	  
+	var ixG00 = loopIndexOfType( "Tg00");  // inizio dei tipi gruppo
+	
+	var fromI=0,  toI = ixG00-1;  // index of: no loop, loop_r1, loop r2
+	if (sw_group) {
+		fromI = ixG00;  
+		toI = txLoopT_limit_nome.length-1;		
+	}	
+	var fromI2 = fromI+2; 
+	//ix = parseInt( ch[0].innerHTML); 		
+	//console.log("anto 1 sw_group=", sw_group,  " sw_incr=", sw_incr, "  ix=", ix,  " fromI=", fromI, " toI=", toI ); 	
+	if (sw_incr) {	
+		// cerca il prossimo indice che punta ad un tipo che termina con 0  (eg. dopo Tg20 trova Tg30 anche se esiste Tg21)   
 		ix++; 		 	
 		if (ix >= toI) ix = fromI;	
-		ch[0].innerHTML = ix;
-	}
+		if (ix >= fromI2) {
+			for(var h=ix; h <= toI; h++) {   			
+				ix = h; 
+				if (", Tr00, Tr10, Tr20, Tr30, Tg00, Tg10, Tg20, Tg30 ".indexOf( txLoopT_limit_loopType[ix] ) >= 0) break;     
+			}	
+		}
+	} 
+	if (ix >= toI) ix = fromI;	
+	if (ix < fromI) ix = fromI; 		
+	
+	ch[0].innerHTML = ix;	
+	
+	
+	 
+	//console.log("   XXXXXXXXX   loopT_limit_loopType[ix=", ix,"] = ",  txLoopT_limit_loopType[ix]  ); 
 	ch[3].innerHTML = "";
-	if (ix == 0) {
+	if (ix == fromI) {
 		ch[1].style.display = "none";
 	} else {
 		ch[1].style.display = "block" ; // show loop symbol
 	} 
-	//console.log("LOOP ch[1]=",  ch[1].innerHTML )
+	//console.log("     ix=", ix, " LOOP ch[1]=",  ch[1].innerHTML )
 	//------------------------------
+	/**
 	if (sw_group) {
 		loopTypeId0 = "Tg" + ix + "0"; 			
-		if (ix==2) loopTypeId1 = "Tg" + ix + "1";	
+		if (ix==2) {
+			loopTypeId1 = "Tg" + ix + "1";	
+			//loopTypeId2 = "Tg" + ix + "2";	
+		}	
 	} else {
 		loopTypeId0 = "Tr" + ix + "0"; 	
 		if (ix==2) {
@@ -3038,10 +3381,22 @@ function onclick_anotherLoopType(this1, sw_group, sw_incr) {
 			loopTypeId2 = "Tr" + ix + "2";
 		}		
 	}
+	**/
+	loopTypeId0 = txLoopT_limit_loopType[ix];
+	
+	//console.log("anto 2   ix=", ix, "  loopTypeId0=",  loopTypeId0 , " txLoopT_limit_loopType.length=", txLoopT_limit_loopType.length); 
+	//console.log(" PRIMA  txLoopT_limit_loopType[ ix ] = ", txLoopT_limit_loopType[ ix ] ); 
+	//console.log(" txLoopT_limit_loopType[ (ix+1) ] = ", txLoopT_limit_loopType[ (ix+1) ] ,  "   (ix+1)=", (ix+1) ); 
+	var z12 =  getLType12( ix, loopTypeId0); 
+	loopTypeId1 = z12[0]; 
+	loopTypeId2 = z12[1];
+	
+	//console.log("anto 3   ix=", ix, "  loopTypeId0=",  loopTypeId0 , "  loopTypeId1=",  loopTypeId1 , "  loopTypeId2=",  loopTypeId2); 	
+	
 	var index0=-1, index1=-1, index2=-1;	
+	
 	index0 = loopIndexOfType( loopTypeId0 );  
-
-	//console.log("5 onclick_anotherLoopType   ch=", ch, " loopTypeId0=" + loopTypeId0, " index=", index0, " loopTypeId1=" + loopTypeId1,  " loopTypeId2=" + loopTypeId2);
+	
 	
 	thisLineList_loopType1 = ""; 
 	thisLineList_loopType2 = ""; 
@@ -3058,21 +3413,24 @@ function onclick_anotherLoopType(this1, sw_group, sw_incr) {
 	//var field0 = thisLineList_swSpeedReduce0[0].split(":"); 
 	//thisLineList_swSpeedReduce0[0] = field0[1]; 
 	
-	let highlight_loop = 'color:blue;background-color:yellow;font-weight=bold;' ; 
+	//console.log("anto4 index0=", index0, " thisLineList_loopType0=",thisLineList_loopType0 , " thisLineList_nRighe0=",thisLineList_nRighe0, " thisLineList_nRepeat0=",thisLineList_nRepeat0 )  
 	
-	if (ix == fromI) ch[2].innerHTML = thisLineList_nome0;
-	else             ch[2].innerHTML = '<span style=' + highlight_loop + '>'   + thisLineList_nome0 + '</span>';			
+	let highlight_loop = 'color:blue;background-color:yellow;font-weight=bold;' ; 
+	var nome2 = thisLineList_nome0.split("(")[0]; 
+	if (ix == fromI) ch[2].innerHTML = nome2;
+	else             ch[2].innerHTML = '<span style=' + highlight_loop + '>'   + nome2 + '</span>';			
 	
 	if (loopTypeId1 == "") {
 		thisLineList_loopType1		= "";  
 		thisLineList_nome1    		= "";  
-		thisLineList_nRighe1  		= []; 
-		thisLineList_nRepeat1 		= [];
+		thisLineList_nRighe1  		= 0; 
+		thisLineList_nRepeat1 		= 0;
 		thisLineList_swSepar1 		= [];  
 		thisLineList_swSpeedReduce1	= [];  
 		thisLineList_swTran1 	    = [];       
 	} else {	
 		index1 = loopIndexOfType( loopTypeId1 );  
+		//console.log("	loopTypeId1 =", loopTypeId1 , "   index1=", index1 );  
 		thisLineList_loopType1		= txLoopT_limit_loopType[index1] ;  
 		thisLineList_nome1    		= txLoopT_limit_nome[    index1] ;  
 		thisLineList_nRighe1  		= txLoopT_limit_nRighe[  index1] ; 
@@ -3084,13 +3442,14 @@ function onclick_anotherLoopType(this1, sw_group, sw_incr) {
 	if (loopTypeId2 == "") {
 		thisLineList_loopType2		= "";  
 		thisLineList_nome2    		= "";  
-		thisLineList_nRighe2  		= []; 
-		thisLineList_nRepeat2 		= [];
+		thisLineList_nRighe2  		= 0; 
+		thisLineList_nRepeat2 		= 0;
 		thisLineList_swSepar2 		= [];  
 		thisLineList_swSpeedReduce2	= [];  
 		thisLineList_swTran2 	    = [];       
 	} else {	
-		index2 = loopIndexOfType( loopTypeId2 );  
+		index2 = loopIndexOfType( loopTypeId2 ); 			
+		//console.log("	loopTypeId2 =", loopTypeId2 , " index2=", index2 );  
 		thisLineList_loopType2		= txLoopT_limit_loopType[index2] ;  
 		thisLineList_nome2    		= txLoopT_limit_nome[    index2] ;  
 		thisLineList_nRighe2  		= txLoopT_limit_nRighe[  index2] ; 
@@ -3099,11 +3458,7 @@ function onclick_anotherLoopType(this1, sw_group, sw_incr) {
 		thisLineList_swSpeedReduce2	= txLoopT_limit_swSpeedReduce[index2].slice();  
 		thisLineList_swTran2     	= txLoopT_limit_swTran[index2].slice(); 			
 	}	
-	/**
-	console.log( "   index0=", index0, " type0 =", thisLineList_loopType0	, " ", thisLineList_nome0)	
-	console.log( "   index1=", index1, " type1 =", thisLineList_loopType1	, " ", thisLineList_nome1)	
-	console.log( "   index2=", index1, " type2 =", thisLineList_loopType2	, " ", thisLineList_nome2)
-	**/
+	
 } // end of onclick_anotherLoopType
 
 //-------------------------------
@@ -3320,19 +3675,23 @@ function begin() {
    //document.getElementById("Tr00_read_rowspeed").innerHTML =  table_read_rowspeed; 
 	 document.getElementById("Tr10_read_rowspeed").innerHTML =  table_read_rowspeed; 	 
 	 document.getElementById("Tr20_read_rowspeed").innerHTML =  table_read_rowspeed;
-   //document.getElementById("Tr21_read_rowspeed").innerHTML =  table_read_rowspeed;
-   //document.getElementById("Tr22_read_rowspeed").innerHTML =  table_read_rowspeed;	 
-   //document.getElementById("Tg00_read_rowspeed").innerHTML =  table_read_rowspeed;
-   //document.getElementById("Tg10_read_rowspeed").innerHTML =  table_read_rowspeed;
+     document.getElementById("Tr21_read_rowspeed").innerHTML =  table_tran_rowspeed; // translation only 
+     document.getElementById("Tr22_read_rowspeed").innerHTML =  table_tran_rowspeed; // translation only 	 
 	 
-	
+   //document.getElementById("Tg00_read_rowspeed").innerHTML =  table_read_rowspeed;
+     document.getElementById("Tg10_read_rowspeed").innerHTML =  table_tran_rowspeed;	
    //document.getElementById("Tg20_read_rowspeed").innerHTML =  table_read_rowspeed;
-	 document.getElementById("Tg21_read_rowspeed").innerHTML =  table_read_rowspeed;
+	 document.getElementById("Tg21_read_rowspeed").innerHTML =  table_tran_rowspeed;
+   
+     document.getElementById("Tg30_read_rowspeed").innerHTML =  table_tran_rowspeed;
+	 document.getElementById("Tg31_read_rowspeed").innerHTML =  table_tran_rowspeed;
+	 document.getElementById("Tg32_read_rowspeed").innerHTML =  table_tran_rowspeed;
 	 
 	 //if (document.getElementById("g21_read_rowspeed").innerHTML == "") console.log(errore)
 	//------------------
+	//console.log("antonio ", document.getElementById("Tr21_read_rowspeed").children[0].children[0].children[0].children[0].outerHTML )
 	
-	
+	//---------------------------
 	build_loopType_HTML(); 
 	
 	plus_initial_from_localStorage_values();
@@ -3540,6 +3899,8 @@ function onclick_tts_arrowToIx( this1, z3 ) {
 	fromIxToIxButtonElement[1] = this1;
 	
 	[begix, endix] = fromIxToIxLimit;	
+
+	document.getElementById("id_prt2").innerHTML = endix;
 		
 	/*
 	this:  from id="b1_§1§" fromIx(§1§,this) -  to id="b2_§1§" 
@@ -3650,12 +4011,19 @@ function insert_TR_m1_m2(z3) {
 	if  (eleTabX.tagName != "TABLE") {  console.log("ERRORE eleTabX.tagName", eleTabX.tagName); }	
 	//console.log("eleTrX=", eleTrX.id, " z3=", z3,  " rowIndex=", rowIx);
 	
-	let rowclip = prototype_tr_m1_tts.replaceAll("§1§", z3).replaceAll("§abc§","false");
-	
+	//-------------
+	let rowclip = prototype_tr_m1_tts.replaceAll("§1§", z3).replaceAll("§abc§","false");	
 	let rowX = eleTabX.insertRow( rowIx ); 
-	//console.log("1rowX=", rowX.outerHTML)
 	rowX.outerHTML = rowclip; 
-	//console.log("2rowX=", rowX.outerHTML)
+	
+	var ele_tloop = document.getElementById("tyLoop" + z3 + "_m1");
+	
+	var ixG00 = loopIndexOfType( "Tg00");
+	ele_tloop.innerHTML = ixG00; 	
+	
+	//console.log("2 ele_tloop_pare=", ele_tloop_pare.outerHTML) ;
+	
+	//--------------
 	
 	rowclip = prototype_tr_m2_tts.replaceAll("§1§", z3);
 	rowX = eleTabX.insertRow( rowIx ); 
@@ -4001,12 +4369,80 @@ function onclick_tts_OneClipRow_showHide_tran( thisX, sw_allSel ) {
 	
 } // end of onclick_tts_OneClipRow_showHide_tran()
 
-//----------------------------------------------------
-function onclick_printBilingual() {
-		//var myWindow = window.open("", "MsgWindow", "width=200,height=100");
-		var myWindow = window.open();
-		myWindow.document.write( printStringBilingual );
+//-------------------------------------------
+function subModule(bg_numId, nsub, module) {
+	//if ((bg_numId - nsub) < begix )  return begix;
+	//return (bg_numId - nsub)	
+	
+	//let module = 1 + endix-begix;
+	let sub1 = bg_numId - nsub; 
+	let z = ( (sub1 % module ) + mod1)%module; 
+	return begix + z;  
 }
+//------------
+
+//-------------------------------------------
+function moduleNormalize( fromNum, begix, module) {
+	if (fromNum >= begix) return fromNum; 
+	let sub1 = fromNum - begix;
+	let zz = ( ( sub1 % module ) + module)%module; 
+	return (begix + zz);  
+}
+//----------------------------------------------------
+var printStringBilingual = '';
+var printStringOrigTxt  = '';
+//----------------------------------------------------
+function printOrigText() {
+	loadPrintGroupData(); 
+	var myWindow = window.open();
+	myWindow.document.write( printStringOrigTxt);
+}
+//----------------------------------------------------
+function printBilingual() {
+	loadPrintGroupData(); 
+	var myWindow = window.open();
+	myWindow.document.write( printStringBilingual );
+}
+//------------------------------------------------
+
+function loadPrintGroupData() {
+	var titoloPag = document.getElementsByTagName("TITLE")[0].innerHTML; 
+
+	var fromIxToIxLimit = [4,7]; 
+
+	var begix, endix;	
+
+	[begix, endix] = fromIxToIxLimit;
+	var groupLimit = begix + "-" + endix; 
+	console.log("begixi=", begix, " endix=", endix);
+
+	printStringBilingual = '<html> \n' + 
+		'<head><title>' + titoloPag + '</title>\n' +
+		'<style> \n' +
+		' .print_row { margin-top:0.5em; font-size:1em; text-align:left;} \n' +
+		' .print_orig { font-weight: bold; text-align:left; } \n' +
+		' .print_origOnly { margin-top:0.1em; text-align:left; } \n' +
+		' .print_tran {	text-align:left; } \n' +  
+		'</style> \n' + 
+		'</head>\n' + 
+		'<body style="margin-left:1em;"> \n' +
+		'<h2>' + titoloPag + '&nbsp;&nbsp;<small>(' + groupLimit + ')</small></h2>\n' ;
+
+	printStringOrigTxt = printStringBilingual;
+	let txt1 =""; var trantxt1="";
+
+	for (let z3 = begix; z3 <= endix; z3++) {
+		txt1     = document.getElementById("idc_" + z3).innerHTML.replaceAll("<br>",""); 		
+		trantxt1 = document.getElementById("idt_" + z3).innerHTML.replaceAll("<br>","");		
+
+		printStringBilingual += '<div class="print_row"><div class="print_orig">' + txt1 + '</div><div class="print_tran">' + trantxt1 + '</div></div> \n'  
+		printStringOrigTxt   += '<div class="print_origOnly">' + txt1 + '</div> \n';   
+
+	} // end of for z3
+	printStringBilingual += '</body>\n</html>\n' ;   	
+	printStringOrigTxt   += '</body>\n</html>\n' ;  
+	
+} // end of loadPrintGroupData 
 
 //-------------------------------------------------
 function signalError(var1) {
