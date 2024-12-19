@@ -1857,7 +1857,7 @@ function rotateVoice( numLang ) {
 	var g1= ixVoice0V;
 	//if (v==1) console.log("   6 rotateVoice ", " ixVoice0V=", g1) 
 	var voice_g = listVoxL[v][g1][1];  // [vox.lang, vox, checked/unchecked]
-	document.getElementById("showVoice_" + v).innerHTML = g1 + " " + voice_g.name; 
+	document.getElementById("showVoice_" + v).innerHTML = voice_g.name; 
 	//console.log("voce indice =", ixVoice0V, " per ", ["orig","tran"][v] );  
 		
 	return ixVoice0V; 
