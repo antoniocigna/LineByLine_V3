@@ -105,6 +105,7 @@ let	sel_voiceLangRegion = ["",""];              // eg. en-us
 let	sel_voiceLang2      = ["",""];              // eg. en
 let sel_numVoices       = [ 0, 0]; 
 let sel_voice_rotate    = [false, false];      
+let sel_voice_exclude   = [false, false];      
 let sel_loopTypeSet     = ["","","","","","","","","","","",""];  
 let sel_loopTypeSet_str = "";
 let sw_told_group_row_list = [];
@@ -387,6 +388,26 @@ let div_voices =  `
 				<tr style="display:none;"> <td>id_lang2 </td><td id="id_lang21" ></td>   <td id="id_lang22" ></td> </tr> 
 				<tr style="display:none;"> <td>id_ext_language</td><td id="id_ext_language1"></td> <td id="id_ext_lamguage2"></td> </tr> 				
 				<tr style="display:none;"> <td>id_voxLangDisplay</td> <td><div id="id_voxLangDisplay1" style="margin-top:0.5em;"></div></td>  <td><div id="id_voxLangDisplay2" style="margin-top:0.5em;"></div></td> </tr> 
+				
+				<tr>
+					<td style="text-align:left;vertical-align:top;">Escludi voci</td>
+					<td style="text-align:left;vertical-align:top;">
+						<button class="buttonWhite" style="width:100%;" onclick="onclick_show_chosenVoices(this)">lista le voci della prima lingua</button>
+						<div style="display:none;padding-left:2em;text-align:left;font-size:0.8em;">							
+							<span >togli la spunta alle voci non desiderate</span><br>
+							<table id="id_chosenVox0"  style="text-align:left;">								
+							</table>
+						</div>
+					</td>	
+					<td style="text-align:left;vertical-align:top;">
+						<button class="buttonWhite" style="width:100%;" onclick="onclick_show_chosenVoices(this)">lista le voci della seconda lingua</button>	
+						<div style="display:none;padding-left:2em;text-align:left;font-size:0.8em;">							
+							<span >togli la spunta alle voci non desiderate</span><br>
+							<table id="id_chosenVox1"  style="text-align:left;">								
+							</table>
+						</div>
+					</td>	
+				</tr>					
 				
 				<tr style="border:1px solid black;"> 
 					<td id="m127" class ="msg" style="text-align:left;vertical-align:bottom; font-size:80%;">Velocità</td>
@@ -1079,7 +1100,7 @@ function get_voice_index_previousRun( numLang )  {
 	
 	listVoxL_selVoxIx[numLang] = prevIndiceVoce;
 	lastNumSelVoice[numLang]   = prevIndiceVoce;			
-	
+	//console.log( "get_voice_index_previousRun numLang=", numLang, " lastNumSelVoice[numLang] =",  lastNumSelVoice[numLang] );
 	//console.log("check_voice_index_previousRun() " , " numLang=", numLang, " sel_voice_ix[numLang]=", sel_voice_ix[numLang], " prevIndiceVoce=" + prevIndiceVoce + "<==")
 	
 	//console.log("check_voice_index_previousRun() " , " voice lang=", voices[prevIndiceVoce].lang, " name=",   voices[prevIndiceVoce].name)
@@ -1186,9 +1207,11 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 	//console.log("voices.length=" + numTotVoices); 
 	//console.log("   sel_voiceName[",numLang,"] = ", sel_voiceName[numLang] )
 	
-	for(var ix=0; ix < numTotVoices; ix++) {
+	
+	for(var ix=0; ix < numTotVoices; ix++) {		
 		if (sel_voiceName[ numLang] == voices[ix].name) {
 			sel_voice_ix[       numLang] = ix; 	
+			//console.log("fill the voice ", numLang, "  ix=",ix, "  ",  voices[ix].name);  
 			sel_voiceLangRegion[numLang] = voices[ix].lang	;
 			sel_voiceLang2[     numLang] = sel_voiceLangRegion[numLang].substr(0,2);
 			break;
@@ -1202,7 +1225,7 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 	
 	vox = voices[ sel_voice_ix[numLang] ];
 	 
-	listVoxS.push( [vox.lang , vox] );  
+	listVoxS.push( [vox.lang , vox, true] );  
 	
 	if (sel_voiceLangRegion[numLang] != vox.lang) {
 		console.log("tts_2_fill_the_voices() " + "   numLang=", numLang, "\n\tsel_voice_ix[numLang]=" + sel_voice_ix[numLang] + 
@@ -1222,7 +1245,7 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 		
 		if (sel_voiceLangRegion[numLang] != vox.lang ) continue;	
 		
-		listVoxS.push( [vox.lang , vox] );  
+		listVoxS.push( [vox.lang , vox,true] );  
 		if (v2==indiceScelto) {
 			listVoxS_selected = listVoxS.length-1; 			
 		}
@@ -1233,23 +1256,53 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 		vox = voices[v2];
 		if (sel_voiceLangRegion[numLang] == vox.lang ) continue;	
 		if (sel_voiceLang2[numLang] != vox.lang.substr(0,2) ) continue;				
-		listVoxS.push( [vox.lang , vox] );  
+		listVoxS.push( [vox.lang , vox,true] );  
 	}
 	//---------------------------------	
-	/**   LISTA VOCI CARICATE
+	/**
+	//  LISTA VOCI CARICATE
 	for(var v3=0; v3 < listVoxS.length; v3++) {		
 		var vv1, vv2; 
-		[vv1,vv2] = listVoxS[v3]
+		[vv1,vv2,vv3] = listVoxS[v3]
 		console.log("listVoxS[" +v3 + "] = " + vv1 + " " + vv2.name);
 	}
 	**/
+	//----------
+	// load the chosen voice names on the html page
+	
+	var nomeL, nomeL1, nomeL2, l1;
+	var mod1 = '<tr><td><input  type="checkbox" id="cho§ix§§nV§" value="§ix§" checked onclick="onclick_chkChosenVox(this,§nV§)"></td><td><label for="cho§ix§§nV§">§voxName1§</label></td><td><label for="cho§ix§§nV§"> §voxName2§</label></td></tr>\n';
+	
+	//var str1 = "<table>\n<tbody> \n"; 
+	var str1 = ""; 
+	for(var g=0;g<listVoxS.length;g++) {
+		nomeL = listVoxS[g][1].name.trim(); 
+		//str1+= mod1.replace( '§ix§', g ).replace( '§voxName§', nomeL ); 
+		l1= nomeL.lastIndexOf("-"); 
+		if (l1 < 0) {nomeL1 = nomeL;  nomeL2=""; }
+		else {nomeL1 = nomeL.substring(0,l1);  nomeL2= nomeL.substring(l1+1); }  	
+		str1+= mod1.replaceAll( '§ix§', g ).replaceAll( '§voxName1§', nomeL1 ).replaceAll( '§voxName2§', nomeL2 ).replaceAll("§nV§",numLang);   
+	}  	
+	//str1 += "</tbody>\n </table> \n";
+	document.getElementById("id_chosenVox" + numLang).innerHTML = str1; 
+	//-------------------
+	var voxName_scelto= voices[indiceScelto].name; 
+	var index2 = 0; 
+	var chList = sel_voice_exclude[numLang]; 
+	for(var g=0;g<listVoxS.length;g++) {
+		if (g < chList.length) document.getElementById("cho"+ g + numLang).checked = chList[g];
+		else document.getElementById("cho"+ g + numLang).checked = true;
+		listVoxS[g][2] = chList[g];
+		if(listVoxS[g][1].name == voxName_scelto) index2 = g; 
+	}
+
 	//----------------	
 	//var chosenIxVox=0;
 	//-----------
 	if (listVoxS.length == 0) {
 		listVoxL[numLang] = []; 
 	}
-
+	
 	//console.log("listVoxS length=" + listVoxS.length); 
 
 	//voice_toUpdate_speech[numLang] = listVoxS[0][1] ;
@@ -1257,7 +1310,9 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 	listVoxL[numLang]           = listVoxS;
 	listVoxL_selVoxIx[numLang]  = listVoxS_selected ;
 
-	//console.log( "totNumSelVoices=", totNumSelVoices); 
+	lastNumSelVoice[numLang] = index2;
+	
+	//console.log( "fill_the_voices_OneLanguage numLang=", numLang, " lastNumSelVoice[numLang] =",  lastNumSelVoice[numLang] );
 
 } // end of fill_the_voices_OneLanguage()
 
@@ -1478,15 +1533,17 @@ function plus_initial_from_localStorage_values() {
 			sel_voiceLang2[0]      = stored_cbc_localStor[VV03];                     
 			sel_numVoices[0]       = stored_cbc_localStor[VV04];       
 			sel_voice_rotate[0]    = stored_cbc_localStor[VV05];   
+			sel_voice_exclude[0]   = stored_cbc_localStor[VV06];    
 			
 			sel_voice_ix[1]        = stored_cbc_localStor[VV10];        
 			sel_voiceName[1]       = stored_cbc_localStor[VV11];                  
 			sel_voiceLangRegion[1] = stored_cbc_localStor[VV12];                   	
 			sel_voiceLang2[1]      = stored_cbc_localStor[VV13];                     
 			sel_numVoices[1]       = stored_cbc_localStor[VV14];       
-			sel_voice_rotate[1]    = stored_cbc_localStor[VV15];   
+			sel_voice_rotate[1]    = stored_cbc_localStor[VV15]; 			
+			sel_voice_exclude[1]   = stored_cbc_localStor[VV16];  
 		
-			sel_loopTypeSet_str    = stored_cbc_localStor[VV20]; 
+			sel_loopTypeSet_str    = stored_cbc_localStor[VV20];   
 			
 			load_sel_loopTypeSet(sel_loopTypeSet_str);  
 			
@@ -1589,6 +1646,7 @@ function plus_set_localStorage_var(xx, ltid, sw00, this11) {
 	cbc_LOCALSTOR_val_list[ VV03 ] =   sel_voiceLang2[0]     ;                             
 	cbc_LOCALSTOR_val_list[ VV04 ] =   sel_numVoices[0]      ;    
 	cbc_LOCALSTOR_val_list[ VV05 ] =   sel_voice_rotate[0]   ;
+	cbc_LOCALSTOR_val_list[ VV06 ] =   sel_voice_exclude[0]  ; 
 
 	cbc_LOCALSTOR_val_list[ VV10 ] =   sel_voice_ix[1]       ;            
 	cbc_LOCALSTOR_val_list[ VV11 ] =   sel_voiceName[1]      ;                            
@@ -1596,6 +1654,7 @@ function plus_set_localStorage_var(xx, ltid, sw00, this11) {
 	cbc_LOCALSTOR_val_list[ VV13 ] =   sel_voiceLang2[1]     ;                             
 	cbc_LOCALSTOR_val_list[ VV14 ] =   sel_numVoices[1]      ;    
 	cbc_LOCALSTOR_val_list[ VV15 ] =   sel_voice_rotate[1]   ;
+	cbc_LOCALSTOR_val_list[ VV16 ] =   sel_voice_exclude[1]  ; 
     
 	cbc_LOCALSTOR_val_list[ VV20 ] =   sel_loopTypeSet_str;   
 
@@ -1704,7 +1763,7 @@ function set_var_voice_rotate_to_localStore() {
 			", document.getElementById( 'tranSelVox2' ).checked =" +  document.getElementById( "tranSelVox2" ).checked 	); 
 	**/
 
-	plus_set_localStorage_var();
+	plus_set_localStorage_var(4);
 	
 }
 //------------
@@ -1753,58 +1812,57 @@ function sayVoiceNum(textX, numLang, ixVoice, volumeX, rateX, pitchX) {
 } // end of sayVoiceNum
 
 //---------------------------------------------
-function rotateVoice() {
+
+	
+//-------------------------------------------
+	
+function rotateVoice( numLang ) {
 	
 	let listIdSelVox = ["origSelVox","tranSelVox"];		
-	let ixVoice0 = [null,null];
+	let ixVoice0V = 0
 	
 	//console.log( "onclick_play_Orig_and_Tran_row()    totNumSelVoices=", totNumSelVoices); 
+	var voice_ix; 
+	let v = numLang;
 	
-	for (let v=0; v <2; v++) {
-		//	console.log("  v=", v);  
-		if (document.getElementById( listIdSelVox[v] ).checked) {  // if only the selected voice
-			ixVoice0[v] = listVoxL_selVoxIx[v];		// indice della voce scelta (riga Seleziona) nella lista delle voci listVoxL	
-		} else {
-			if (lastNumSelVoice[v] >= totNumSelVoices[v]) lastNumSelVoice[v] = 0; // to change voice on each cycle
-			ixVoice0[v] = lastNumSelVoice[v];			
-			lastNumSelVoice[v]++; 
+	//console.log("rotateVoice  v=", v);  
+	//console.log('listVoxL[",v,"] lenght=', listVoxL[v].length);   
+	if (document.getElementById( listIdSelVox[v] ).checked) {  // if only the selected voice
+		ixVoice0V = listVoxL_selVoxIx[v];		// indice della voce scelta (riga Seleziona) nella lista delle voci listVoxL	
+	} else {
+		var maxN = totNumSelVoices[v]
+		var nowIx = lastNumSelVoice[v]; 
+		//if (v==1) console.log("\n1 rotateVoice ", " totNumSelVoices[v] =",   totNumSelVoices[v], " = maxN, nowIx = lastNumSelVoice[v] =",  lastNumSelVoice[v]);  
+		if (nowIx >= maxN) nowIx=0;
+		ixVoice0V = nowIx;	
+		
+		for(var h=0; h < maxN; h++) {
+			//console.log("nowIx=", nowIx); console.log("listVoxL[v][nowIx].length=", listVoxL[v][nowIx].length);   
+			if (listVoxL[v][nowIx][2]) {  // eg. [ en-En, voiceObject, checked/unchecked ]     checked false ==> the voice cannot be used 
+				lastNumSelVoice[v] = nowIx;	
+				//if (v==1) console.log("   2 rotateVoice ", " h=", h, "  lastNumSelVoice[v] =",  lastNumSelVoice[v]);  
+				ixVoice0V = nowIx;	
+				//if (v==1) console.log("   3 rotateVoice ", " h=", h, "  voce usata ",  listVoxL[v][nowIx][1].name , "   ixVoice0V =", ixVoice0V); 
+				//console.log(" voce USATA ",  listVoxL[v][nowIx][1].name ) 
+				break;
+			} 
+			//console.log(" SCARTATA voce ",  listVoxL[v][nowIx][1].name ) 
+			nowIx++;					
+			if (nowIx >= maxN) nowIx=0;
+			//if (v==1) console.log("   4 rotateVoice ", " nowIx =", nowIx)
 		}
-		var g1= ixVoice0[v];
-		var voice_g = listVoxL[v][g1][1];  // [vox.lang, vox]
-		document.getElementById("showVoice_" + v).innerHTML = voice_g.name; 
-		//console.log("voce indice =", ixVoice0[v], " per ", ["orig","tran"][v] );  
-	}	
-	
-	return ixVoice0; 
+		lastNumSelVoice[v] = (1+nowIx); 
+		//if (v==1) console.log("   5 rotateVoice ", " lastNumSelVoice[v] =",  lastNumSelVoice[v]);  
+	}
+	var g1= ixVoice0V;
+	//if (v==1) console.log("   6 rotateVoice ", " ixVoice0V=", g1) 
+	var voice_g = listVoxL[v][g1][1];  // [vox.lang, vox, checked/unchecked]
+	document.getElementById("showVoice_" + v).innerHTML = g1 + " " + voice_g.name; 
+	//console.log("voce indice =", ixVoice0V, " per ", ["orig","tran"][v] );  
+		
+	return ixVoice0V; 
 	
 } // end of rotateVoice
-
-
-//=====================================================================  segue con roba vecchia 
-
-//-------------------------------------------------
-function onclick_tts_show_row(this1, z3) {
-	
-	console.log("07_play (anche un altro in 10script !!! ) onclick_tts_show_row(this1, z3)  ",  "z3=", z3, " this1=", this1);
-	
-	tts_5_removeLastBold(1);
-	if(this1 == false) {
-		console.log("onclick_tts_show_row(  z3=",z3, ") return");
-		return;
-	}
-	if(this1.children[0].style.display == "none") { // no openbook   
-		this1.children[0].style.display = "block"; // show opened book image  
-		this1.children[1].style.display = "none"; // hide closed book image 	
-	} else {
-		this1.children[0].style.display = "none"; //  hide opened book image  
-		this1.children[1].style.display = "block"; //  show closed book image 	
-	}
-	console.log("onclick_tts_show_row(this1, z3) chiama  tts_5_show_hideORIG(z3)");
-	
-	tts_5_show_hideORIG(z3);
-	tts_5_show_hideTRAN(z3);
-
-} // end of onclick_tts_show_row
 
 //-------------------------------------------------------------------------
 
@@ -2159,7 +2217,7 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 	var typL = eleTyLoop_button.children[0].innerHTML;	
 	var tXXX = typeList[ parseInt( typL )  ];
 	
-	console.log("\nxxxx ROW onclick_play_Orig_and_Tran_row(numId=", numId,  " typL =" + typL + "<==   tXXX="  + tXXX + "<==");  
+	//console.log("\nxxxx ROW onclick_play_Orig_and_Tran_row(numId=", numId,  " typL =" + typL + "<==   tXXX="  + tXXX + "<==");  
 
 	
 	righeDaLeggere = [];
@@ -2288,21 +2346,23 @@ async function play_accum(swOrigAndTran, bigLoop00) {
 			continue;
 		}
 			
-		let ixVoice0 = rotateVoice();   
+		let ixVoice0X ;
 		
 		if (swOrigAndTran) { document.getElementById("showVoice_1").style.display = "block";} else {document.getElementById("showVoice_1").style.display = "none";}
 		
 		if (ltr_vox == 	IX_TRAN) {
 			if (swOrigAndTran == false) continue; 
+			ixVoice0X = rotateVoice(1);   
 			document.getElementById("showVoice_0").style.display = "none";  // orig. voice			
 			document.getElementById("showVoice_1").style.display = "block"; // transl. voice 
 		} else {
+			 ixVoice0X = rotateVoice(0);   	
 			 document.getElementById("showVoice_0").style.display = "block";  // orig. voice
 			 document.getElementById("showVoice_1").style.display = "none";   // transl. voice 
 		}		
 		//console.log("leggo ", ["originale","traduzione"][ ltr_vox ] , " ", ltr_txt)		
 		await bold_spoken_line(eleObjToSpeak);
-		await sayVoiceNum( ltr_txt, ltr_vox, ixVoice0[ltr_vox], speechVolume[ltr_vox], ltr_speedP * speechRate[ltr_vox], speechPitch[ltr_vox]); // un gruppo"); 		
+		await sayVoiceNum( ltr_txt, ltr_vox, ixVoice0X, speechVolume[ltr_vox], ltr_speedP * speechRate[ltr_vox], speechPitch[ltr_vox]); // un gruppo"); 		
 	} // end for g	
 	
 	righeDaLeggere = [];
@@ -2425,9 +2485,6 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 	let speed0 = speechRate[0];
 	let speed00=1;
 	let speed1 = speechRate[1];
-	//let ixVoice0 ;
-	//ixVoice0 = rotateVoice(); 2
-	
 	
 	
 	//-------------------------------------------------
@@ -2494,7 +2551,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 			righeDaLeggere.push( [IX_SetMSG, msg_ix_set2,swOrigAndTran,null ] ) ;  // set msg under loop type button
 			tot_ixsetmsg++;  
 			
-			//ixVoice0 = rotateVoice(); 3
+			
 			
 			if (swSep1) {
 				speedRed = speed00;	
@@ -4208,7 +4265,7 @@ function tts_5_fun_oneClipRow_showHide_TRAN_if_book_opened(ele1, ele_to_test) {
 //-------------------------------------------------
 
 function onclick_tts_show_row(this1, z3) {
-	//console.log("10_script (un altro in 07play !!! ) onclick_tts_show_row(this1, z3), z3=", z3, " this1=", this1);  
+	
 	tts_5_removeLastBold(6); 
 	if (this1 == false) { 
 		console.log("2 onclick_tts_show_row(this1, z3), z3=", z3, ") return"); 
@@ -4444,7 +4501,49 @@ function loadPrintGroupData() {
 	
 } // end of loadPrintGroupData 
 
+//-----------------------------------
+
+function onclick_show_chosenVoices(this1) {
+	var eleListChosenVoices = this1.parentElement.children[1]; 
+	if (eleListChosenVoices.style.display == "none")  eleListChosenVoices.style.display = "block";
+	else  eleListChosenVoices.style.display = "none";
+	
+} // end of onclick_show_chosenVoices
+
+//-----------------------------------------
+
+function onclick_chkChosenVox(this1, nLang) {
+	var check1 = this1.checked; 
+	var ixVoice = parseInt(this1.value);
+	var voice1 = listVoxL[nLang][ixVoice];  // [vox.lang, vox]
+	//console.log("voice1=", voice1); 
+	/**
+	var chlist=[]
+	for(var h=0; h < listVoxL[nLang].length;h++) {
+		console.log("1 chList=",  h, "  = ", listVoxL[nLang][h][2]) ; 
+	} 
+	**/
+	//console.log("1 voce [0]=", voice1[0], " [1].name=", voice1[1].name, " [2]=",voice1[2], "  new checked=", check1);  
+	
+	listVoxL[nLang][ixVoice][2] = check1; 
+	var chlist=[]
+	for(var h=0; h < listVoxL[nLang].length;h++) {
+		chlist[h] = listVoxL[nLang][h][2]; 
+		//console.log("2 chList=",  h, "  = ",  listVoxL[nLang][h][2]) ; 
+	} 
+	sel_voice_exclude[nLang] = chlist; 
+	
+	plus_set_localStorage_var(5); 
+	
+	//console.log( "exclude vox ", nLang, "  =>",  sel_voice_exclude[nLang] ); 	
+	
+	//voice1 = listVoxL[nLang][ixVoice];  // [vox.lang, vox]
+	//console.log("2 voice [0]=", voice1[0], " [1].name=", voice1[1].name, " [2]=",voice1[2], "  new checked=", check1);  
+	
+} // end of onclick_chkChosenVox
+
 //-------------------------------------------------
+
 function signalError(var1) {
 	console.log( "questa funzione serve soltanto per provocare un'interruzione con segnalazione del punto incliminato (quello che ha chiamato signalError" );
 	10 + error*3 ;	
