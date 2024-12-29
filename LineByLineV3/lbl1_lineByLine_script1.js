@@ -62,7 +62,10 @@ var this_ras_base = get_this_file_path(window.location.href);
 
      let str1 = "";  //  "<tbody> \n";
      for (z1 = 0; z1 < arrTxtOrig.length; z1++) {
-         str1 += fun_newTrRowString(z1, arrTxtOrig[z1], arrTxtTran[z1]);
+		 var one = arrTxtOrig[z1].trim();		 
+		 var two = arrTxtTran[z1].trim();
+		 if ((one == "") && (two=="")) continue;
+         str1 += fun_newTrRowString(z1, one, two);
      }
      //str1 += "</tbody> \n";
      //ele_tabText.innerHTML = str1;
@@ -113,6 +116,7 @@ function onclick_build_runPage() {
      //
      //  // move orig. or transl. row column UP   ( all rows from index z1 to end ) 
      //
+	 if (ix_half_row == "") return; 
      const eleTD = this1.parentElement;
      const eleTR = eleTD.parentElement;
 	 var z1 = eleTR.rowIndex;
@@ -147,6 +151,8 @@ function onclick_build_runPage() {
 		 //console.log("Up z1=", z1, " from_z=", from_z ,  "  to_z=", to_z);
          ele_from = ele_TBODY.children[from_z].children[ix_half_row];
          ele_to = ele_TBODY.children[to_z].children[ix_half_row];
+		 if (verifyInnerHTML( ele_from , " ele_from onclick_moveHalfRowUp ix_half_row=", ix_half_row) == false) return;
+		 if (verifyInnerHTML( ele_to   , " ele_to   onclick_moveHalfRowUp ix_half_row=", ix_half_row) == false) return;
          if (to_z == first_to_z) {
              if (ele_to.innerHTML == "") {
                  ele_to.innerHTML = ele_from.innerHTML.trim();
@@ -161,13 +167,28 @@ function onclick_build_runPage() {
      if (swOne) ele_from.innerHTML = "";
 
  } // end of onclick_halfRowUp
-
+ //-------------------------------------
+ function verifyInnerHTML( ele1 , msg) {
+	try{ 
+		return true; 
+	} catch(e1) {
+		console.log("errore verifyInnerHTML " , msg ) 
+		console.log(ele1) 
+		console.log(e1) 
+		return false; 
+	} 	
+ } 
  //----------------------------------
-
+ function signalError(str1) {
+	 console.log("errore signal error ", str1 )
+	 errore;	 
+ }	
+ //----------------------------	
  function onclick_moveHalfRowDown(this1, ix_half_row) {
      //
      // move orig. or transl. row column DOWN  ( all rows from index z1 to end ) 
      //
+	 if (ix_half_row == "") return; 
      const eleTD = this1.parentElement;
      const eleTR = eleTD.parentElement;
 	 const z1 = eleTR.rowIndex;
@@ -192,6 +213,8 @@ function onclick_build_runPage() {
          to_z = from_z + 1;
          ele_from = ele_TBODY.children[from_z].children[ix_half_row];
          ele_to   = ele_TBODY.children[to_z].children[ix_half_row];
+		 if (verifyInnerHTML( ele_from , " ele_from onclick_moveHalfRowDOwn ix_half_row=", ix_half_row) == false) return;
+		 if (verifyInnerHTML( ele_to   , " ele_to   onclick_moveHalfRowDown ix_half_row=", ix_half_row) == false) return;
          ele_to.innerHTML = ele_from.innerHTML;
      }
 
@@ -239,9 +262,16 @@ function onclick_build_runPage() {
      //	
      const str3 = str1.replaceAll(". ", ".\n").
      replaceAll("! ", "!\n").replaceAll("? ", "?\n").
-     replaceAll("; ", ";\n");
+     replaceAll("; ", ";\n").replaceAll("\r", "\n").replaceAll("\t", " "); 
+	 var righe = str3.split("\n");
+	 var newRighe=[];
+	 for (var j=0; j < righe.length; j++) {
+		 var riga = righe[j].trim();
+		 if (riga=="") continue;
+		 newRighe.push( riga); 	
+	 }		
 	 
-     return str3.split("\n");
+     return newRighe; 
 	 
  } // end of fun_txt2row 
  
