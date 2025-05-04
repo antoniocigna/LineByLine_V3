@@ -21,10 +21,8 @@ const lev2html_endpage = `
 	<div id="page2_2" style="height:100%;border:0px solid pink;margin:0px; "></div>	
 </div>
 	  
-<script src="§prefixScriptFile§LineByLineV3/lbl2_lineByLine_script3_GOHTML.js"         ></script>
-<script>
-begin_lbl2(); 	
-</script>
+<script src="§prefixScriptFile§LineByLineV3/lbl2_lineByLine_script2.js"         ></script>
+
 
 ` ; // fixedHtmlPage
 

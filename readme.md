@@ -1,4 +1,4 @@
-Line By Line V2
+Line By Line V3
 ---------------
 
 This application (which works only on the desktop) is proposed as a tool to improve the understanding of a foreign language.
@@ -8,6 +8,9 @@ It is possible to request the reading of any text one line at a time, one word a
 It has been tested on Microsoft Windows/10 with Microsoft/Edge, Google Chrome, Firefox, the software consists only of HTML files and native Javascript.
   
 The synthetic voices used can be local or remote. The largest number of voices available is offered by Microsoft Edge, while Firefox uses only the local ones. 
+
+It's possibile make this application run by the golang applicazion **GoHTML_readWrite**, allowing it to use a text file (csv format) as input. 
+Please look at inside the "sampleRunUsing_GoHTML_readWrite" folder to have an hint. 
 
 **Version 2 Update**  
 - possibility to correct alignment errors between lines in the original language and lines of translation,  
