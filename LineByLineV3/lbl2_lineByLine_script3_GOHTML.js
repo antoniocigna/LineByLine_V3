@@ -1125,11 +1125,11 @@ function get_voice_index_previousRun( numLang )  {
 		If nothing corresponds, return 0 (ie. the beginning of the voice list)
 	**/
 	
-	console.log("ANTONIO ", " numLang=", numLang, " sel_voice_ix.length=", sel_voice_ix.length, " sel_voice_ix=", sel_voice_ix); 
+	//console.log("ANTONIO ", " numLang=", numLang, " sel_voice_ix.length=", sel_voice_ix.length, " sel_voice_ix=", sel_voice_ix); 
 	if (sel_voice_ix.length < 1) sel_voice_ix = [0,0];
 	if ((sel_voice_ix[0] == 0) && (sel_voice_ix[1] == 0)) {
 		go_fill_voice_ixZero(); 
-		console.log("ANTONIO  get_voice_index_previousRun ==> ","sel_voice_ix.length=", sel_voice_ix.length,	 " sel_voice_ix[0]=", sel_voice_ix[0], " sel_voice_ix[1]=", sel_voice_ix[1]); 
+		//console.log("ANTONIO  get_voice_index_previousRun ==> ","sel_voice_ix.length=", sel_voice_ix.length,	 " sel_voice_ix[0]=", sel_voice_ix[0], " sel_voice_ix[1]=", sel_voice_ix[1]); 
 	}	
 		
     if (sel_voice_ix.length <= numLang) {
@@ -1177,7 +1177,7 @@ function onclick_tts_get_oneLangVoice3(this1, numLang) {
 	if (sel_voice_ix.length < 1) sel_voice_ix = [0,0];
 	if ((sel_voice_ix[0] == 0) && (sel_voice_ix[1] == 0)) {
 		fill_voice_ixZero(); 
-		console.log("ANTONIO  onclick_tts_get_oneLangVoice3 ==> ","sel_voice_ix.length=", sel_voice_ix.length,	 " sel_voice_ix[0]=", sel_voice_ix[0], " sel_voice_ix[1]=", sel_voice_ix[1]); 
+		//console.log("ANTONIO  onclick_tts_get_oneLangVoice3 ==> ","sel_voice_ix.length=", sel_voice_ix.length,	 " sel_voice_ix[0]=", sel_voice_ix[0], " sel_voice_ix[1]=", sel_voice_ix[1]); 
 	}	
 		
     if (sel_voice_ix.length <= numLang) {
