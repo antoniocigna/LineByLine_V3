@@ -9,9 +9,9 @@ license MIT: you can share and modify the software, but you must include the lic
 /* jshint undef: true, unused: true */
 //----------------------------------------------
 var currScript = document.currentScript.src; var bar1 = currScript.lastIndexOf("\\");var bar2 = currScript.lastIndexOf("/"); 
-console.log("LOADED file SCRIPT " + currScript.substring( 1+Math.max(bar1,bar2) )) ;	
+console.log("LOADED file SCRIPT " + currScript.substring( 1+Math.max(bar1,bar2) )) ;	// ... script3_GOHTML
 //----------------------------------------------------------------------------------------
-
+const DURATA_TRADUZIONE = 2 * 1000;    // tempo di permanenza in milliSecondi di visibilità della traduzione
 const listaTipi = ",Tr00,Tr10,Tr20,Tr21,Tr22,Tg00,Tg10,Tg20,Tg21,Tg22,Tg30,Tg31,Tg32," ;  // row and group
 const typeList = listaTipi.split(",").slice(1); 
 var audioCtx ; // sound effect
@@ -1171,15 +1171,15 @@ function get_voice_index_previousRun( numLang )  {
 	
 	listVoxL_selVoxIx[numLang] = prevIndiceVoce;
 	lastNumSelVoice[numLang]   = prevIndiceVoce;			
-	console.log( "get_voice_index_previousRun numLang=", numLang, " lastNumSelVoice[numLang] =",  lastNumSelVoice[numLang] );
+	
+	//console.log( "get_voice_index_previousRun numLang=", numLang, " lastNumSelVoice[numLang] =",  lastNumSelVoice[numLang] );
 	//console.log("check_voice_index_previousRun() " , " numLang=", numLang, " sel_voice_ix[numLang]=", sel_voice_ix[numLang], " prevIndiceVoce=" + prevIndiceVoce + "<==")
 	
 	//console.log("check_voice_index_previousRun() " , " voice lang=", voices[prevIndiceVoce].lang, " name=",   voices[prevIndiceVoce].name)
-		
-
+	
 	if (sel_voiceLang2[numLang] ==  voices[prevIndiceVoce].lang.substr(0,2) ) { 	
 		// a indice eguale, la lingua corrisponde,  se poi la voce è diversa non c'è problema	
-		console.log("check_voice_index_previousRun() " ,"trovato indice ", prevIndiceVoce , " per la lingua ",  sel_voiceLang2[numLang]);
+		//console.log("check_voice_index_previousRun() " ,"trovato indice ", prevIndiceVoce , " per la lingua ",  sel_voiceLang2[numLang]);
 		return prevIndiceVoce; 		
 	} 
 	
@@ -1280,17 +1280,17 @@ function onclick_tts_get_oneLangVoice3(this1, numLang) {
 function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) { 
 	var indiceScelto = voiceSelect.value;
 	var listVoxS_selected = 0; 
+		//console.log("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nxx tts_2_fill_the_voices( numLang=", numLang , " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 	
-	console.log("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nxx tts_2_fill_the_voices( numLang=", numLang , " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 	var numTotVoices = voices.length;
+	
 	//console.log("voices.length=" + numTotVoices); 
 	//console.log("   sel_voiceName[",numLang,"] = ", sel_voiceName[numLang] )
-	
-	
+		
 	for(var ix=0; ix < numTotVoices; ix++) {		
 		if (sel_voiceName[ numLang] == voices[ix].name) {
 			sel_voice_ix[       numLang] = ix; 	
-			console.log("fill the voice ", numLang, "  ix=",ix, "  ",  voices[ix].name,  "  sel_voice_ix[numLang]=" , sel_voice_ix[numLang]);  
+			//console.log("fill the voice ", numLang, "  ix=",ix, "  ",  voices[ix].name,  "  sel_voice_ix[numLang]=" , sel_voice_ix[numLang]);  
 			sel_voiceLangRegion[numLang] = voices[ix].lang	;
 			sel_voiceLang2[     numLang] = sel_voiceLangRegion[numLang].substr(0,2);
 			break;
@@ -1590,7 +1590,8 @@ plus_list_localStorageItems();
 
 
 function plus_initial_from_localStorage_values() {	
-	
+	if (runByGo) console.log("%cGO ENVIRONMENT = " + runByGo, "color:red; font-size:1.5em; font-weight:bold;")  
+	else { console.log("%cGO ENVIRONMENT = " + "false", "color:red; font-size:1.5em; font-weight:bold;")  }	
     //----------------------
     // the LS_ ... default values are replaced by the those of the previous session ( if they exist)
 
@@ -1599,7 +1600,7 @@ function plus_initial_from_localStorage_values() {
     var stored_cbc_localStor = JSON.parse(localStorage.getItem(cbc_LOCALSTOR_key)); //get them back
 	//plus_list_localStorageItems(true); // ??anto
 	
-	console.log("\nXXXXXXXXXXXXXXXXXXXXXXX  INITIAL LOCAL_STRAGE  XXXXXXXXXXXXXXXX, \nplus_initial_from_localStorage_values() ") ;
+	//console.log("\nXXXXXXXXXXXXXXXXXXXXXXX  INITIAL LOCAL_STORAGE  XXXXXXXXXXXXXXXX, \nplus_initial_from_localStorage_values() ") ;
 	
 	
 	var lenS=0; let nFields = 6; 
@@ -1711,7 +1712,13 @@ function plus_set_localStorage_var(xx, ltid, sw00, this11) {
 	
     var swShow = (xx == 1);
 	
-	//console.log("plus_set_localStorage_var(",xx, " loopTypeId=", ltid , " sw=",sw00, " this1=",this11);  
+	
+	if (sel_voiceName == null) return;
+	if (sel_voiceName.length < 1) return;
+	if (sel_voiceName[0] == "") return;	
+	
+	//console.log("%cplus_set_localStorage_var", "color:blue;"); console.log("plus_set_localStorage_var(",xx, ") loopTypeId=", ltid , " sw=",sw00, " this1=",this11);  	
+	//console.log("sel_voiceName=", sel_voiceName);
 	
 	var preL = "==loop_" + "num " + sel_loopTypeSet.length + " " ;  
 	//console.log("preL=", preL); 
@@ -1748,30 +1755,29 @@ function plus_set_localStorage_var(xx, ltid, sw00, this11) {
 		cbc_LOCALSTOR_val_list.push( sel_numVoices[z1]      );    
 		cbc_LOCALSTOR_val_list.push( sel_voice_rotate[z1]   );    
     }
-	
+		
 	cbc_LOCALSTOR_val_list.push( sel_loopTypeSet_str );
 	***/
 	
-	//if (swShow) console.log("\nzzzz plus_set_localStorage_var(",xx,") bc_LOCALSTOR_val_list=", cbc_LOCALSTOR_val_list.toString() ); 
-	//if (swShow) console.log("\nzzzz 222222 cbc_LOCALSTOR_val_list[ VV20 ] =" +  cbc_LOCALSTOR_val_list[ VV20 ]  ); 
- 
-	//if (swShow) console.log("\nXXXXXXXXXXXX plus_set_localStorage_var(",xx,") setLOCALSTOR = stringify=",  JSON.stringify(cbc_LOCALSTOR_val_list) , "\nXXXXXXXXXXXXXXXXXXXXXXXXXX\n")
-	
-    localStorage.setItem(cbc_LOCALSTOR_key, JSON.stringify(cbc_LOCALSTOR_val_list));
+	if (runByGo) {
+		localStorage_setItemFile(cbc_LOCALSTOR_key, cbc_LOCALSTOR_val_list );   // vedi _localStorage_routine.js	
+	} else { 	
+		localStorage.setItem(cbc_LOCALSTOR_key, JSON.stringify(cbc_LOCALSTOR_val_list));
+	}
+	console.log("plus_set_localStorage_var() esegue  ocalStorage_setItemFile() "); 
     
-	
 	//if (swShow) plus_list_localStorageItems(swShow);
 
 } // end of plus_set_localStorage_var
 //------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
+
 function removeKey(key) {
     localStorage.removeItem(key);
 	plus_list_localStorageItems();
 }
 //---------------------------
 function remove_localStorageItems() {
-	let cbc_LOCALSTOR_key = "LineByLineV3";
+	//let cbc_LOCALSTOR_key = "LineByLineV3";
     try {
         for (var i = 0, len = localStorage.length; i < len; i++) {
             var key = localStorage.key(i);
@@ -2379,22 +2385,61 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 } // end of playManyRows
 //------------------------------------------
 let last_eleObjToSpeak = null; 
+let last_TranObj = null; 
+//------------------------------------
+/**
+function timeShowHideTran() {;
+	eleTra1.style.display="block";
+	async function myDisplay() {
+		let hideTrad = new Promise(function(resolve) {
+				setTimeout(  function() {resolve( eleTra1.style.display="none");}, 1500 );
+			});
+		await hideTrad;
+	}
+	myDisplay()	
+	var eleIniz = document.getElementById("iniz");
+    eleIniz.style.display="block";
+}
+***/
 //-----------------------------
 function bold_spoken_line(eleObjToSpeak, swShow) {
-	//console.log("bold_spoken_line(   swShow=", swShow, " eleObjToSpeak=",  eleObjToSpeak); 
+	//console.log("bold_spoken_line(   swShow=", swShow, " eleObjToSpeak.id=",  eleObjToSpeak.id); 
+	if (last_TranObj) { last_TranObj.style.display = "none";} 
+	
 	if (eleObjToSpeak == null) { return; } 
 	if (last_eleObjToSpeak) {
 		last_eleObjToSpeak.style.backgroundColor = null;
 		last_eleObjToSpeak.parentElement.parentElement.style.border = null;
+		eleObjToSpeak.style.display = "none";
 	}
 	eleObjToSpeak.style.backgroundColor = "lightcyan";
 	eleObjToSpeak.parentElement.parentElement.style.border = "2px solid red";
-	if (swShow)	eleObjToSpeak.style.display = "block"; else eleObjToSpeak.style.display = "none";
+	if (swShow)	{		
+		eleObjToSpeak.style.display = "block";
+		
+		//console.log("%celeObjToSpeak.id=" + eleObjToSpeak.id, "color:red;");
+		
+		if (eleObjToSpeak.id.substr(0,4) == "idt_") {		// se mostra la traduzione solrtanto per alcuni secondi  	
+			async function tranTimerDisplay() {
+				//console.log("%c  timer display", "color:green;");
+				let hideTrad4 = new Promise(function(resolve) { 
+							setTimeout(function() {resolve( eleObjToSpeak.style.display = "none");}, DURATA_TRADUZIONE);
+					});
+				await hideTrad4;
+			}
+			tranTimerDisplay();	
+		}
+	}  else {
+		eleObjToSpeak.style.display = "none";	
+	}	
 	last_eleObjToSpeak = eleObjToSpeak;	
 } // end of bold_spoken_line 
+//----------------------------
 
 //----------------------------------------
 async function play_accum(swOrigAndTran, bigLoop00) {
+	
+	//console.log("%cplay_accum", "color:red; font-size:2em;");
 		//if (swShowOrig[z]) ele_txtOrig.style.display = "block"; else ele_txtOrig.style.display = "none";
 		//if (swShowTran[z]) ele_txtTran.style.display = "block"; else ele_txtTran.style.display = "none";
 		//console.log("   loop z=", z, " swShowOrig[z]=", swShowOrig[z], "  ele_txtOrig display=", ele_txtOrig.style.display); 
@@ -2447,9 +2492,10 @@ async function play_accum(swOrigAndTran, bigLoop00) {
 		
 		if (ltr_vox == 	IX_TRAN) {
 			if (swOrigAndTran == false) {
-				await bold_spoken_line(eleObjToSpeak, swShow);
+				await bold_spoken_line(eleObjToSpeak, swShow);						
 				continue;
 			}	
+			last_TranObj = eleObjToSpeak;
 			ixVoice0X = rotateVoice(1);   
 			document.getElementById("showVoice_0").style.display = "none";  // orig. voice			
 			document.getElementById("showVoice_1").style.display = "block"; // transl. voice 
@@ -3013,7 +3059,7 @@ function restore_fromStor_loopType_toHTML(loopTypeId ) {
 			return; 
 		}
 		if (storeLoop == "") {			
-			console.log("restore_fromStor_loopType(loopTypeId = ", loopTypeId , ") in storage è vuoto");	
+			//console.log("restore_fromStor_loopType(loopTypeId = ", loopTypeId , ") in storage è vuoto");	
 			return;  
 		}
 		//if (sw1) console.log("storeLoop=", storeLoop); 
@@ -3188,9 +3234,10 @@ function lista_loop_parms(u) {
 		return;
 	}
 	if (txLoopT_limit_nome[u]) {  // ATTENZIONE  esiston anche valori undefined 
+		/*	
 		console.log("loop parms u=",u,  " \t nome=", txLoopT_limit_nome[u] ,"\t loopType=" + txLoopT_limit_loopType[u], 
 			"\t n.righe=", txLoopT_limit_nRighe[u], " \t n.repeat=", txLoopT_limit_nRepeat[u] )
-		/*	,
+		**	,
 		 "\t   sw word separ.=[", txLoopT_limit_swSepar[ u ],"] ", 
 		             ", sw speed reduction=[", txLoopT_limit_swSpeedReduce[u] ,"] ",
 		             ", sw translate =", txLoopT_limit_swTran[u], "]"        );
@@ -3428,7 +3475,7 @@ function build_loopType_rowspeed_inHTML( loopTypeId, headSpeed ) {
 //----------------------------------------------------
 function load_loop_parameters_fromHTML_to_vars(wh) {
 	
-	console.log("load_loop_parameters_fromHTML_to_vars(", wh, ")" );
+	//console.log("load_loop_parameters_fromHTML_to_vars(", wh, ")" );
 	
 	onclick_refresh_loopParms("Tr00", "load_loop_parameters_fromHTML_to_vars" );
 	onclick_refresh_loopParms("Tr10", "load_loop_parameters_fromHTML_to_vars" );
@@ -3883,7 +3930,7 @@ function tts_3_spezzaRiga3(orig_riga, numId) {
 
 //-------------------------------------------------
 function begin_lbl2() {
-	console.log("XXXXXXXXXX   begin() XXXXXXXXXXXXXXXXXX")
+	console.log("%cXXXXXXXXXX   begin() XXXXXXXXXXXXXXXXXX", "color:blue;")
 	
 	//copyLev2Page("mioArgInHTML");
  
@@ -4009,7 +4056,7 @@ function get_languageName( en_GB ) {
 
 function lev2_build_all_clip() {
 	
-	console.log("lev2_build_all_clip()" )
+	//console.log("lev2_build_all_clip()" )
 	
     let clipSub_showTxt = "", txt1;
   

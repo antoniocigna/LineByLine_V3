@@ -23,6 +23,7 @@ const lev2html_endpage = `
 	  
 <script src="§prefixScriptFile§LineByLineV3/lbl2_lineByLine_script3_GOHTML.js"         ></script>
 <script>
+var runByGo = false;
 begin_lbl2(); 	
 </script>
 
