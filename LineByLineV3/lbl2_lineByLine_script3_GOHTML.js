@@ -1353,8 +1353,8 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 	var mod1 = '<tr><td><input  type="checkbox" id="cho§ix§§nV§" value="§ix§" checked onclick="onclick_chkChosenVox(this,§nV§)"></td><td><label for="cho§ix§§nV§">§voxName1§</label></td><td><label for="cho§ix§§nV§"> §voxName2§</label></td></tr>\n';
 	
 	//var str1 = "<table>\n<tbody> \n"; 
-	var str1 = ""; 
-	for(var g=0;g<listVoxS.length;g++) {
+	var str1 = ""; var g;
+	for(g=0;g<listVoxS.length;g++) {
 		nomeL = listVoxS[g][1].name.trim(); 
 		//str1+= mod1.replace( '§ix§', g ).replace( '§voxName§', nomeL ); 
 		l1= nomeL.lastIndexOf("-"); 
@@ -1368,7 +1368,7 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 	var voxName_scelto= voices[indiceScelto].name; 
 	var index2 = 0; 
 	var chList = sel_voice_exclude[numLang]; 
-	for(var g=0;g<listVoxS.length;g++) {
+	for(g=0;g<listVoxS.length;g++) {
 		if (g < chList.length) document.getElementById("cho"+ g + numLang).checked = chList[g];
 		else document.getElementById("cho"+ g + numLang).checked = true;
 		listVoxS[g][2] = chList[g];
@@ -1590,8 +1590,8 @@ plus_list_localStorageItems();
 
 
 function plus_initial_from_localStorage_values() {	
-	if (runByGo) console.log("%cGO ENVIRONMENT = " + runByGo, "color:red; font-size:1.5em; font-weight:bold;")  
-	else { console.log("%cGO ENVIRONMENT = " + "false", "color:red; font-size:1.5em; font-weight:bold;")  }	
+	if (runByGo) console.log("%cGO ENVIRONMENT = " + runByGo, "color:red; font-size:1.5em; font-weight:bold;");  
+	else { console.log("%cGO ENVIRONMENT = " + "false", "color:red; font-size:1.5em; font-weight:bold;"); }	
     //----------------------
     // the LS_ ... default values are replaced by the those of the previous session ( if they exist)
 
@@ -1755,7 +1755,7 @@ function plus_set_localStorage_var(xx, ltid, sw00, this11) {
 		cbc_LOCALSTOR_val_list.push( sel_numVoices[z1]      );    
 		cbc_LOCALSTOR_val_list.push( sel_voice_rotate[z1]   );    
     }
-		
+	
 	cbc_LOCALSTOR_val_list.push( sel_loopTypeSet_str );
 	***/
 	
@@ -1764,12 +1764,12 @@ function plus_set_localStorage_var(xx, ltid, sw00, this11) {
 	} else { 	
 		localStorage.setItem(cbc_LOCALSTOR_key, JSON.stringify(cbc_LOCALSTOR_val_list));
 	}
-	console.log("plus_set_localStorage_var() esegue  ocalStorage_setItemFile() "); 
+	//console.log("plus_set_localStorage_var() esegue  ocalStorage_setItemFile() "); 
     
 	//if (swShow) plus_list_localStorageItems(swShow);
 
 } // end of plus_set_localStorage_var
-//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------	
 
 function removeKey(key) {
     localStorage.removeItem(key);
@@ -1905,7 +1905,7 @@ function sayVoiceNum(textX, numLang, ixVoice, volumeX, rateX, pitchX) {
 function rotateVoice( numLang ) {
 	
 	let listIdSelVox = ["origSelVox","tranSelVox"];		
-	let ixVoice0V = 0
+	let ixVoice0V = 0;
 	
 	//console.log( "onclick_play_Orig_and_Tran_row()    totNumSelVoices=", totNumSelVoices); 
 	var voice_ix; 
@@ -1916,7 +1916,7 @@ function rotateVoice( numLang ) {
 	if (document.getElementById( listIdSelVox[v] ).checked) {  // if only the selected voice
 		ixVoice0V = listVoxL_selVoxIx[v];		// indice della voce scelta (riga Seleziona) nella lista delle voci listVoxL	
 	} else {
-		var maxN = totNumSelVoices[v]
+		var maxN  = totNumSelVoices[v];
 		var nowIx = lastNumSelVoice[v]; 
 		//if (v==1) console.log("\n1 rotateVoice ", " totNumSelVoices[v] =",   totNumSelVoices[v], " = maxN, nowIx = lastNumSelVoice[v] =",  lastNumSelVoice[v]);  
 		if (nowIx >= maxN) nowIx=0;
@@ -1949,119 +1949,6 @@ function rotateVoice( numLang ) {
 	return ixVoice0V; 
 	
 } // end of rotateVoice
-
-//-------------------------------------------------------------------------
-
-//let ele_tts = document.getElementById("id_tts"); // synthetic voce  <div >...</div>
-//let sw_tts = false;
-//let sw_tts2;
-
-//-------------------------
-function tts_5_removeLastBold(wh) {
-	return; 
-	console.log("removeLastBold() " +  " wh=", wh);
-	if(last_BoldRow) {
-		console.log("removeLastBold() " + last_BoldRow.id, " wh=", wh);
-		var epar1 = last_BoldRow.parentElement;
-		if(epar1) {
-			console.log("\tlast_BoldRow.parentElement.id=" + epar1.id);
-			var epar2 = epar1.parentElement;
-			if(epar2) {
-				console.log("\tlast_BoldRow.parentElement.parentElement.id=" + epar2.id);
-			} else {
-				console.log("\tlast_BoldRow.parentElement.parentElement missing");
-			}
-		} else {
-			console.log("\tlast_BoldRow.parentElement missing");
-		}
-		last_BoldRow.classList.remove("boldLine");
-		last_BoldRow.style.backgroundColor = null;
-		last_BoldRow.parentElement.style.border = null;
-		var last_ele1_tr = last_BoldRow.parentElement.parentElement;
-		last_ele1_tr.style.backgroundColor = "lightgrey";
-	}
-	//if(sw_tts) tts_3_remove_last_bold("idc_", false);
-}
-//---------------------------------------
-//---------------------
-/**
-function tts_3_remove_last_bold(id_pref, isWord) {
-
-    var lastBold_ix1, lastBold_ix2;
-    if (isWord) {
-        lastBold_ix1 = wLastBold_ix1;
-        lastBold_ix2 = wLastBold_ix2;
-    } else {
-        lastBold_ix1 = pLastBold_ix1;
-        lastBold_ix2 = pLastBold_ix2;
-    }
-    if (lastBold_ix2 < 0) return;
-
-    for (var v = lastBold_ix1; v <= lastBold_ix2; v++) {
-        var ele1 = document.getElementById(id_pref + v);
-        if (ele1 == false) continue;
-        var ele1_tr = ele1.parentElement.parentElement;
-        ele1.classList.remove("boldLine");
-        ele1.style.backgroundColor = null;
-        ele1.parentElement.style.border = null; // "1px solid red"; 
-        ele1_tr.style.backgroundColor = "lightgrey"; // "yellow";	//feb	  
-    }
-    lastBold_ix2 = -1;
-    if (isWord) {
-        wLastBold_ix1 = lastBold_ix1;
-        wLastBold_ix2 = lastBold_ix2;
-    } else {
-        pLastBold_ix1 = lastBold_ix1;
-        pLastBold_ix2 = lastBold_ix2;
-    }
-} // end of tts_3_remove_last_bold
-***/
-//------------------------------
-
-//-------------------------
-function tts_5_show_hideORIG(z3) {
-	console.log("07_play (un altro in 10 script) tts_5_show_hideORIG(z3=", z3, ") "  );
-	let ele_orig_toTestShow = document.getElementById("idb_" + z3); // onclick ...  children opened/closed orig.image  (book) 		
-	let ele_orig_text = document.getElementById("idc_" + z3); // element of original text to show/hide	  			
-	// show subtitle if icon opened book is visible otherwise hide it ( icon closed book is visible) 
-	tts_5_fun_oneClipRow_showHide_ORIG_if_book_opened(ele_orig_text, ele_orig_toTestShow);
-} // end of  show_hideORIG
-//-------------------------
-function tts_5_show_hideTRAN(z3) {
-	let ele_tran_toTestShow = document.getElementById("idbT_" + z3); // onclick ...  children opened/closed tran.image  (T/t) 
-	let ele_tran_text = document.getElementById("idt_" + z3); // element of tran     text to show/hide	     
-	// show subtitle if icon T is visible otherwise hide it ( icon t? is visible  )	
-	let ele_def_text = document.getElementById("iddf_" + z3); // element defintion ( optional) 	      
-    // show subtitle if icon T is visible otherwise hide it ( icon t? is visible  )	
-    tts_5_fun_oneClipRow_showHide_TRAN_if_book_opened(ele_tran_text, ele_tran_toTestShow, ele_def_text);
-	
-	
-} // end of  show_hideTRAN
-
-//-----------------------------------------------------
-
-function tts_5_fun_oneClipRow_showHide_ORIG_if_book_opened(ele1, ele_to_test) {
-	var ele1_tr = ele1.parentElement.parentElement;
-	tts_5_removeLastBold(3);
-	if(ele1 == null) {
-		return;
-	}
-	last_BoldRow = ele1;
-	if(ele_to_test.children[0].style.display == "block") { // openbook ==> show 		
-		ele1.style.display = "block";
-		//ele1.classList.add("boldLine");
-		//ele1.style.backgroundColor = "yellow";
-		//ele1.parentElement.style.border = null;
-		//ele1_tr.style.backgroundColor = "yellow"; //feb 		
-	} else { // closebook  ==> hide 
-		ele1.style.display = "none";
-		//ele1.classList.remove("boldLine");
-		//ele1.style.backgroundColor = null;
-		//ele1.parentElement.style.border = "1px solid red";
-	}
-	//last_BoldRow = ele1; 
-} // end of fun_oneClipRow_showHide_ORIG_if_book_opened() 
-//-------------------------------------------
 
 //-------------------------------------------------
 function onclick_tts_changeRate(this1,nVox) {
@@ -2103,14 +1990,6 @@ function onclick_tts_changePitch(this1,nVox) {
 	//preTD.innerHTML = pitch;
 }
 //----------------------------------
-/**function TOGLIonclick_tts_speech_pause(nVox) {
-	//console.log("pause"); 
-	if(synth.speaking) {
-		sw_pause = true;
-		synth.pause();
-	}
-}  **/
-//--------------------------------------
 function onclick_tts_speech_pause2() {
 	if (sw_pause) {	
 		window.speechSynthesis.resume();
@@ -2327,7 +2206,6 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 							thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSepar0, thisLineList_swSpeedReduce0, thisLineList_swTran0,
 							thisLineList_swShowOrig0, thisLineList_swShowTran0,"BEG",
 							0, 0, 0,0);
-							
 			play_accum(swOrigAndTran);				
 			return;	
 		case "Tr10":	
@@ -2387,30 +2265,24 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 let last_eleObjToSpeak = null; 
 let last_TranObj = null; 
 //------------------------------------
-/**
-function timeShowHideTran() {;
-	eleTra1.style.display="block";
-	async function myDisplay() {
-		let hideTrad = new Promise(function(resolve) {
-				setTimeout(  function() {resolve( eleTra1.style.display="none");}, 1500 );
-			});
-		await hideTrad;
-	}
-	myDisplay()	
-	var eleIniz = document.getElementById("iniz");
-    eleIniz.style.display="block";
-}
-***/
-//-----------------------------
+
 function bold_spoken_line(eleObjToSpeak, swShow) {
-	//console.log("bold_spoken_line(   swShow=", swShow, " eleObjToSpeak.id=",  eleObjToSpeak.id); 
+	//---
+	async function tranTimerDisplay() {
+				//console.log("%c  timer display", "color:green;");
+				let hideTrad4 = new Promise(function(resolve) { 
+							setTimeout(function() {resolve( eleObjToSpeak.style.display = "none");}, DURATA_TRADUZIONE);
+					});
+				await hideTrad4;
+	}
+	//----
 	if (last_TranObj) { last_TranObj.style.display = "none";} 
 	
 	if (eleObjToSpeak == null) { return; } 
 	if (last_eleObjToSpeak) {
 		last_eleObjToSpeak.style.backgroundColor = null;
 		last_eleObjToSpeak.parentElement.parentElement.style.border = null;
-		eleObjToSpeak.style.display = "none";
+		//eleObjToSpeak.style.display = "none";
 	}
 	eleObjToSpeak.style.backgroundColor = "lightcyan";
 	eleObjToSpeak.parentElement.parentElement.style.border = "2px solid red";
@@ -2419,14 +2291,7 @@ function bold_spoken_line(eleObjToSpeak, swShow) {
 		
 		//console.log("%celeObjToSpeak.id=" + eleObjToSpeak.id, "color:red;");
 		
-		if (eleObjToSpeak.id.substr(0,4) == "idt_") {		// se mostra la traduzione solrtanto per alcuni secondi  	
-			async function tranTimerDisplay() {
-				//console.log("%c  timer display", "color:green;");
-				let hideTrad4 = new Promise(function(resolve) { 
-							setTimeout(function() {resolve( eleObjToSpeak.style.display = "none");}, DURATA_TRADUZIONE);
-					});
-				await hideTrad4;
-			}
+		if (eleObjToSpeak.id.substr(0,4) == "idt_") {		//  mostra la traduzione soltanto per alcuni secondi  				
 			tranTimerDisplay();	
 		}
 	}  else {
@@ -2444,11 +2309,11 @@ async function play_accum(swOrigAndTran, bigLoop00) {
 		//if (swShowTran[z]) ele_txtTran.style.display = "block"; else ele_txtTran.style.display = "none";
 		//console.log("   loop z=", z, " swShowOrig[z]=", swShowOrig[z], "  ele_txtOrig display=", ele_txtOrig.style.display); 
 	let bigLoop = "";  
-	if (bigLoop00) bigLoop = bigLoop00
+	if (bigLoop00) bigLoop = bigLoop00;
 
 	let ltr_vox, ltr_txt, ltr_speedP, eleObjToSpeak, swShow;
-	var msgLog="";
-	for(var g=0; g < righeDaLeggere.length; g++) {
+	var msgLog=""; var g;
+	for(g=0; g < righeDaLeggere.length; g++) {
 		[ltr_vox, ltr_txt,ltr_speedP, eleObjToSpeak, swShow] = righeDaLeggere[g]; //    
 		//console.log("play_.. righe da leggere  UNO g=",g, " ltr_speedP=", ltr_speedP, " swShow=", swShow)
 		if (ltr_vox == IX_SetMSG) {
@@ -2470,7 +2335,7 @@ async function play_accum(swOrigAndTran, bigLoop00) {
 		}
 	}	
 	
-	for(var g=0; g < righeDaLeggere.length; g++) {
+	for(g=0; g < righeDaLeggere.length; g++) {
 		[ltr_vox, ltr_txt,ltr_speedP, eleObjToSpeak, swShow] = righeDaLeggere[g]; // 
 		//console.log("play_.. righe da leggere  DUE g=",g, " ltr_speedP=", ltr_speedP, " swShow=", swShow)
 		if (ltr_vox == IX_SetMSG) {
@@ -2591,7 +2456,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 	//-------------------------------------
 	let numeroDiRipetizioni = thisLineList_nRepeatX	; 
 	//let numeroDiRighe       = thisLineList_nRigheX	; // il numero di righe da leggere
-	//console.log("accumRowToPlay( ... thisLineList_loopTypeX=", thisLineList_loopTypeX, " thisLineList_nRigheX=", thisLineList_nRigheX, " thisLineList_nRepeatX=", thisLineList_nRepeatX); 
+	//console.log("accumRowToPlay( ... type1=", type1, " numId=", numId, " swOrigAndTran=", swOrigAndTran, " thisLineList_nRigheX=",thisLineList_nRigheX, "_swShowOrigX=",thisLineList_swShowOrigX, " [0]=",thisLineList_swShowOrigX[0]  ); 
 	/**
 	var minIndice; 
 	if (type1 < 2) minIndice = numId
@@ -2605,7 +2470,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 	let swTranslation     = [true ];
 	let swShowOrig        = [false ];
 	let swShowTran        = [false ];
-	//-------------	
+	//------------
 	
 	let perc_speed_reduce = 100; 
 	var lenLis = thisLineList_swSpeedReduceX.length;
@@ -2619,6 +2484,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 		swShowOrig        = thisLineList_swShowOrigX.slice(1)    ;  		
 		swShowTran        = thisLineList_swShowTranX.slice(1)    ;  
 	}
+	
 	lenLis = swSepar.length;
 		
 	
@@ -2634,10 +2500,16 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 		
 	//ele_showWh.innerHTML = "";	
 	
-	let ele_txtOrig; //  = document.getElementById("idc_" + numId);
-	let ele_txtTran; // = document.getElementById("idt_" + numId);
-
+	let ele_txtOrig;  //= document.getElementById("idc_" + numId);
+	let ele_txtTran;  //= document.getElementById("idt_" + numId);
 	
+	if (type1 == 0) { // play no loop, leave swShow... according to the already existing text display   
+		ele_txtOrig = document.getElementById("idc_" + numId);
+		ele_txtTran = document.getElementById("idt_" + numId);
+		swShowOrig[0] = (ele_txtOrig.style.display == "block");
+		swShowTran[0] = (ele_txtTran.style.display == "block");
+		//console.log("anto accumRowToPlay orig ", "swShowOrig=", swShowOrig, " style.display=" + ele_txtOrig.style.display + " =>"+ ele_txtOrig.innerHTML)
+	}
 	//let shL;	
 	let speed0 = speechRate[0];
 	let speed00=1;
@@ -2852,7 +2724,7 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 		//console.log("XXX  gruppo 30   ", " begix=", begix,  "  endix=", endix); 
 		var f1=-1;
 
-		sw_told_group_row_list = []
+		sw_told_group_row_list = [];
 		
 		let bigLoopR2 = document.getElementById("Tg30_loopR2").value; 
 		
@@ -3156,7 +3028,7 @@ function restore_fromStor_loopType_toHTML(loopTypeId ) {
 			var numE = 0;
 			let swList = [];
 			if (ret_txLoopT_swList.indexOf(":") > 0 ) {
-				ret_tx  = ret_txLoopT_swList.split(":"); // eg. 6:80,false,false,false,false,false
+				var ret_tx  = ret_txLoopT_swList.split(":"); // eg. 6:80,false,false,false,false,false
 				numE    = parseInt( ret_tx[0] ); 
 			    swList  = ret_tx[1].split(","); 
 			} else {
@@ -3407,7 +3279,7 @@ function fun_getLoopTypeValFromStore( storeLoop ) {
 	var ret_txLoopT_swTran  = "";		
 	var ret_txLoopT_swShowOrig= "";	
 	var ret_txLoopT_swShowTran= "";		
-	var fields= storeLoop.split("::")
+	var fields= storeLoop.split("::");
 	fields.forEach(assignLoopVal);
 	function assignLoopVal(item) {
 		var val1 = item.substr(3); 
@@ -3475,8 +3347,6 @@ function build_loopType_rowspeed_inHTML( loopTypeId, headSpeed ) {
 //----------------------------------------------------
 function load_loop_parameters_fromHTML_to_vars(wh) {
 	
-	//console.log("load_loop_parameters_fromHTML_to_vars(", wh, ")" );
-	
 	onclick_refresh_loopParms("Tr00", "load_loop_parameters_fromHTML_to_vars" );
 	onclick_refresh_loopParms("Tr10", "load_loop_parameters_fromHTML_to_vars" );
 	onclick_refresh_loopParms("Tr20", "load_loop_parameters_fromHTML_to_vars" );
@@ -3492,22 +3362,25 @@ function load_loop_parameters_fromHTML_to_vars(wh) {
 	onclick_refresh_loopParms("Tg31", "load_loop_parameters_fromHTML_to_vars" );	
 	onclick_refresh_loopParms("Tg32", "load_loop_parameters_fromHTML_to_vars" );
 	
-	lista_loop_parms_byType("Tr00")
-	lista_loop_parms_byType("Tr10")	
-	lista_loop_parms_byType("Tr20")
-	lista_loop_parms_byType("Tr21")
-	lista_loop_parms_byType("Tr22")
+	lista_loop_parms_byType("Tr00");
+	lista_loop_parms_byType("Tr10");	
+	lista_loop_parms_byType("Tr20");
+	lista_loop_parms_byType("Tr21");
+	lista_loop_parms_byType("Tr22");
 	
-	lista_loop_parms_byType("Tg00")
-	lista_loop_parms_byType("Tg10")	
-	lista_loop_parms_byType("Tg20")
-	lista_loop_parms_byType("Tg21")
-	lista_loop_parms_byType("Tg22")
-	lista_loop_parms_byType("Tg30")
-	lista_loop_parms_byType("Tg31")
-	lista_loop_parms_byType("Tg32")
-}		
+	lista_loop_parms_byType("Tg00");
+	lista_loop_parms_byType("Tg10");
+	lista_loop_parms_byType("Tg20");
+	lista_loop_parms_byType("Tg21");
+	lista_loop_parms_byType("Tg22");
+	lista_loop_parms_byType("Tg30");
+	lista_loop_parms_byType("Tg31");
+	lista_loop_parms_byType("Tg32");
+	
+}	// end of load_loop_parameters_fromHTML_to_vars 	
+
 //---------------------------------------
+
 function getLType12( ix, loopTypeId0) { 
 
 	//console.log(" getLType12( ix=", ix , "   loopTypeId0=", loopTypeId0) ;  
@@ -3646,6 +3519,7 @@ function onclick_anotherLoopType(this1, sw_group, sw_incr, wh) {
 	loopTypeId0 = txLoopT_limit_loopType[ix];
 	
 	//console.log("anto 2   ix=", ix, "  loopTypeId0=",  loopTypeId0 , " txLoopT_limit_loopType.length=", txLoopT_limit_loopType.length); 
+	
 	//console.log(" PRIMA  txLoopT_limit_loopType[ ix ] = ", txLoopT_limit_loopType[ ix ] ); 
 	//console.log(" txLoopT_limit_loopType[ (ix+1) ] = ", txLoopT_limit_loopType[ (ix+1) ] ,  "   (ix+1)=", (ix+1) ); 
 	var z12 =  getLType12( ix, loopTypeId0); 
@@ -3909,28 +3783,11 @@ function tts_3_spezzaRiga3(orig_riga, numId) {
 
 //===================================
 
-//======================
-// VOICES LOADING 
-//----------------------------------------------
-  
-  //===============================
   var myVoice;
   let voices;
-  //----------------------
-
-//console.log("script1 ==> fcommon -->"); 	
-//  fcommon_load_all_voices();  // at end calls tts_1_toBeRunAfterGotVoices()
-
-  // WARNING: the above function contains asynchronous code.  
-  // 			Any statement after this line is executed immediately without waiting its end
-
-//copyLev2Page("mioArgInHTML")
-
-//begin_lbl2(); 
-
 //-------------------------------------------------
 function begin_lbl2() {
-	console.log("%cXXXXXXXXXX   begin() XXXXXXXXXXXXXXXXXX", "color:blue;")
+	console.log("%cXXXXXXXXXX   begin() XXXXXXXXXXXXXXXXXX", "color:blue;");
 	
 	//copyLev2Page("mioArgInHTML");
  
@@ -4110,7 +3967,6 @@ function lev2_build_all_clip() {
 			replaceAll("§abc§","false").
 			replaceAll("§ttstxt§", tts1).
 			replaceAll('§spelling§',''); 
-			;
 		
         clipSub_showTxt += rowclip + "\n";
 		printBil +=  '<div class="print_row"><div class="print_orig">' + txt1 + '</div><div class="print_tran">' + trantxt1 + '</div></div>'  ;
@@ -4139,7 +3995,7 @@ function onclick_tts_arrowFromIx( this1, z3, wh) {
 
 	//console.log(" onclick_tts_arrowFromIx( this1, z3=" +z3 + ", wh=" + wh); 
 	
-	tts_5_removeLastBold(4); 
+	
 	tts_5_fun_invisible_prev_fromto(-1);
 	
 	fromIxToIxLimit = [z3 ,-1]; 
@@ -4416,14 +4272,17 @@ function tts_5_fun_makeTextVisible(element) {
 //----------------------------------------------
 
 function tts_5_show_hideORIG(z3) {
+	
 	//console.log("10 script (un altro in 07play) tts_5_show_hideORIG(z3=", z3);
     let ele_orig_toTestShow = document.getElementById("idb_" + z3); // onclick ...  children opened/closed orig.image  (book) 		
     let ele_orig_text = document.getElementById("idc_" + z3); // element of original text to show/hide	  			
 	//console.log("10 script (un altro in 07play) tts_5_show_hideORIG(z3=", z3, " orig_text=", ele_orig_text.innerHTML);
     // show subtitle if icon opened book is visible otherwise hide it ( icon closed book is visible) 
     tts_5_fun_oneClipRow_showHide_ORIG_if_book_opened(ele_orig_text, ele_orig_toTestShow);
+	
 } // end of  show_hideORIG
 //-------------------------
+
 function tts_5_show_hideTRAN(z3) {
 
     let ele_tran_toTestShow = document.getElementById("idbT_" + z3); // onclick ...  children opened/closed tran.image  (T/t) 
@@ -4440,7 +4299,7 @@ function tts_5_fun_oneClipRow_showHide_ORIG_if_book_opened(ele1, ele_to_test) {
 
     var ele1_tr = ele1.parentElement.parentElement;
 
-    tts_5_removeLastBold(5);
+    
 
     if (ele1 == null) {
         return;
@@ -4494,7 +4353,7 @@ function tts_5_fun_oneClipRow_showHide_TRAN_if_book_opened(ele1, ele_to_test, el
 
 function onclick_tts_show_row(this1, z3) {
 	
-	tts_5_removeLastBold(6); 
+	 
 	if (this1 == false) { 
 		console.log("2 onclick_tts_show_row(this1, z3), z3=", z3, ") return"); 
 		return; 
@@ -4655,18 +4514,6 @@ function onclick_tts_OneClipRow_showHide_tran( thisX, sw_allSel ) {
 } // end of onclick_tts_OneClipRow_showHide_tran()
 
 //-------------------------------------------
-function subModule(bg_numId, nsub, module) {
-	//if ((bg_numId - nsub) < begix )  return begix;
-	//return (bg_numId - nsub)	
-	
-	//let module = 1 + endix-begix;
-	let sub1 = bg_numId - nsub; 
-	let z = ( (sub1 % module ) + mod1)%module; 
-	return begix + z;  
-}
-//------------
-
-//-------------------------------------------
 function moduleNormalize( fromNum, begix, module) {
 	if (fromNum >= begix) return fromNum; 
 	let sub1 = fromNum - begix;
@@ -4808,5 +4655,5 @@ function htmlPageCalledFunctions() {
 	  onclick_tts_speech_pause2()           ;           //    9 
 	  onclick_tts_speech_resume()           ;           //    4
 	  onclick_printBilingual()              ;           // 	  2	   
-} // end togli_def_ 
+} // end  htmlPageCalledFunctions 
 //==================================================================       
