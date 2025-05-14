@@ -1515,9 +1515,10 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
             </td>            
 			<td class="playBut1 bordLeft" > 
 				<div class="divRowText" style="padding:50%:">
-					<div class="suboLine" style="display:none;" id="idc_§1§">§4txt§</div>
-					<div class="cl_paradigma" style="display:none;" id="iddf_§1§">§5dftxt§<br></div>	
-					<div class="tranLine" style="display:none;" id="idt_§1§">§5txt§<br></div>				
+					<div class="suboLine"     style="display:none;" id="idc_§1§">§4txt§</div>
+					<div class="cl_paradigma" style="display:none;" id="iddf_§1§">§5dftxt§</div>	
+					<div class="tranLine"     style="display:none;" id="idt_§1§">§5txt§</div>				
+					<div class="tranLine2"    style="display:none;" id="idt2_§1§">§52txt§</div>				
 					<div id="idw_§1§"></div> 
 					<div style="display:none;" id="idtts§1§">§ttstxt§</div>
 				</div>
@@ -1596,11 +1597,18 @@ function plus_initial_from_localStorage_values() {
     // the LS_ ... default values are replaced by the those of the previous session ( if they exist)
 
     // from localStorage to variables LS_... 
-
-    var stored_cbc_localStor = JSON.parse(localStorage.getItem(cbc_LOCALSTOR_key)); //get them back
-	//plus_list_localStorageItems(true); // ??anto
 	
-	//console.log("\nXXXXXXXXXXXXXXXXXXXXXXX  INITIAL LOCAL_STORAGE  XXXXXXXXXXXXXXXX, \nplus_initial_from_localStorage_values() ") ;
+
+    var stored_cbc_localStor;
+	try{
+		stored_cbc_localStor = JSON.parse(localStorage.getItem(cbc_LOCALSTOR_key)); //get them back
+	} catch(e1) {
+		stored_cbc_localStor = ""; 
+	}
+	
+	
+	
+	console.log("\nXXXXXXXXXXXXXXXXXXXXXXX  INITIAL LOCAL_STORAGE  XXXXXXXXXXXXXXXX, \nplus_initial_from_localStorage_values() ") ;
 	
 	
 	var lenS=0; let nFields = 6; 
@@ -1659,6 +1667,7 @@ function plus_initial_from_localStorage_values() {
 	
     //plus_list_localStorageItems();	
 	if (lenS > 0) set_var_voice_rotate_from_localStore();
+	
 	
 
 } // end of initial_from_localStorage_values()
@@ -3795,7 +3804,7 @@ function begin_lbl2() {
 	
 	document.getElementById("page2_2").innerHTML = page2_content.trim() ; 	
 	
-	//	console.log("begin 2 copy div_voices") 	
+	console.log("begin 2 copy div_voices") 	
 		
 	ele_div_voices.innerHTML = div_voices.trim(); 
 	
@@ -3821,6 +3830,8 @@ function begin_lbl2() {
 	//console.log("antonio ", document.getElementById("Tr21_read_rowspeed").children[0].children[0].children[0].children[0].outerHTML )
 	
 	//---------------------------
+	console.log("begin 3.1 ");
+ 	
 	build_loopType_HTML(); 
 	
 	plus_initial_from_localStorage_values();
@@ -3846,7 +3857,7 @@ function begin_lbl2() {
 	// NOVEMBRE2024 string_tr_xx = "\n" + prototype_tr_m2_tts + "\n" + prototype_tr_m1_tts + "\n" + prototype_tr_tts; 
 	string_tr_xx = "\n" + prototype_tr_tts;  // NOVEMBRE2024
 			
-	//console.log("begin 3 ==> lev2 build all clip"); 	
+	
 	
 	lev2_build_all_clip();
 	
@@ -3913,7 +3924,7 @@ function get_languageName( en_GB ) {
 
 function lev2_build_all_clip() {
 	
-	//console.log("lev2_build_all_clip()" )
+	console.log("lev2_build_all_clip ()" );
 	
     let clipSub_showTxt = "", txt1;
   
@@ -3934,7 +3945,7 @@ function lev2_build_all_clip() {
 	**/
 
 	
-
+	
 
 	for(var z1=0; z1 < 3; z1++) {  	
 		//console.log("ele_inp1.tagName=" + ele_inp1.tagName, " len=" , ele_inp1.children.length);		
@@ -3944,29 +3955,55 @@ function lev2_build_all_clip() {
 	
 	numRowInput = ele_inp1.children.length;
 	numWordBaseNum = 1000 * Math.ceil((numRowInput+10)/1000);
-
+	
+	console.log("lev3_build_all_clip 3" , " numRowInput=", numRowInput);
+	let nota1 = "";
+	let traduzSeconda=""; 
+	let numCh=0; 
+	//---
 	for (let z3 = 0; z3 < numRowInput; z3++) {  
 		eleTr = ele_inp1.children[z3]; 
+		numCh = eleTr.children.length;
 		/**
 		console.log("XXX  z3=", z3 , " eleTr=", eleTr);
 		console.log("    tagname=", eleTr.tagName, "  num  child=",eleTr.children.length  )
 		console.log("     eleTr = inner=>", eleTr.innerHTML)
 		**/
-		var nota1 = "";
-		if (eleTr.children.length < 1) {txt1="";      } else {txt1 = eleTr.children[0].innerHTML;}
+		txt1 = ""; 
+		trantxt1 = ""
+		nota1 = "";
+		traduzSeconda=""; 
+		if (numCh > 0) txt1 = eleTr.children[0].innerHTML;
 		tts1 = txt1; 
-		if (eleTr.children.length < 2) {trantxt1 = "";} else {
-				trantxt1 = eleTr.children[1].innerHTML;
-				if (eleTr.children.length > 2) {
-					nota1 = eleTr.children[2].innerHTML.trim(); 					
-				}
-		}
+		//--
+		/**
+		input: <tr> 0 = orig, 1 = tran, 2= para, 3= tran2  
+		**/
+		/**
+		<div class="divRowText" style="padding:50%:">
+					<div class="suboLine"     style="display: block;" id="idc_1">zu.</div>
+					<div class="cl_paradigma" style="display: none;" id="iddf_1">zu. zum=zu dem<br></div>	
+					<div class="tranLine"     style="display: none;" id="idt_1">to<br></div>				
+					<div class="tranLine2"    style="display:none;" id="idt2_1"><br></div>				
+					<div id="idw_1"></div> 
+					<div style="display:none;" id="idtts1">zu.</div>
+				</div>
+		**/
+		if (numCh > 1) trantxt1      = eleTr.children[1].innerHTML.trim();
+		if (numCh > 2) nota1         = eleTr.children[2].innerHTML.trim(); 
+		if (numCh > 3) traduzSeconda = eleTr.children[3].innerHTML.trim();
+		//---
         let rowclip = string_tr_xx.replaceAll("§1§", z3).
-			replaceAll("§4txt§", txt1).replaceAll("§5txt§", trantxt1).
-			replaceAll("§5dftxt§", nota1). 
-			replaceAll("§abc§","false").
-			replaceAll("§ttstxt§", tts1).
+			replaceAll("§4txt§",    txt1).
+			replaceAll("§5txt§",    trantxt1).
+			replaceAll("§5dftxt§",  nota1). 
+			replaceAll("§52txt§" ,  traduzSeconda). 
+			replaceAll("§abc§",     "false").
+			replaceAll("§ttstxt§",  tts1).
 			replaceAll('§spelling§',''); 
+		
+		if (nota1 == ""        ) rowclip = annulla_para_tran2_vuote(rowclip,'iddf_');
+		if (traduzSeconda == "") rowclip = annulla_para_tran2_vuote(rowclip,'idt2_'); 
 		
         clipSub_showTxt += rowclip + "\n";
 		printBil +=  '<div class="print_row"><div class="print_orig">' + txt1 + '</div><div class="print_tran">' + trantxt1 + '</div></div>'  ;
@@ -3974,14 +4011,31 @@ function lev2_build_all_clip() {
 		
     } // end of for z3
 	
+	
 	//console.log("clipSub_showTxt=" + clipSub_showTxt)
 	
     
 	document.getElementById("id_tabSub_tbody").innerHTML = clipSub_showTxt;
 	
 
-} // end of fun_build_all_clip()  
+} // end of lev2_build_all_clip  
 
+//--------------
+function annulla_para_tran2_vuote(rowClip, id2) {	
+	//<div class="cl_paradigma" style="display:none;" id="iddf_§1§">§5dftxt§<br></div>	
+	//<div class="tranLine2"    style="display:none;" id="idt2_§1§">§52txt§<br></div>		
+	
+	let j1 = rowClip.indexOf(id2);
+	if (j1 < 0) return rowClip;
+	
+	let fJ = rowClip.lastIndexOf("<div",j1); 
+	let tJ = rowClip.indexOf("<div>",j1);  
+	if ((fJ > tJ) || (tJ <0)) return rowClip;
+	
+	return rowClip.substring(0,fJ)  + rowClip.substring(tJ);
+	
+} // end of annulla_para_tran2_vuote 
+//--------------
 
 //===================================
 
@@ -4286,10 +4340,11 @@ function tts_5_show_hideORIG(z3) {
 function tts_5_show_hideTRAN(z3) {
 
     let ele_tran_toTestShow = document.getElementById("idbT_" + z3); // onclick ...  children opened/closed tran.image  (T/t) 
-    let ele_tran_text = document.getElementById("idt_" + z3); // element of tran     text to show/hide	      
+    let ele_tran_text = document.getElementById("idt_" + z3); // element of tran     text to show/hide	  
+    let ele_tran2_text = document.getElementById("idt2_" + z3); // element of tran     text to show/hide	      
 	let ele_def_text = document.getElementById("iddf_" + z3); // element defintion ( optional) 	      
     // show subtitle if icon T is visible otherwise hide it ( icon t? is visible  )	
-    tts_5_fun_oneClipRow_showHide_TRAN_if_book_opened(ele_tran_text, ele_tran_toTestShow, ele_def_text);
+    tts_5_fun_oneClipRow_showHide_TRAN_if_book_opened(ele_tran_text,ele_tran2_text,  ele_tran_toTestShow, ele_def_text);
 
 } // end of  show_hideTRAN
 //-----------------------------------------------------
@@ -4326,21 +4381,28 @@ function tts_5_fun_oneClipRow_showHide_ORIG_if_book_opened(ele1, ele_to_test) {
 
 //-------------------------------------------
 
-function tts_5_fun_oneClipRow_showHide_TRAN_if_book_opened(ele1, ele_to_test, ele_def_text) {
+function tts_5_fun_oneClipRow_showHide_TRAN_if_book_opened(ele1, ele2, ele_to_test, ele_def_text) {
 
-    if (ele1 == null) {
+    if ((ele1 == null) && (ele2 == null) && (ele_def_text == null)) {
         return;
     }
 
     if (ele_to_test.children[0].style.display == "block") { // openbook ==> show 
-        ele1.style.display = "block";
-		if (ele_def_text) {
+		ele1.style.display = "block";  // traduzione principale 		
+		if (ele2) { // traduzione optional 
+			if ((ele2 != "") &&  (ele2.innerHTML != "<br>")) {
+				ele2.style.display = "block";
+			}		
+		}	
+		if (ele_def_text) { // eventuale paradigma 
 			if ((ele_def_text.innerHTML != "") &&  (ele_def_text.innerHTML != "<br>")) {
 				ele_def_text.style.display = "block";
 			}		
 		}	
+		
     } else { // closebook  ==> hide 
         ele1.style.display = "none";
+		if (ele2) ele2.style.display = "none";
 		if (ele_def_text) ele_def_text.style.display = "none";
     }
 
@@ -4461,7 +4523,10 @@ function onclick_tts_OneClipRow_showHide_tran( thisX, sw_allSel ) {
 	} 
 	var outDisplay_block ;  
 	var style0 , style1; 
-
+	let id00;
+	let tran1_id; 
+	let tran2_id; 
+	let parad_id; 
 	
 	fun_fun_oneRow00T(); 	
 	
@@ -4504,10 +4569,24 @@ function onclick_tts_OneClipRow_showHide_tran( thisX, sw_allSel ) {
 		thisX.children[0].style.display = style0;         // show/hide opened_translation symbol  (T)
 		thisX.children[1].style.display = style1; 		  // show/hide closed_translation symbol  (image) 	
 		
-		tran_id = thisX.id.replace("idbT_","idt_"); 
-		if (document.getElementById(tran_id)) {
-			document.getElementById(tran_id).style.display = style0;  // show/hide  translation line	
-		}
+		//tran_id = thisX.id.replace("idbT_","idt_"); 
+		id00 = thisX.id.substring(5);
+		tran1_id = "idt_"    + id00; 
+		tran2_id = "idt2_"   + id00; 
+		parad_id = "iddf_" + id00; 
+		
+		//console.log("style0=", style0, " ", "id="+id00, "   tran1_id=", tran1_id, "   tran2_id=", tran2_id, " parad_id=", parad_id); 
+		if (document.getElementById(tran1_id)) document.getElementById(tran1_id).style.display = style0;  // show/hide  translation line	
+		if (document.getElementById(tran2_id)) document.getElementById(tran2_id).style.display = style0;  // show/hide  translation line	
+		if (document.getElementById(parad_id)) document.getElementById(parad_id).style.display = style0;  // show/hide  translation line	
+		/**
+		if (document.getElementById(tran1_id)) console.log("  tran1 ", document.getElementById(tran1_id).innerHTML ) 
+		if (document.getElementById(tran2_id)) console.log("  tran2 ", document.getElementById(tran2_id).innerHTML ) 
+		if (document.getElementById(parad_id)) console.log("  parad ", document.getElementById(parad_id).innerHTML ) 
+		***/
+		//<div class="cl_paradigma" style="display:none;" id="iddf_0"><br></div>	
+		//<div class="tranLine" style="display: block;" id="idt_0">from<br></div>				
+		//<div class="tranLine2" style="display:none;" id="idt2_0"><br></div>		
 	}
 
 	
