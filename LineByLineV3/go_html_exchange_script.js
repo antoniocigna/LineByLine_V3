@@ -228,8 +228,13 @@ function js_go_1_returnReadText(inpStr) {
 		inpTab += "</tr>\n"; 
 	} 
 	document.getElementById("inp1").innerHTML = "\n" + inpTab + "\n";
-		
-	begin_lbl2(); 	
+	 	
+	try{	
+		begin_lbl2(); 	
+	} catch(e1) {
+		console.log("%cERROR in begin_lbl2","color:red; font-size:2em;font-weight:bold;"); 
+		console.log(e1);
+	}
 	
 } // end of js_go_1_returnReadText
 //--------------------------------------------------
