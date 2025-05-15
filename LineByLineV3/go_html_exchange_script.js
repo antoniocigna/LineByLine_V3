@@ -231,32 +231,20 @@ function js_go_1_returnReadText(inpStr) {
 	 	
 	try{	
 		begin_lbl2(); 	
-	} catch(e1) {
+	} catch(e1) {		
 		console.log("%cERROR in begin_lbl2","color:red; font-size:2em;font-weight:bold;"); 
-		console.log(e1);
+		console.log(e1);	
+		let eleErr = document.getElementById("id_msgErr");
+		if (eleErr) {
+				eleErr.innerHTML = '<span style="color:red;font-size:2em;font-weight:bold;">' + "<br>" + 
+				"ERROR in begin_lbl2" + '<br>'  + '</span>' +
+				'<span style="color:red;">' + e1 + '</span>' + '<br>'; 
+		} 
 	}
 	
 } // end of js_go_1_returnReadText
 //--------------------------------------------------
 
-function TOGLIonclick_2_writeFile( id_outFolder, id_outTxtFile, id_outStr) {
-	
-	// ask go program to write string to a file
-	
-	js_go_setError("");
-	let outFolder  = document.getElementById(id_outFolder ).value;
-	let outTxtFile = document.getElementById(id_outTxtFile).value;
-	let outStr     = document.getElementById(id_outStr    ).value;
-	
-	
-	console.log("da pag html ", "outFolder =", outFolder);	
-	console.log("da pag html ", "outTxtFile=", outTxtFile);	
-	console.log("da pag html ", "outStr    =", outStr); 
-	
-	goFunCalledByJS_mgr( "funCalledByJs_2_writeFile","js_go_2_returnWriteFile", outFolder, outTxtFile, outStr,"","");  	
-	
-} // end of onclick_2_writeFile
-//-------------------------------------
 function js_go_2_returnWriteFile(msg1) {		
 	// return message with the write operation result
 	
