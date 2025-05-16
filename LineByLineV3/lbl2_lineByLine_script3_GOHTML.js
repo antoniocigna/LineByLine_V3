@@ -1717,10 +1717,12 @@ function plus_initial_from_localStorage_values() {
 } // end of initial_from_localStorage_values()
 //-------------------------
 function scroll_row_intoView( numId ) {
-	var rowEle = document.getElementById("idtr_" + numId); 
+	if (numId < 10) return; 	
+	var rowEle = document.getElementById("idtr_" + (numId-1) ); 
 	if (rowEle) { 
 		rowEle.scrollIntoView();
 	} 
+	document.getElementById("id_inpRate0").scrollIntoView(); 
 } // end of scroll_row_intoView
 //----------------------------------------------------------------
 
