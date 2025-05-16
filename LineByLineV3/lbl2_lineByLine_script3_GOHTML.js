@@ -16,7 +16,7 @@ const listaTipi = ",Tr00,Tr10,Tr20,Tr21,Tr22,Tg00,Tg10,Tg20,Tg21,Tg22,Tg30,Tg31,
 const typeList = listaTipi.split(",").slice(1); 
 var audioCtx ; // sound effect
 var sw_audioCtx_not_active = true;  
-
+let begin_fromNumRow = 0;
 //-----------------------------------------------
 let ele_inp1     = document.getElementById("inp1"); 
 let numRowInput = 0; 
@@ -108,6 +108,7 @@ let sel_voice_rotate    = [false, false];
 let sel_voice_exclude   = [false, false];      
 let sel_loopTypeSet     = ["","","","","","","","","","","",""];  
 let sel_loopTypeSet_str = "";
+let sel_begin_fromNumRow_str = "0";  
 let sw_told_group_row_list = [];
 //---------------------
 //let maxNumVoices = 9999; // 9
@@ -157,6 +158,7 @@ const VV18=18;
 const VV19=19;
 //--
 const VV20=20;
+const VV21=21;
 //-----------
  
 //let utteranceList = [];
@@ -412,56 +414,7 @@ let div_voices =  `
 							</table>
 						</div>
 					</td>	
-				</tr>					
-				
-				<tr style="border:1px solid black;"> 
-					<td id="m127" class ="msg" style="text-align:left;vertical-align:bottom; font-size:80%;">Velocità</td>
-					<td>
-						<span style="width:0.5em;padding:0;">1.0</span>
-						<span style="width:0.5em;padding:0;">
-										  <input id="id_inpRate0" type="range" min="0.0" max="2" value="1.0" step="0.1" oninput="onclick_tts_changeRate(this,0)">
-						</span>
-					</td>
-					<td>
-						<span style="width:0.5em;padding:0;">1.0</span>
-						<span style="width:0.5em;padding:0;">
-										  <input  id="id_inpRate1" type="range" min="0.0" max="2" value="1.0" step="0.1" oninput="onclick_tts_changeRate(this,1)">
-						</span>
-					</td>				
-				</tr>
-				
-				<tr> 
-					<td id="m126x" class ="msg" style="text-align:left;vertical-align:bottom; font-size:80%;">Volume</td>
-					<td>
-						<span style="width:0.5em;padding:0;">1.0</span>
-						<span style="width:0.5em;padding:0;">
-										  <input  id="id_inpVol0" type="range" min="0.0" max="2" value="1.0" step="0.1" oninput="onclick_tts_changeVolume(this,0)">
-						</span>
-					</td>
-					<td>
-						<span style="width:0.5em;padding:0;">1.0</span>
-						<span style="width:0.5em;padding:0;">
-										  <input  id="id_inpVol1" type="range" min="0.0" max="2" value="0.8" step="0.1" oninput="onclick_tts_changeVolume(this,1)">
-						</span>
-					</td>
-				</tr>
-				
-				
-				<tr> 
-					<td id="m126" class ="msg" style="text-align:left;vertical-align:bottom; font-size:80%;">Tono</span></td>
-					<td>
-						<span style="width:0.5em;padding:0;">1.0</span>
-						<span style="width:0.5em;padding:0;">
-										  <input  id="id_inpPitch0" type="range" min="0.0" max="2" value="1.0" step="0.1" oninput="onclick_tts_changePitch(this,0)">
-						</span>
-					</td>
-					<td>
-						<span style="width:0.5em;padding:0;">1.0</span>
-						<span style="width:0.5em;padding:0;">
-										  <input  id="id_inpPitch1" type="range" min="0.0" max="2" value="1.0" step="0.1" oninput="onclick_tts_changePitch(this,1)">
-						</span>
-					</td>
-				</tr>
+				</tr>	
 				<tr style="font-size:80%;" >
 					<td>Voce da usare</td>
 					<td>
@@ -470,13 +423,96 @@ let div_voices =  `
                         <label>tutte a rotazione<input type="radio" name="radio1"  onclick="onclick_chgVoxRotate()" id="origSelVox2"  checked="checked"></label>
 					
 					</td>
-					<td>
+					<td >
 					  <label>la voce scelta<input type="radio" name="radio2"  onclick="onclick_chgVoxRotate()"  id="tranSelVox"></label>
 					  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <label>tutte a rotazione<input type="radio" name="radio2"  onclick="onclick_chgVoxRotate()"  id="tranSelVox2"  checked="checked"></label>						
 					</td>					
 				</tr>	
 				
+				<tr> 
+					<td> </td>
+					<td>
+						<div class="centerFlex" style="width:100%;">
+						<table>
+								<tr>
+									<td id="m126" class ="msg" style="text-align:left;vertical-align:bottom; font-size:80%;">Tono</span></td>
+									<td>
+										<span style="width:0.5em;padding:0;">1.0</span>
+										<span style="width:0.5em;padding:0;">
+														  <input  id="id_inpPitch0" type="range" min="0.0" max="2" value="1.0" step="0.1" oninput="onclick_tts_changePitch(this,0)">
+										</span>
+									</td>								
+								</tr>
+								<tr> 
+									<td id="m126x" class ="msg" style="text-align:left;vertical-align:bottom; font-size:80%;">Volume</td>
+									<td>
+										<span style="width:0.5em;padding:0;">1.0</span>
+										<span style="width:0.5em;padding:0;">
+														  <input  id="id_inpVol0" type="range" min="0.0" max="2" value="1.0" step="0.1" oninput="onclick_tts_changeVolume(this,0)">
+										</span>
+									</td>									
+								</tr>							
+								<tr style="border:1px solid black;"> 
+									<td id="m127" class ="msg" style="text-align:left;vertical-align:bottom; font-size:80%;">Velocità</td>
+									<td>					
+										<span style="width:0.5em;padding:0;">1.0</span>
+										<span style="width:0.5em;padding:0;">
+														  <input id="id_inpRate0" type="range" min="0.0" max="2" value="1.0" step="0.1" oninput="onclick_tts_changeRate(this,0)">
+										</span>	
+									</td>												
+								</tr>
+						</table>
+						</div>
+					</td>
+					<td>
+						<div class="centerFlex" style="width:100%;">
+						<table>
+								<tr>
+									<td id="m126" class ="msg" style="text-align:left;vertical-align:bottom; font-size:80%;">Tono</span></td>		
+									<td>				
+										<span style="width:0.5em;padding:0;">1.0</span>
+										<span style="width:0.5em;padding:0;">
+														  <input  id="id_inpPitch1" type="range" min="0.0" max="2" value="1.0" step="0.1" oninput="onclick_tts_changePitch(this,1)">
+										</span>
+									</td>
+								</tr>
+								<tr> 
+									<td id="m126x" class ="msg" style="text-align:left;vertical-align:bottom; font-size:80%;">Volume</td>
+									<td>
+										<span style="width:0.5em;padding:0;">1.0</span>
+										<span style="width:0.5em;padding:0;">
+														  <input  id="id_inpVol1" type="range" min="0.0" max="2" value="0.8" step="0.1" oninput="onclick_tts_changeVolume(this,1)">
+										</span>
+									</td>
+								</tr>								
+								<tr style="border:1px solid black;"> 									
+									<td id="m127" class ="msg" style="text-align:left;vertical-align:bottom; font-size:80%;">Velocità</td>
+									<td>
+										<span style="width:0.5em;padding:0;">1.0</span>
+										<span style="width:0.5em;padding:0;">
+														  <input  id="id_inpRate1" type="range" min="0.0" max="2" value="1.0" step="0.1" oninput="onclick_tts_changeRate(this,1)">
+										</span>
+									</td>				
+								</tr>
+						</table>
+						</div>
+					</td>
+				</tr>
+				<!--  xxxxxxxxxxxxx  -->
+				
+				
+				<tr style="border:1px solid black;"> 
+					<td ></td>
+					<td>					
+						<label  class="header_1" >start from line number</span>
+							<input type="number" id="id_toSave_fromNum" min="0" value="0" onchange="onclickSaveFromNum(this,true)" style="width:4em;text-align:right;">
+						</label>
+					</td>
+					<td>
+						
+					</td>				
+				</tr>
 				</tbody>
 			</table> 	
 			<!--
@@ -534,13 +570,13 @@ let div_voices =  `
 			<col id="col_tts_cancel" 	 span="1" >
             <col id="col_numSub" 		 span="1" >
          </colgroup>
-         <thead id="id_tabSub_th"  style="position: sticky;  top: 0;">
+         <thead id="id_tabSub_th">
             <tr id="id_tr_row_zero1" style="background-color:lightgrey;">
                <th id="m005x" class="msg header_1" style="border:0px solid green;" colspan="2">gruppo di righe</th>
                <th id="m007" class="msg header_1 bott1" rowspan="2"   >mostra / nascondi<br>testo</th>
                <th id="m008" class="msg header_1 bott1" rowspan="2">mostra / nascondi<br>ascolta traduzione</th>
                <th id="m013" class="msg header_1 bott1" rowspan="2">parola<br>per<br>parola</th>
-               <th id="id_h_textCol00" class="bordLeft borderRight" style="text-align:center;  vertical-align:bottom;        color:black;font-weight:bold;"  >
+               <th id="id_h_textCol00" class="bordLeft borderRight" style="text-align:center;  vertical-align:bottom;color:black;font-weight:bold; border:0px solid black;"  >
                   
 				<div  style="width:60%; border:0px solid blue;background-color: var(--main-bg-color);margin-left:20%;margin-right:20%;
 					border-radius:0.8em;">
@@ -551,7 +587,9 @@ let div_voices =  `
 						<button class="buttonTD" style="width:12em;text-align:center;" onclick="onclick_showtabLoop('id_tabLoopShow')">hide/change<br>loop parameters</button>
 					</div>
 				</div>
-				</th>	
+					
+				
+			   </th>	
                <th id="m123c" class="msg header_1  bott1 bordLeft" rowspan="2">Tipo Loop <small>click to change</small></th>
                <th id="m123a" class="msg header_1  bott1 bordLeft  c_m1g" rowspan="2">Play Orig</th>
                <th id="m123b" class="msg header_1  bott1 c_m1g" rowspan="2">Play Orig + Tran</th>
@@ -1274,7 +1312,27 @@ function onclick_tts_get_oneLangVoice3(this1, numLang) {
 } // end of onclick_tts_get_oneLangVoice3
 
 //--------------------------------------------------
-
+ 
+function onclickSaveFromNum(this1,salva) {
+	var tabEle = document.getElementById("id_tabSub_tbody"); 
+	if (tabEle == null) return;
+	var numTrMax = tabEle.children.length; 
+	
+	begin_fromNumRow = 0;
+	try{ 
+		begin_fromNumRow = parseInt(this1.value); 
+		if (begin_fromNumRow<0) begin_fromNumRow=0; 
+	} catch(e1) {		
+	}
+	if (begin_fromNumRow >= numTrMax) {
+		begin_fromNumRow = numTrMax - 1; 
+		this1.value = begin_fromNumRow; 
+	}
+	scroll_row_intoView( begin_fromNumRow );  	
+	sel_begin_fromNumRow_str = begin_fromNumRow;
+	if (salva) plus_set_localStorage_var(6);
+	
+} // end of onclickSaveFromNum
 
 //======================================	
 function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) { 
@@ -1610,12 +1668,11 @@ function plus_initial_from_localStorage_values() {
 	
 	console.log("\nXXXXXXXXXXXXXXXXXXXXXXX  INITIAL LOCAL_STORAGE  XXXXXXXXXXXXXXXX, \nplus_initial_from_localStorage_values() ") ;
 	
-	
 	var lenS=0; let nFields = 6; 
 	if (stored_cbc_localStor) {
 		lenS = stored_cbc_localStor.length; 
-		//console.log("plus_initial_from_localStorage_values() 2 stored_cbc_localStor.length=", lenS);
-		if (lenS > VV20) {  
+		if (lenS > VV21) {  
+			console.log("lenS > VV21=", VV21); 
 			sel_voice_ix[0]        = stored_cbc_localStor[VV00];        
 			sel_voiceName[0]       = stored_cbc_localStor[VV01];                  
 			sel_voiceLangRegion[0] = stored_cbc_localStor[VV02];                   	
@@ -1633,45 +1690,38 @@ function plus_initial_from_localStorage_values() {
 			sel_voice_exclude[1]   = stored_cbc_localStor[VV16];  
 		
 			sel_loopTypeSet_str    = stored_cbc_localStor[VV20];   
-			
+			sel_begin_fromNumRow_str = stored_cbc_localStor[VV21];  
 			load_sel_loopTypeSet(sel_loopTypeSet_str);  
 			
 			//console.log("plus initial sel_loopTypeSet_str=", sel_loopTypeSet_str, "\n\t" + " sel_loopTypeSet [0]=",   sel_loopTypeSet.join("\n\t\t") );   
 		}
 	}
-	
-	//console.log("anto1 lenS=", lenS); 
-	
+
 	if (lenS < 1) {
 		plus_set_localStorage_var(3);
 	}	
-	/**
-	if (stored_cbc_localStor) {
-        [	
-		selected_1voice_ix       ,           
-		selected_1voiceName      ,          
-		selected_1voiceLangRegion,             	
-		selected_1voiceLang2     ,             
-		selected_1numVoices      ,
-		selected_2voice_ix       ,           
-		selected_2voiceName      ,           
-		selected_2voiceLangRegion,           
-		selected_2voiceLang2     ,          
-		selected_2numVoices      
-        ] = stored_cbc_localStor;
-    } else {
-        plus_set_localStorage_var();
-    }
-	***/
+	
 	//-------------------------------
 	
     //plus_list_localStorageItems();	
 	if (lenS > 0) set_var_voice_rotate_from_localStore();
 	
-	
+	try{
+		begin_fromNumRow = sel_begin_fromNumRow_str
+	} catch(e1) {
+		begin_fromNumRow = 0;
+	}	
+	document.getElementById("id_toSave_fromNum").value = begin_fromNumRow; 
+	scroll_row_intoView( begin_fromNumRow );  	
 
 } // end of initial_from_localStorage_values()
-
+//-------------------------
+function scroll_row_intoView( numId ) {
+	var rowEle = document.getElementById("idtr_" + numId); 
+	if (rowEle) { 
+		rowEle.scrollIntoView();
+	} 
+} // end of scroll_row_intoView
 //----------------------------------------------------------------
 
 function load_sel_loopTypeSet( set_str) {
@@ -1734,7 +1784,7 @@ function plus_set_localStorage_var(xx, ltid, sw00, this11) {
 	sel_loopTypeSet_str = preL + sel_loopTypeSet.join(" "); 
 	//console.log("sel_loopTypeSet_str=", sel_loopTypeSet_str);
 
-	var cbc_LOCALSTOR_val_list = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+	var cbc_LOCALSTOR_val_list = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
 	
 	cbc_LOCALSTOR_val_list[ VV00 ] =   sel_voice_ix[0]       ;            
 	cbc_LOCALSTOR_val_list[ VV01 ] =   sel_voiceName[0]      ;                            
@@ -1753,6 +1803,7 @@ function plus_set_localStorage_var(xx, ltid, sw00, this11) {
 	cbc_LOCALSTOR_val_list[ VV16 ] =   sel_voice_exclude[1]  ; 
     
 	cbc_LOCALSTOR_val_list[ VV20 ] =   sel_loopTypeSet_str;   
+	cbc_LOCALSTOR_val_list[ VV21 ] =   sel_begin_fromNumRow_str;
 
 	//if (sel_loopTypeSet_str.indexOf(":50") < 0) { console.log("ERRORE no .:50") }  else { console.log("Esiste anocra :50") }	
 	/***
@@ -1773,7 +1824,7 @@ function plus_set_localStorage_var(xx, ltid, sw00, this11) {
 	} else { 	
 		localStorage.setItem(cbc_LOCALSTOR_key, JSON.stringify(cbc_LOCALSTOR_val_list));
 	}
-	//console.log("plus_set_localStorage_var() esegue  ocalStorage_setItemFile() "); 
+	//console.log("plus_set_localStorage_var () esegue  ocalStorage_setItemFile() "); 
     
 	//if (swShow) plus_list_localStorageItems(swShow);
 
@@ -1886,17 +1937,11 @@ function sayVoiceNum(textX, numLang, ixVoice, volumeX, rateX, pitchX) {
 		objtxt_to_speak.rate = rateX;
 		objtxt_to_speak.pitch = pitchX;
 		synth.speak(objtxt_to_speak);
-		/**
-		//const msg = new SpeechSynthesisUtterance(); 
-		const msg = synth;	
 		
-		msg.voice  = voices[ixVoice];     
-		msg.volume = volumeX;     
-		msg.rate   = rateX;   
-		msg.pitch  = pitchX;    
-		msg.text   = textX;   
-		speechSynthesis.speak(msg); 
-		**/
+		console.log("sayVoceNum (", textX, " numLang=", numLang," ixVoice=", ixVoice, " volume=", volumeX, " rate=", rateX, " pitch=", pitchX,
+							" rate input range=", document.getElementById("id_inpRate0").value, 
+							" inner=", document.getElementById("id_inpRate0").parentElement.parentElement.innerHTML, " speechRate=", speechRate);  
+		
 		objtxt_to_speak.onend = function() {
 			//nn++;
 			//console.log("resolve " + nn +" "+ msg5    +" " +  "  finito di leggere ", textX);
@@ -2382,7 +2427,8 @@ async function play_accum(swOrigAndTran, bigLoop00) {
 		//console.log("leggo ", ["originale","traduzione"][ ltr_vox ] , " ", ltr_txt)		
 		await bold_spoken_line(eleObjToSpeak, swShow);
 		if (ltr_speedP > 0) { 
-			await sayVoiceNum( ltr_txt, ltr_vox, ixVoice0X, speechVolume[ltr_vox], ltr_speedP * speechRate[ltr_vox], speechPitch[ltr_vox]); // un gruppo"); 		
+			await sayVoiceNum( ltr_txt, ltr_vox, ixVoice0X, speechVolume[ltr_vox], ltr_speedP, speechPitch[ltr_vox]); // un gruppo"); 
+			//await sayVoiceNum( ltr_txt, ltr_vox, ixVoice0X, speechVolume[ltr_vox], ltr_speedP * speechRate[ltr_vox], speechPitch[ltr_vox]); // un gruppo"); 		
 		}
 	} // end for g	
 	
@@ -4014,9 +4060,10 @@ function lev2_build_all_clip() {
 	
 	//console.log("clipSub_showTxt=" + clipSub_showTxt)
 	
-    
-	document.getElementById("id_tabSub_tbody").innerHTML = clipSub_showTxt;
+    document.getElementById("id_tabSub_tbody").innerHTML = clipSub_showTxt;
 	
+	var eleFromNum=document.getElementById("id_toSave_fromNum");
+	if (eleFromNum.value != "0") onclickSaveFromNum(eleFromNum, false);
 
 } // end of lev2_build_all_clip  
 
