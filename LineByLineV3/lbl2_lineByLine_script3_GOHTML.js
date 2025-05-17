@@ -20,7 +20,8 @@ let begin_fromNumRow = 0;
 //-----------------------------------------------
 let ele_inp1     = document.getElementById("inp1"); 
 let numRowInput = 0; 
-let numWordBaseNum = 0 ;
+let numWordBase = 0 ;
+let numRowForWordBase = 0; 
 
 let ele_div_voices = document.getElementById("id_div_voices"); 
 //--------------------------------------------
@@ -611,52 +612,7 @@ let div_voices =  `
                            <tr>
                               <td style="border:0px solid violet; vertical-align:top;" >                                
                               </td>
-                              <td style="border:0px solid violet;">
-							  <!--
-                                 <table id="idTabHvox" class="tabHparm" style="border:1px solid black;">
-                                    <tr>
-                                       <th class="tabHtd" colspan="3">Voce da usare</th>
-                                    </tr>
-                                    <tr>
-                                       <th class="tabHtd"></th>
-                                       <th class="tabHtd">La Voce Scelta</th>
-                                       <th class="tabHtd">Tutte Le Voci<br> a Rotazione</th>
-                                    </tr>
-                                    <tr  style="background-color:grey;">
-                                       <td  class="tabHtd" colspan="3"> </td>
-                                    </tr>
-                                    <tr>
-                                       <td class="tabHtd" style="white-space:nowrap;">Legge Originale</td>
-                                       <td class="tabHtd"><input type="radio" name="radio1"  onclick="onclick_chgVoxRotate()" id="origSelVox" checked="checked"></td>
-                                       <td class="tabHtd"><input type="radio" name="radio1"  onclick="onclick_chgVoxRotate()" id="origSelVox2" ></td>
-                                    </tr>
-                                    <tr>
-                                       <td  class="tabHtd" colspan="3"></td>
-                                    </tr>
-                                    <tr>
-                                       <td class="tabHtd" style="white-space:nowrap;">Legge Traduzione</td>
-                                       <td class="tabHtd"><input type="radio" name="radio2"  onclick="onclick_chgVoxRotate()"  id="tranSelVox" checked="checked" ></td>
-                                       <td class="tabHtd"><input type="radio" name="radio2"  onclick="onclick_chgVoxRotate()"  id="tranSelVox2"  ></td>
-                                    </tr>
-                                 </table>
-								 -->
-								 <!--
-                                 <br>
-                                 <table id="xxidTabHvox" class="tabHparm" style="border:1px solid black;">
-                                    <tr>
-                                       <th colspan="2">Ripeti la riga una parola per volta</th>
-                                    </tr>
-                                    <tr>
-                                       <td <label><input type="radio" name="radioW" id="idWordByWordY" checked="checked">yes</label>
-                                       <td><label><input type="radio" name="radioW" id="idWordByWordN" >no</label></td>
-                                    </tr>
-                                    <tr>
-                                       <td  >Velocità <input id="idWordByWordSpeed" type="number" value="80" min="50" max="100" class="tabHloopInput"  style="text-align:right;width:3em;">%</td>
-                                       <td></td>
-                                    </tr>
-                                    </tr>
-                                 </table>
-								 -->
+                              <td style="border:0px solid violet;">							  
                               </td>
                            </tr>
                            <tr>
@@ -1501,6 +1457,10 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 				<br>
 				<button onclick="printOrigText()"   class="buttonTD" style="width:20em;">Testo Stampabile</button> 
 				<button onclick="printBilingual()"  class="buttonTD" style="width:20em;">Traduzione interlineare stampabile</button>
+				<br>
+				<div id="resetHideForNow" style="display:none;background-color:yellow;">
+				<button  onclick="onclickResetHideForNow()"   class="buttonTD" style="width:20em;">Mostra di Nuovo tutte le righe</button> 
+				</div>
 			</td>		
 			
 			<td class="playBut1 c_m2 bordLeft">
@@ -1624,10 +1584,27 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 		 
 		 
 	` ; // end of prototype_tr_tts
+	
+	//**
+	let prototype_tr_ttsWord = prototype_tr_tts;
+	let toFind  = 'style="display:none;" id="idc_§1§">§4txt§</div>';
+	let toRepl  = 'style="display:block;" id="idc_§1§"><button onclick="onclickSelectWord(&apos;§4txt§&apos;)" class="word">§4txt§</button></div>' ;
+	
+	if (prototype_tr_ttsWord.indexOf( toFind) < 0) {
+			console.log("%cerrore prototype word not found", "color:red;"); 
+			console.log( errore );	
+	} else {
+		prototype_tr_ttsWord = prototype_tr_ttsWord.replaceAll(toFind, toRepl); 
+	}	
+	/**
+	console.log("prototype_tr_ttsWord=", prototype_tr_ttsWord); 
+	console.log("toFind=", toFind)
+	console.log("toRepl=", toRepl)
+	**/
 //=====================================
 
 	let string_tr_xx = "";		
-	
+	let string_tr_xxWord = "";
 	
 	
 	//------------------------
@@ -1939,11 +1916,11 @@ function sayVoiceNum(textX, numLang, ixVoice, volumeX, rateX, pitchX) {
 		objtxt_to_speak.rate = rateX;
 		objtxt_to_speak.pitch = pitchX;
 		synth.speak(objtxt_to_speak);
-		
+		/**
 		console.log("sayVoceNum (", textX, " numLang=", numLang," ixVoice=", ixVoice, " volume=", volumeX, " rate=", rateX, " pitch=", pitchX,
 							" rate input range=", document.getElementById("id_inpRate0").value, 
 							" inner=", document.getElementById("id_inpRate0").parentElement.parentElement.innerHTML, " speechRate=", speechRate);  
-		
+		**/
 		objtxt_to_speak.onend = function() {
 			//nn++;
 			//console.log("resolve " + nn +" "+ msg5    +" " +  "  finito di leggere ", textX);
@@ -2005,6 +1982,66 @@ function rotateVoice( numLang ) {
 	return ixVoice0V; 
 	
 } // end of rotateVoice
+
+//------------------------------------------
+function onclickSelectWord(unaParola) {
+	var unaParolaLw = unaParola.toLowerCase().trim();  
+	console.log("%conclickSelectWord(" + unaParola+ ")" , "color:blue; font-size:2em;");  
+	var tabBody = document.getElementById("id_tabSub_tbody");
+	var numRows = tabBody.children.length;
+	
+	document.getElementById("resetHideForNow").style.display = "block"; 
+	
+	for(var v = 0; v < numRows; v++) {
+		var eleRow = tabBody.children[v];
+		if (eleRow == null) continue;
+		eleRow.classList.add("hideForNow");   
+		var id1 = eleRow.id; 
+		if (id1.substr(0,5) != "idtr_") continue;   
+		var id2 = id1.substring(5);
+		if (id2.indexOf("_m") > 0) continue; 
+		
+		var ele_orText = document.getElementById( "idc_" + id2 );  
+		
+		var origText = ele_orText.innerHTML.toLowerCase(); 
+		if (origText.indexOf( unaParolaLw ) < 0) continue; 
+
+		var orig_riga2 = origText.toLowerCase().replaceAll(". ", ". §").replaceAll("! ", "! §").replaceAll("? ", "? §").replaceAll("; ", "; §").
+							replaceAll(": ", ": §").replaceAll(", ", ", §").replaceAll(" ", " §");
+		var listaParole =  orig_riga2.split("§");
+		//console.log("v=",v , " orig_riga2=", orig_riga2, " listaParole=", listaParole, "   unaParolaLw=", unaParolaLw); 
+		var swNotFound = true;
+		for(var p=0; p < listaParole.length; p++) {
+			if (listaParole[p].replace(/[.,?!]/g, "").trim() == unaParolaLw) {swNotFound=false; break; }  
+		} 
+		//console.log(" swNotFound=", swNotFound)
+		if ( swNotFound ) continue; 
+		
+		// per ora supponiamo che sia la parola giusta, bisogna indagare meglio 
+		var eleW   = document.getElementById( "idw_" + id2 );  
+		if (eleW) eleW.style.display = "none";
+		if (eleRow.style.display == "none")  eleRow.style.display = "table-row";
+		if (eleRow.classList.remove("hideForNow")) 
+		ele_orText.style.display = "block"; 	
+		
+		//var eleRowM2 = document.getElementById( id1 + "_m2"); 
+		//var eleRowM1 = document.getElementById( id1 + "_m1"); 
+	}	
+	
+} // end of onclickSelectWord
+//--------------------------------
+function onclickResetHideForNow() {
+	var tabBody = document.getElementById("id_tabSub_tbody");
+	var numRows = tabBody.children.length;
+	
+	document.getElementById("resetHideForNow").style.display = "block"; 
+	document.getElementById("id_showLoop").innerHTML = ""; 
+	for(var v = 0; v < numRows; v++) {
+		var eleRow = tabBody.children[v];
+		if (eleRow == null) continue;
+		eleRow.classList.remove("hideForNow");   
+	}
+} // end of onclickResetHideForNow 
 
 //-------------------------------------------------
 function onclick_tts_changeRate(this1,nVox) {
@@ -2224,8 +2261,6 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 
 
 	let numId = parseInt(numId0);
-	
-	
 	
 	let eleTyLoop = document.getElementById("tyLoop" + numId);
 	let eleTyLoop_button = eleTyLoop.parentElement;
@@ -2627,6 +2662,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 				}				
 			}
 			ele_txtOrig = document.getElementById("idc_" + f);		
+			if (ele_txtOrig.parentElement.parentElement.parentElement.classList.contains("hideForNow") ) continue; 
 			
 			//console.log("              f1=", f1,  "  f=",f, " ele_txtOrig=", ele_txtOrig); 
 			
@@ -3817,13 +3853,16 @@ function tts_3_spezzaRiga3(orig_riga, numId) {
             <col id="col_numSub"         span="1">
          </colgroup>  \n  ` ; // 	
 
-	let z3Base = numWordBaseNum + numId * 100;
+	let z3Base = numWordBase + numId * 100;
 
-	//console.log("numWordBaseNum=", numWordBaseNum, "  numId=", numId, "  z3Base=", z3Base); 
-
+	//console.log("numWordBase=", numWordBase, "  numId=", numId, "  z3Base=", z3Base); 
+	
 	for (let z3 = 0; z3 <listaParole.length; z3++) {  
 		let unaParola = listaParole[z3]; 
-        let rowclip = string_tr_xx.replaceAll("§1§", (z3Base + z3) ).
+		unaParola = unaParola.replace(/[.,?!]/g, "").trim();
+		if (unaParola == "") continue; 
+		//let unaParolaButt = '<button onclick="onclickSelectWord(&apos;' + unaParola + '&apos;)">' + unaParola + '</button>' ;
+        let rowclip = string_tr_xxWord.replaceAll("§1§", (z3Base + z3) ).
 			replaceAll("§4txt§", unaParola).replaceAll("§5txt§", "").replaceAll("§5dftxt§", "").
 			replaceAll("§abc§","true").	
 			replaceAll("§ttstxt§", "").
@@ -3904,7 +3943,7 @@ function begin_lbl2() {
 	
 	// NOVEMBRE2024 string_tr_xx = "\n" + prototype_tr_m2_tts + "\n" + prototype_tr_m1_tts + "\n" + prototype_tr_tts; 
 	string_tr_xx = "\n" + prototype_tr_tts;  // NOVEMBRE2024
-			
+	string_tr_xxWord = "\n" + prototype_tr_ttsWord; 		
 	
 	
 	lev2_build_all_clip();
@@ -3979,22 +4018,8 @@ function lev2_build_all_clip() {
 	var printBil =""; 
 	printStringBilingual =""; 
 
-    //clipFromRow = 0;
-    //clipToRow = line_list_orig_text.length - 1;
-
 	var trantxt1, tts1; var eleTr;
 	
-	/**
-	console.log("1 inp1.tagName=" + document.getElementById("inp1").tagName ); 
-	console.log("                                      len=" , document.getElementById("inp1").children.length) ; 
-	console.log("ele_inp1=", ele_inp1)
-	
-	console.log("1 ele_inp1.tagName=" + ele_inp1.tagName, " len=" , ele_inp1.children.length); 
-	**/
-
-	
-	
-
 	for(var z1=0; z1 < 3; z1++) {  	
 		//console.log("ele_inp1.tagName=" + ele_inp1.tagName, " len=" , ele_inp1.children.length);		
 		if (ele_inp1.children[0].tagName == "TR") { break;}		 
@@ -4002,9 +4027,13 @@ function lev2_build_all_clip() {
 	}
 	
 	numRowInput = ele_inp1.children.length;
-	numWordBaseNum = 1000 * Math.ceil((numRowInput+10)/1000);
+	//numWordBase = 1000 * Math.ceil((numRowInput+10)/1000);
+	var zero1 = "0".repeat( 2+(""+numRowInput).length );
+	numWordBase = parseInt("1"+ zero1 ); 
+	numRowForWordBase  = parseInt("2"+ zero1 ); 
 	
-	console.log("lev3_build_all_clip 3" , " numRowInput=", numRowInput);
+	
+	console.log("lev3_build_all_clip 3" , " numRowInput=", numRowInput, " numWordBase=", numWordBase, "  numRowForWordBase=",numRowForWordBase );
 	let nota1 = "";
 	let traduzSeconda=""; 
 	let numCh=0; 
@@ -4012,21 +4041,14 @@ function lev2_build_all_clip() {
 	for (let z3 = 0; z3 < numRowInput; z3++) {  
 		eleTr = ele_inp1.children[z3]; 
 		numCh = eleTr.children.length;
-		/**
-		console.log("XXX  z3=", z3 , " eleTr=", eleTr);
-		console.log("    tagname=", eleTr.tagName, "  num  child=",eleTr.children.length  )
-		console.log("     eleTr = inner=>", eleTr.innerHTML)
-		**/
+		
 		txt1 = ""; 
 		trantxt1 = ""
 		nota1 = "";
 		traduzSeconda=""; 
 		if (numCh > 0) txt1 = eleTr.children[0].innerHTML;
 		tts1 = txt1; 
-		//--
-		/**
-		input: <tr> 0 = orig, 1 = tran, 2= para, 3= tran2  
-		**/
+		
 		/**
 		<div class="divRowText" style="padding:50%:">
 					<div class="suboLine"     style="display: block;" id="idc_1">zu.</div>
@@ -4667,9 +4689,7 @@ function printBilingual() {
 
 function loadPrintGroupData() {
 	var titoloPag = document.getElementsByTagName("TITLE")[0].innerHTML; 
-
-	var fromIxToIxLimit = [4,7]; 
-
+	 
 	var begix, endix;	
 
 	[begix, endix] = fromIxToIxLimit;
@@ -4692,6 +4712,7 @@ function loadPrintGroupData() {
 	let txt1 =""; var trantxt1="";
 
 	for (let z3 = begix; z3 <= endix; z3++) {
+		if (document.getElementById("idtr_" + z3).classList.contains("hideForNow") ) continue; 
 		txt1     = document.getElementById("idc_" + z3).innerHTML.replaceAll("<br>",""); 		
 		trantxt1 = document.getElementById("idt_" + z3).innerHTML.replaceAll("<br>","");		
 

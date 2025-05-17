@@ -267,5 +267,14 @@ html {
 			font-size:0.8em;	
 			text-align:left;
 }
+.word {
+	color:blue;
+	font-family:italic; 
+	font-size:0.8em;	
+	text-align:left;
+}
+.hideForNow {
+	display: none;	
+}
 //----------------------------------
 		 
