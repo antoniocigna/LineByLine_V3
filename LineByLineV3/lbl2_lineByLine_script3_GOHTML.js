@@ -949,7 +949,7 @@ var table_idTabHloop = `
 							</th>
 						</tr>	
 						<tr style="text-align:left;">
-							<td colspan="3" style="padding-top:0.5em;padding-bottom:0.5em;">
+							<td colspan="4" style="padding-top:0.5em;padding-bottom:0.5em;">
 								Ripete <input id="Tg30_loopR2" class="tabHloopInput" type="number" value="999">
 								volte per ogni riga del gruppo il set di loop R2
 							</td>
@@ -1453,13 +1453,13 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
             </td>
 			<td class="playBut1 c_m2"></td>
             <td class="c_m2" style="font-size:80%;color:black;text-align:center; ">				
-				<b>gruppo §1§-<span id="id_prt2"></span></b>
+				<b>gruppo §1§-<span id="id_end_§1§"></span></b>
 				<br>
 				<button onclick="printOrigText()"   class="buttonTD" style="width:20em;">Testo Stampabile</button> 
 				<button onclick="printBilingual()"  class="buttonTD" style="width:20em;">Traduzione interlineare stampabile</button>
 				<br>
-				<div id="resetHideForNow" style="display:none;background-color:yellow;">
-				<button  onclick="onclickResetHideForNow()"   class="buttonTD" style="width:20em;">Mostra di Nuovo tutte le righe</button> 
+				<div id="resetHideForNow_§1§" style="display:none;background-color:yellow;">
+				<button  onclick="onclickResetHideForNow('§1§')"   class="buttonTD" style="width:20em;">Mostra di Nuovo tutte le righe</button> 
 				</div>
 			</td>		
 			
@@ -1546,7 +1546,7 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 					<span id="tyLoop§1§" style="display:none;">0</span>
 					<span style="font-size:2em;height:1.4em; display:none;">${loop_symb2}</span>
 					<span>no&nbsp;loop</span> 
-					<div style="font-size:1.5em;"></div> 
+					<span style="font-size:1.5em;"></span> 
                </button>			   
 			   <!--<div style="font-size:0.5em;line-height: 80%;"></div> -->
             </td>          
@@ -1588,7 +1588,7 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 	//**
 	let prototype_tr_ttsWord = prototype_tr_tts;
 	let toFind  = 'style="display:none;" id="idc_§1§">§4txt§</div>';
-	let toRepl  = 'style="display:block;" id="idc_§1§"><button onclick="onclickSelectWord(&apos;§4txt§&apos;)" class="word">§4txt§</button></div>' ;
+	let toRepl  = `style="display:block;" id="idc_§1§"><button onclick="onclickSelectWord(1,'§x1§','§4txt§')" class="word">§4txt§</button></div>` ;
 	
 	if (prototype_tr_ttsWord.indexOf( toFind) < 0) {
 			console.log("%cerrore prototype word not found", "color:red;"); 
@@ -1684,7 +1684,7 @@ function plus_initial_from_localStorage_values() {
 	if (lenS > 0) set_var_voice_rotate_from_localStore();
 	
 	try{
-		begin_fromNumRow = sel_begin_fromNumRow_str
+		begin_fromNumRow = sel_begin_fromNumRow_str;
 	} catch(e1) {
 		begin_fromNumRow = 0;
 	}	
@@ -1984,57 +1984,167 @@ function rotateVoice( numLang ) {
 } // end of rotateVoice
 
 //------------------------------------------
-function onclickSelectWord(unaParola) {
-	var unaParolaLw = unaParola.toLowerCase().trim();  
-	console.log("%conclickSelectWord(" + unaParola+ ")" , "color:blue; font-size:2em;");  
+function onclickSelectWord(tipo,id1,unaParola) {
+	/*
+	tipo=1,   una sola parola da cercare
+	tipo=2,   unaParola e altreParole sono id di textarea che contengono lista di parole  	
+	*/
+	//console.log("onclickSelectWord(tipo=", tipo, " id1=",id1," unaParola=", unaParola)
+
+	var wordLista1 = "", wordLista2=""; 
+	if (tipo == 2) {
+		var id_wordLista1 = "idwS1_" + id1; 
+		var id_wordLista2 = "idwS2_" + id1; 
+		var ele_lista1 = document.getElementById(id_wordLista1);  
+		var ele_lista2 = document.getElementById(id_wordLista2);  
+		if (ele_lista1) wordLista1 = ele_lista1.value;
+		if (ele_lista2) wordLista2 = ele_lista2.value;		
+		
+	} 
+	if (tipo == 1) {
+		wordLista1 = unaParola; 	
+	} 
+	//console.log("1 wordLista1  = ", wordLista1 , "\n", "1 wordLista2  = ", wordLista2);  
+	wordLista1 = wordLista1.toLowerCase().replaceAll("\t"," ").replaceAll("\r"," ").replaceAll("\n"," ").replaceAll(","," ").replace(/\s+/g, " ").trim();
+	wordLista2 = wordLista2.toLowerCase().replaceAll("\t"," ").replaceAll("\r"," ").replaceAll("\n"," ").replaceAll(","," ").replace(/\s+/g, " ").trim();
+	//console.log("2 wordLista1  =" + wordLista1 +"<==", "\n", "2 wordLista2  =" + wordLista2+"<==");  
+	var paroleDaCercare1 = wordLista1.split(" ");
+	var paroleDaCercare2 = wordLista2.split(" ");
+	if (wordLista1 == "") paroleDaCercare1 = [];
+	if (wordLista2 == "") paroleDaCercare2 = [];
+	//console.log("paroleDaCercare1=", paroleDaCercare1, "    paroleDaCercare2=", paroleDaCercare2); 
+	var numParole1 = paroleDaCercare1.length;
+	var numParole2 = paroleDaCercare2.length;
+	
+	//var unaParolaLw = unaParola.toLowerCase().trim();  
+	
+	
+	//console.log("%conclickSelectWord(" + unaParola+ ")" , "color:blue; font-size:2em;");  
 	var tabBody = document.getElementById("id_tabSub_tbody");
 	var numRows = tabBody.children.length;
-	
-	document.getElementById("resetHideForNow").style.display = "block"; 
-	
+	var numFirst = -1, numLast = -1;
+	//---------------	
 	for(var v = 0; v < numRows; v++) {
+		//console.log("v=", v); 
 		var eleRow = tabBody.children[v];
 		if (eleRow == null) continue;
+		//eleRow.classList.add("hideForNow");   
+		var idtr1 = eleRow.id; 
+		if (idtr1.substr(0,5) != "idtr_") continue;   
+		var tr_num = idtr1.substring(5);
+		if (tr_num.indexOf("_m") > 0) {
+			eleRow.style.display = "none";
+			continue;
+		}	
 		eleRow.classList.add("hideForNow");   
-		var id1 = eleRow.id; 
-		if (id1.substr(0,5) != "idtr_") continue;   
-		var id2 = id1.substring(5);
-		if (id2.indexOf("_m") > 0) continue; 
+		//console.log("1 v=", v, "  idtr1=", idtr1, " tr_num=", tr_num); 
+		var ele_orText = document.getElementById( "idc_" + tr_num );  
 		
-		var ele_orText = document.getElementById( "idc_" + id2 );  
+		var origText = ele_orText.innerHTML.toLowerCase();	
+		//console.log("XXXXX ", origText);	
+		var orig_riga3 = origText.toLowerCase().replace(/[.,?!<>()]/g, " ").replace(/\s+/g, " ").trim(); 
 		
-		var origText = ele_orText.innerHTML.toLowerCase(); 
-		if (origText.indexOf( unaParolaLw ) < 0) continue; 
-
-		var orig_riga2 = origText.toLowerCase().replaceAll(". ", ". §").replaceAll("! ", "! §").replaceAll("? ", "? §").replaceAll("; ", "; §").
-							replaceAll(": ", ": §").replaceAll(", ", ", §").replaceAll(" ", " §");
-		var listaParole =  orig_riga2.split("§");
-		//console.log("v=",v , " orig_riga2=", orig_riga2, " listaParole=", listaParole, "   unaParolaLw=", unaParolaLw); 
-		var swNotFound = true;
-		for(var p=0; p < listaParole.length; p++) {
-			if (listaParole[p].replace(/[.,?!]/g, "").trim() == unaParolaLw) {swNotFound=false; break; }  
-		} 
-		//console.log(" swNotFound=", swNotFound)
-		if ( swNotFound ) continue; 
+		var paroleDellaFrase = orig_riga3.split(" ");  
+	
+		var swFound1=false; var swFound2 = false; 
+		if (numParole1 == 0) swFound1 = true; 
+		if (numParole2 == 0) swFound2 = true; 
+		var w1, w2; var unaParolaDellaFrase;
+		if (swFound1 == false) {
+			for(var p=0; p < paroleDellaFrase.length; p++) {
+				unaParolaDellaFrase = paroleDellaFrase[p]; 			
+				for (w1=0;w1 < numParole1; w1++) {
+					if ( paroleDaCercare1[w1] == unaParolaDellaFrase) {swFound1=true; break; }
+				}  
+				if (swFound1) { //console.log(" trovata parola1 ",unaParolaDellaFrase ); 
+					break; 
+				}
+			} 
+		}
+		if (swFound2 == false) {
+			for(var p=0; p < paroleDellaFrase.length; p++) {
+				unaParolaDellaFrase = paroleDellaFrase[p]; 			
+				for (w2=0;w2 < numParole2; w2++) {
+					if ( paroleDaCercare2[w2] == unaParolaDellaFrase) {swFound2=true; break; }
+				} 	
+				if (swFound2) { //console.log(" trovata parola2 ",unaParolaDellaFrase ); 
+					break; 
+				}
+			} 
+		}
+		//console.log("1 swFound1=", swFound1 , "   ", " swFound2=", swFound2, " swFound1 && swFound2=", (swFound1 && swFound2) ) 
+		if ((swFound1 && swFound2) == false) {
+			if ((numParole1 == 1) && (numParole2 > 0)) {
+				swFound1 = false; 
+				swFound2 = false; 
+				var parola11 = paroleDaCercare1[0]; 
+				for(var p=0; p < paroleDellaFrase.length; p++) {
+					unaParolaDellaFrase = paroleDellaFrase[p]; 	// es. ab + gegangen = abgegangen		
+					for (w2=0;w2 < numParole2; w2++) {
+						if ( parola11 + paroleDaCercare2[w2] == unaParolaDellaFrase) {  
+							//console.log(" trovata parola1+parola2 ",unaParolaDellaFrase , " ( parola1=" + parola11 , " + " + paroleDaCercare2[w2] ); 
+							swFound2=true; 
+							break; 
+						}
+					} 	
+					if (swFound2) {
+						break; 
+					}
+				} 
+				if (swFound2) {swFound1 = true}  
+			} 
+		}	
+		//console.log("2 swFound1=", swFound1 , "   ", " swFound2=", swFound2, " swFound1 && swFound2=", (swFound1 && swFound2) ) 
+		if (swFound1 && swFound2) {
+			//console.log("la frase ", tr_num, " contiene le parole richieste: ", origText);	
+		} else {
+			continue
+		};
 		
-		// per ora supponiamo che sia la parola giusta, bisogna indagare meglio 
-		var eleW   = document.getElementById( "idw_" + id2 );  
-		if (eleW) eleW.style.display = "none";
-		if (eleRow.style.display == "none")  eleRow.style.display = "table-row";
+		var eleW   = document.getElementById( "idw_" + tr_num );  
+	
+		if (eleW) eleW.innerHTML = "";
+		
+		//if (eleRow.style.display == "none")  eleRow.style.display = "table-row";
 		if (eleRow.classList.remove("hideForNow")) 
 		ele_orText.style.display = "block"; 	
-		
-		//var eleRowM2 = document.getElementById( id1 + "_m2"); 
-		//var eleRowM1 = document.getElementById( id1 + "_m1"); 
+		if (numFirst < 0) numFirst = tr_num; 
+		numLast = tr_num;
+		//console.log("5 v=", v, "  idtr1=", idtr1, " tr_num=", tr_num, " numFirst=", numFirst, "  numLast=", numLast); 
+		//var eleRowM2 = document.getElementById( idtr1 + "_m2"); 
+		//var eleRowM1 = document.getElementById( idtr1 + "_m1"); 
 	}	
+	//--------------
+	
+	//console.log("numRows=", numRows, "  numFirst=", numFirst, "  numLast=", numLast); 
+	if (document.getElementById("b1_" + numFirst) == null) console.log("errore manca id  b1_" + numFirst); 
+	if (document.getElementById("b2_" + numLast ) == null) console.log("errore manca id  b2_" + numLast ); 
+	onclick_tts_arrowFromIx(  document.getElementById("b1_" + numFirst), numFirst) ; 
+	onclick_tts_arrowToIx(    document.getElementById("b2_" + numLast ), numLast ) ; 
+	
+	//document.getElementById("idtr_" + numFirst).style.display = "table-row"; 
+	document.getElementById("idtr_" + numFirst).classList.remove("hideForNow");  
+	if (document.getElementById("resetHideForNow_" + numFirst) ) {
+		document.getElementById("resetHideForNow_" + numFirst).style.display = "block"; 
+	}
+	document.getElementById( "idtr_" + numFirst + "_m1").scrollIntoView();
 	
 } // end of onclickSelectWord
 //--------------------------------
-function onclickResetHideForNow() {
+function onclickResetHideForNow(numId1) {
 	var tabBody = document.getElementById("id_tabSub_tbody");
 	var numRows = tabBody.children.length;
-	
-	document.getElementById("resetHideForNow").style.display = "block"; 
+	var ele_numEndGr = document.getElementById("id_end_" + numId1);
+	//console.log("ele_numEndGr=", ele_numEndGr.innerHTML); 
+	document.getElementById("resetHideForNow_" + numId1).style.display = "none"; 
+	document.getElementById("idtr_" + numId1+ "_m2").style.display = "none"; 
+	document.getElementById("idtr_" + numId1+ "_m1").style.display = "none"; 
+	if (ele_numEndGr) {
+		var idEnd = 1 + 1*ele_numEndGr.innerHTML; 
+		if (idEnd >= numRows) idEnd = numRows-1; 
+		var ele_endGr = document.getElementById("idtr_" + idEnd + "_m2");
+		if (ele_endGr) ele_endGr.style.display = "none"; 
+	}
 	document.getElementById("id_showLoop").innerHTML = ""; 
 	for(var v = 0; v < numRows; v++) {
 		var eleRow = tabBody.children[v];
@@ -3799,12 +3909,16 @@ function onclick_tts_seeWords3(this1, numId) {
 	var id_analWords = "idw_" + numId;        
 	var ele_wordset = document.getElementById(id_analWords);   // output = table of words 
 	if (ele_wordset.children.length > 0 ) {
+		ele_wordset.innerHTML = "";
+		return; 
+		/**
 		var elett = ele_wordset.children[0];
 		if (elett.tagName == "TABLE") {
 			if (elett.style.display == "block") elett.style.display = "none";
 			else elett.style.display = "block";
 			return;	
-		}		
+		}	
+		**/		
 	}	
 	var table_txt = tts_3_spezzaRiga3(anal_txt, numId)	 ;   
  	
@@ -3836,7 +3950,19 @@ function tts_3_spezzaRiga3(orig_riga, numId) {
   
     let clipSub_showTxt = "";
 	
-	clipSub_showTxt += '\n<table style="display:block; width:100%;margin-top:2em;"> \n'; 		
+	clipSub_showTxt += `
+		<div class="centerFlex">
+			<div style="font-size:0.6em;color: black;text-align:left;margin-top:0.5em;">		
+				<button class="buttonTD2" onclick="onclickSelectWord(2,'§x1§')">lista le frasi che contengono una delle parole in lista1  ed una delle parole in lista2</button><br>	
+				<table>								
+					<tr><td>1) lista di parole</td><td><textarea id="idwS1_§x1§" cols="80" rows="1" placeholder="ab" >ab</textarea></td></tr>
+					<tr><td>2) lista di parole</td><td><textarea id="idwS2_§x1§" cols="80" rows="2" placeholder="gebe gebt gab gegeben" >gehen, gehe, geht, ging, gegangen</textarea></td></tr>
+				</table>
+				clicca su una parola di questa frase per listare tutte le frasi che la contengono							
+			</div>
+		</div> `;
+						
+	clipSub_showTxt += '<table style="display:block; width:100%;margin-top:0.5em;"> \n'; 		
 	clipSub_showTxt +=  `		
          <colgroup>
             <col id="col_1_2_arrow" span="2">
@@ -3852,7 +3978,7 @@ function tts_3_spezzaRiga3(orig_riga, numId) {
 			<col id="col_tts_cancel"     span="1">
             <col id="col_numSub"         span="1">
          </colgroup>  \n  ` ; // 	
-
+	clipSub_showTxt = clipSub_showTxt.replaceAll("§x1§",numId); 
 	let z3Base = numWordBase + numId * 100;
 
 	//console.log("numWordBase=", numWordBase, "  numId=", numId, "  z3Base=", z3Base); 
@@ -3860,13 +3986,13 @@ function tts_3_spezzaRiga3(orig_riga, numId) {
 	for (let z3 = 0; z3 <listaParole.length; z3++) {  
 		let unaParola = listaParole[z3]; 
 		unaParola = unaParola.replace(/[.,?!]/g, "").trim();
-		if (unaParola == "") continue; 
-		//let unaParolaButt = '<button onclick="onclickSelectWord(&apos;' + unaParola + '&apos;)">' + unaParola + '</button>' ;
+		if (unaParola == "") continue; 		
         let rowclip = string_tr_xxWord.replaceAll("§1§", (z3Base + z3) ).
 			replaceAll("§4txt§", unaParola).replaceAll("§5txt§", "").replaceAll("§5dftxt§", "").
 			replaceAll("§abc§","true").	
 			replaceAll("§ttstxt§", "").
 			replaceAll('§spelling§','spelling'); 
+		//console.log("numId=", numId, " z3=", z3, " rowclip=",  	rowclip ); 
         clipSub_showTxt += rowclip + "\n";		
     } // end of for z3
 	
@@ -3891,7 +4017,7 @@ function begin_lbl2() {
 	
 	document.getElementById("page2_2").innerHTML = page2_content.trim() ; 	
 	
-	console.log("begin 2 copy div_voices") 	
+	console.log("begin 2 copy div_voices"); 	
 		
 	ele_div_voices.innerHTML = div_voices.trim(); 
 	
@@ -4043,7 +4169,7 @@ function lev2_build_all_clip() {
 		numCh = eleTr.children.length;
 		
 		txt1 = ""; 
-		trantxt1 = ""
+		trantxt1 = "";
 		nota1 = "";
 		traduzSeconda=""; 
 		if (numCh > 0) txt1 = eleTr.children[0].innerHTML;
@@ -4123,7 +4249,7 @@ function onclick_tts_arrowFromIx( this1, z3, wh) {
 	
 	tts_5_fun_invisible_prev_fromto(-1);
 	
-	fromIxToIxLimit = [z3 ,-1]; 
+	fromIxToIxLimit = [1*z3 ,-1]; 
 	[begix, endix] =  fromIxToIxLimit;
 	
 	tts_5_fun_copy_openClose_to_tr_m1(z3) ;  //  copy open/Close book style from this line idtr_xx to the upper idtr_xx_m1
@@ -4154,12 +4280,12 @@ function onclick_tts_arrowToIx( this1, z3 ) {
 	//-------------------------------------------
 	// new ... _ToIx
 	
-	fromIxToIxLimit[1]   = z3;  
+	fromIxToIxLimit[1]   = 1*z3;  
 	fromIxToIxButtonElement[1] = this1;
 	
 	[begix, endix] = fromIxToIxLimit;	
 
-	document.getElementById("id_prt2").innerHTML = endix;
+	document.getElementById("id_end_" + begix).innerHTML = endix;
 		
 	/*
 	this:  from id="b1_§1§" fromIx(§1§,this) -  to id="b2_§1§" 
@@ -4170,7 +4296,7 @@ function onclick_tts_arrowToIx( this1, z3 ) {
 	var id_pre_tr_beg_space  = "idtr_" + begix + "_m2" ; 
 	var id_pre_tr_head       = "idtr_" + begix + "_m1" ; 
 	var id_post_tr_end_space = "idtr_" + (endix+1) + "_m2" ;
-	
+	/**
 	if (begix == endix) {
 		try{
 			document.getElementById(id_pre_tr_beg_space  ).style.display = "none"; 
@@ -4179,6 +4305,7 @@ function onclick_tts_arrowToIx( this1, z3 ) {
 		} catch(e1) {}
 		return; 
 	}	
+	**/
 	
 	if (document.getElementById(id_pre_tr_head) == null) {
 		insert_TR_m1_m2( begix );
@@ -4507,11 +4634,16 @@ function onclick_tts_show_row(this1, z3) {
 
 function onclick_tts_OneClipRow_showHide_sub( thisX, sw_allSel) {
 	
-	if (thisX == false) { return; }
-		
+	if (thisX == false) { 
+		//console.log("onclick_tts_OneClipRow_showHide_sub  thisX = null"); 
+		return; 
+	}
+	//console.log("onclick_tts_OneClipRow_showHide_sub  thisX.id = ", thisX.id, " sw_allSel=", sw_allSel);	
 
 	let id1;
 	let inBeg, inEnd; 
+	begix = 1*begix;    // mi assicuro che sia un numero altrimenti il test di maggiore o minore è falsato
+	endix = 1*endix;
 	inBeg      = begix;
 	inEnd      = endix; 
 	
@@ -4520,7 +4652,8 @@ function onclick_tts_OneClipRow_showHide_sub( thisX, sw_allSel) {
 		inBeg  = endix;
 		inEnd  = begix; 		
 	} 
-	 
+	//console.log(" 2 onclick_tts_OneClipRow_showHide_sub ",   " begix=", typeof begix, "=", begix, " endix =",typeof endix,"=",  endix, " XXX   inBeg=", inBeg, " inEnd=", inEnd);
+	
 	var style0 , style1; 
 
 	
@@ -4547,6 +4680,7 @@ function onclick_tts_OneClipRow_showHide_sub( thisX, sw_allSel) {
 			style0 = "none";                          //  hide opened book image  
 			style1 = "block";						  //  show closed book image 	
 		}
+		//console.log("   style0=", style0, " style1=", style1); 
 	}	
 	//--------------
 	function tts_5_fun_oneRow11S() {	
@@ -4716,7 +4850,7 @@ function loadPrintGroupData() {
 		txt1     = document.getElementById("idc_" + z3).innerHTML.replaceAll("<br>",""); 		
 		trantxt1 = document.getElementById("idt_" + z3).innerHTML.replaceAll("<br>","");		
 
-		printStringBilingual += '<div class="print_row"><div class="print_orig">' + txt1 + '</div><div class="print_tran">' + trantxt1 + '</div></div> \n'  
+		printStringBilingual += '<div class="print_row"><div class="print_orig">' + txt1 + '</div><div class="print_tran">' + trantxt1 + '</div></div> \n'  ;
 		printStringOrigTxt   += '<div class="print_origOnly">' + txt1 + '</div> \n';   
 
 	} // end of for z3
@@ -4750,7 +4884,7 @@ function onclick_chkChosenVox(this1, nLang) {
 	//console.log("1 voce [0]=", voice1[0], " [1].name=", voice1[1].name, " [2]=",voice1[2], "  new checked=", check1);  
 	
 	listVoxL[nLang][ixVoice][2] = check1; 
-	var chlist=[]
+	var chlist=[];
 	for(var h=0; h < listVoxL[nLang].length;h++) {
 		chlist[h] = listVoxL[nLang][h][2]; 
 		//console.log("2 chList=",  h, "  = ",  listVoxL[nLang][h][2]) ; 
