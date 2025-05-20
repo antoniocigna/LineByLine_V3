@@ -266,7 +266,7 @@ div.fixed_bottom {
     margin: auto;
     text-align: center;
     font-size: 1.3em;
-    color: blue;
+    color: violet;
 	width:100%;
     background-color: white;
 }
@@ -603,17 +603,6 @@ div.fixed_bottom {
 	background-color:yellow;
 	font-weight: bold;
 	color:blue;
-}
-.suboLine {		
-	color: black;
-	font-style: oblique;
-	text-align:left; 
-}	
-.tranLine {
-	color: green; 
-	font-weight: normal;
-	font-style: oblique;	
-	text-align:left; 
 }
 .noneLine {	
 	color: lightgrey; 

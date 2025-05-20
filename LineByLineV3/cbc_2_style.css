@@ -241,13 +241,6 @@ html {
 	margin: 0 -0.0em 0 -0.5em;
 }
 
-.divRowText {
-	width: 100%;
-	height:100%;
-	/*resize: vertical;*/
-	overflow: auto;
-}
-
 .twoButts {
 	line-height: 0.7;
 }
@@ -261,28 +254,3 @@ html {
 	font-size: 1.2em;
 }		 
 /*---------------------------------------------------------*/
-.cl_paradigma {
-			color:black;
-			font-family:italic; 
-			font-size:0.8em;	
-			text-align:left;
-}
-.word {
-	color:blue;
-	font-family:italic; 
-	font-size:0.8em;	
-	text-align:left;
-}
-.hideForNow {
-	display: none;	
-}
-/* ------------------- */
-
-.cl_evidWord {
-	background-color:yellow;
-	font-weight:bold;
-	/*color:red; */
-}
-
-//----------------------------------
-		 
