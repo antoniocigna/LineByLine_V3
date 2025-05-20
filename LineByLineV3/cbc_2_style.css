@@ -276,5 +276,13 @@ html {
 .hideForNow {
 	display: none;	
 }
+/* ------------------- */
+
+.cl_evidWord {
+	background-color:yellow;
+	font-weight:bold;
+	color:red;
+}
+
 //----------------------------------
 		 
