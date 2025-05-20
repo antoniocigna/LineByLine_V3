@@ -1983,6 +1983,46 @@ function rotateVoice( numLang ) {
 	
 } // end of rotateVoice
 
+//--------------
+function boldWord( word1 ) {
+	return '\n<span class="cl_evidWord">' + word1 + '</span>\n';
+}
+//-----------------------------------------------------------------
+function trovataUnaParola(ele_orText, unaParola) {
+	// <div class="suboLine" style="display:block;" id="idc_502">RIGA TRE Du Uno siehst schlecht  aus! Was hast uno du?</div>
+	if (unaParola == undefined) return;	
+	if (unaParola == "") return;		
+	
+	var rigaOrig = ele_orText.innerHTML;	
+	var rigaEvid = rigaOrig;		
+	
+	if (ele_orText.children.length == null) {  // la riga in questa sessione non è mai stata elaborata 
+			ele_orText.innerHTML = '<div style="display:none;">' + rigaOrig + "</div>\n" + '<div>' + rigaEvid + "</div>";  
+	} else {
+		if (ele_orText.children.length < 2) {
+			ele_orText.innerHTML = '<div style="display:none;">' + rigaOrig + "</div>\n" + '<div>' + rigaEvid + "</div>"; 
+		} else { // la riga in questa sessione è già stata elaborata ( una o più parole sono state già evidenziate)	
+			rigaOrig =  ele_orText.children[0].innerHTML;	
+			rigaEvid =  ele_orText.children[1].innerHTML;
+		}	
+	}	
+	var unaParolaLw   = unaParola.toLowerCase() ; 
+	var unaParolaUpUp = unaParola.toUpperCase();  
+	var unaParolaUp1  = unaParola.substr(0,1).toUpperCase() + unaParola.substring(1).toLowerCase();   
+	var evidLw    = boldWord(unaParolaLw  ) ;
+	var evidUpUp  = boldWord(unaParolaUpUp) ;
+	var evidUp1   = boldWord(unaParolaUp1 ) ;
+	
+	if (rigaEvid.indexOf(evidLw)   < 0) rigaEvid = rigaEvid.replaceAll( unaParolaLw,   evidLw   );
+	if (rigaEvid.indexOf(evidUpUp) < 0) rigaEvid = rigaEvid.replaceAll( unaParolaUpUp, evidUpUp );
+	if (rigaEvid.indexOf(evidUp1)  < 0) rigaEvid = rigaEvid.replaceAll( unaParolaUp1,  evidUp1  );
+	
+	ele_orText.children[0].innerHTML = rigaOrig;	
+	ele_orText.children[1].innerHTML = rigaEvid;
+	//console.log(" trovata ", unaParola,  " in ", rigaOrig); 
+	
+} // end of trovataUnaParola
+
 //------------------------------------------
 function onclickSelectWord(tipo,id1,unaParola) {
 	/*
@@ -2049,12 +2089,13 @@ function onclickSelectWord(tipo,id1,unaParola) {
 		var swFound1=false; var swFound2 = false; 
 		if (numParole1 == 0) swFound1 = true; 
 		if (numParole2 == 0) swFound2 = true; 
+		var targWord1, targWord2; 
 		var w1, w2; var unaParolaDellaFrase;
 		if (swFound1 == false) {
 			for(var p=0; p < paroleDellaFrase.length; p++) {
 				unaParolaDellaFrase = paroleDellaFrase[p]; 			
 				for (w1=0;w1 < numParole1; w1++) {
-					if ( paroleDaCercare1[w1] == unaParolaDellaFrase) {swFound1=true; break; }
+					if ( paroleDaCercare1[w1] == unaParolaDellaFrase) {targWord1= unaParolaDellaFrase; swFound1=true; break; }
 				}  
 				if (swFound1) { //console.log(" trovata parola1 ",unaParolaDellaFrase ); 
 					break; 
@@ -2065,7 +2106,7 @@ function onclickSelectWord(tipo,id1,unaParola) {
 			for(var p=0; p < paroleDellaFrase.length; p++) {
 				unaParolaDellaFrase = paroleDellaFrase[p]; 			
 				for (w2=0;w2 < numParole2; w2++) {
-					if ( paroleDaCercare2[w2] == unaParolaDellaFrase) {swFound2=true; break; }
+					if ( paroleDaCercare2[w2] == unaParolaDellaFrase) {targWord2 = unaParolaDellaFrase; swFound2=true; break; }
 				} 	
 				if (swFound2) { //console.log(" trovata parola2 ",unaParolaDellaFrase ); 
 					break; 
@@ -2083,6 +2124,7 @@ function onclickSelectWord(tipo,id1,unaParola) {
 					for (w2=0;w2 < numParole2; w2++) {
 						if ( parola11 + paroleDaCercare2[w2] == unaParolaDellaFrase) {  
 							//console.log(" trovata parola1+parola2 ",unaParolaDellaFrase , " ( parola1=" + parola11 , " + " + paroleDaCercare2[w2] ); 
+							targWord2 = unaParolaDellaFrase;  
 							swFound2=true; 
 							break; 
 						}
@@ -2104,6 +2146,9 @@ function onclickSelectWord(tipo,id1,unaParola) {
 		var eleW   = document.getElementById( "idw_" + tr_num );  
 	
 		if (eleW) eleW.innerHTML = "";
+		
+		if (swFound1) trovataUnaParola(ele_orText, targWord1);	
+		if (swFound2) trovataUnaParola(ele_orText, targWord2);	
 		
 		//if (eleRow.style.display == "none")  eleRow.style.display = "table-row";
 		if (eleRow.classList.remove("hideForNow")) 
@@ -2146,11 +2191,25 @@ function onclickResetHideForNow(numId1) {
 		if (ele_endGr) ele_endGr.style.display = "none"; 
 	}
 	document.getElementById("id_showLoop").innerHTML = ""; 
+	
 	for(var v = 0; v < numRows; v++) {
 		var eleRow = tabBody.children[v];
-		if (eleRow == null) continue;
-		eleRow.classList.remove("hideForNow");   
-	}
+		if (eleRow == null) continue;		
+		if (eleRow.classList.contains("hideForNow")) {
+			eleRow.classList.remove("hideForNow");   
+		} else {
+			if (eleRow.id.indexOf("_m") < 0) {
+				var idcId = "idc_" + eleRow.id.substring(5);
+				var eleTxt = document.getElementById( idcId );
+				if (eleTxt) {
+					if (eleTxt.children.length > 0) { // il testo è diviso in due sezione: la prima col testo originale ed il secondo con parole evidenziate
+						eleTxt.innerHTML = eleTxt.children[0].innerHTML; 
+					}					
+				}	
+			}
+		}
+	} // end for v 
+	
 } // end of onclickResetHideForNow 
 
 //-------------------------------------------------
