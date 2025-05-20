@@ -243,6 +243,7 @@ var wLastBold_ix2 = -1;
 
 let begix, endix;
 let fromIxToIxLimit = [-1, -1];
+let salvaSel_fromIxToIxLimit = [-1, -1]; 
 let fromIxToIxButtonElement = [null, null];
 
 let save_last_oneOnlyRow = "";
@@ -1997,10 +1998,10 @@ function trovataUnaParola(ele_orText, unaParola) {
 	var rigaEvid = rigaOrig;		
 	
 	if (ele_orText.children.length == null) {  // la riga in questa sessione non è mai stata elaborata 
-			ele_orText.innerHTML = '<div style="display:none;">' + rigaOrig + "</div>\n" + '<div>' + rigaEvid + "</div>";  
+			ele_orText.innerHTML = '<span style="display:none;">' + rigaOrig + "</span>\n" + '<span>' + rigaEvid + "</span>";  
 	} else {
 		if (ele_orText.children.length < 2) {
-			ele_orText.innerHTML = '<div style="display:none;">' + rigaOrig + "</div>\n" + '<div>' + rigaEvid + "</div>"; 
+			ele_orText.innerHTML = '<span style="display:none;">' + rigaOrig + "</span>\n" + '<span>' + rigaEvid + "</span>"; 
 		} else { // la riga in questa sessione è già stata elaborata ( una o più parole sono state già evidenziate)	
 			rigaOrig =  ele_orText.children[0].innerHTML;	
 			rigaEvid =  ele_orText.children[1].innerHTML;
@@ -2022,14 +2023,26 @@ function trovataUnaParola(ele_orText, unaParola) {
 	//console.log(" trovata ", unaParola,  " in ", rigaOrig); 
 	
 } // end of trovataUnaParola
-
+//-----------------------------------------------
+function getInner_idc( ele_orText ) {
+	var origText; 
+	if (ele_orText.children.length > 0) {
+		origText = ele_orText.children[0].innerHTML.toLowerCase();
+		//console.log(ele_orText.id + " children origText children[0] =", origText);  
+	} else {
+		origText = ele_orText.innerHTML.toLowerCase();	
+		//console.log(ele_orText.id + " NO children origText =", origText);  
+	}
+	return origText; 
+}
 //------------------------------------------
 function onclickSelectWord(tipo,id1,unaParola) {
 	/*
 	tipo=1,   una sola parola da cercare
 	tipo=2,   unaParola e altreParole sono id di textarea che contengono lista di parole  	
 	*/
-	//console.log("onclickSelectWord(tipo=", tipo, " id1=",id1," unaParola=", unaParola)
+	//console.log("onclickSelectWord(tipo=", tipo, " id1=",id1," unaParola=", unaParola,  "  fromIxToIxLimit = ", fromIxToIxLimit[0] +", " +  fromIxToIxLimit[1] );
+	if (salvaSel_fromIxToIxLimit[0] < 0) salvaSel_fromIxToIxLimit = fromIxToIxLimit.slice(); 
 
 	var wordLista1 = "", wordLista2=""; 
 	if (tipo == 2) {
@@ -2068,6 +2081,7 @@ function onclickSelectWord(tipo,id1,unaParola) {
 		//console.log("v=", v); 
 		var eleRow = tabBody.children[v];
 		if (eleRow == null) continue;
+		
 		//eleRow.classList.add("hideForNow");   
 		var idtr1 = eleRow.id; 
 		if (idtr1.substr(0,5) != "idtr_") continue;   
@@ -2079,8 +2093,8 @@ function onclickSelectWord(tipo,id1,unaParola) {
 		eleRow.classList.add("hideForNow");   
 		//console.log("1 v=", v, "  idtr1=", idtr1, " tr_num=", tr_num); 
 		var ele_orText = document.getElementById( "idc_" + tr_num );  
+		var origText = getInner_idc( ele_orText ); 
 		
-		var origText = ele_orText.innerHTML.toLowerCase();	
 		//console.log("XXXXX ", origText);	
 		var orig_riga3 = origText.toLowerCase().replace(/[.,?!<>()]/g, " ").replace(/\s+/g, " ").trim(); 
 		
@@ -2184,6 +2198,22 @@ function onclickResetHideForNow(numId1) {
 	document.getElementById("resetHideForNow_" + numId1).style.display = "none"; 
 	document.getElementById("idtr_" + numId1+ "_m2").style.display = "none"; 
 	document.getElementById("idtr_" + numId1+ "_m1").style.display = "none"; 
+	
+	if (salvaSel_fromIxToIxLimit[0] >= 0) {
+		//console.log("resetHide    numId1=", numId1, " salvaSel_fromIxToIxLimit=", salvaSel_fromIxToIxLimit[0], " ", salvaSel_fromIxToIxLimit[1] ); 
+		fromIxToIxLimit = salvaSel_fromIxToIxLimit.slice();
+		salvaSel_fromIxToIxLimit = [-1, -1];
+	}
+	var oldFrom, oldTo;
+	[oldFrom, oldTo] = fromIxToIxLimit; 
+	document.getElementById("idtr_" + oldFrom + "_m2").style.display = "table-row"; 
+	document.getElementById("idtr_" + oldFrom + "_m1").style.display = "table-row";  
+	
+	if (document.getElementById("idtr_" + oldTo + "_m2") )  document.getElementById("idtr_" + oldTo + "_m2").style.display = "table-row"; 
+	
+	var oldDisplay = document.getElementById("idb_" + oldFrom).children[0].style.display; 
+	
+	
 	if (ele_numEndGr) {
 		var idEnd = 1 + 1*ele_numEndGr.innerHTML; 
 		if (idEnd >= numRows) idEnd = numRows-1; 
@@ -2200,7 +2230,7 @@ function onclickResetHideForNow(numId1) {
 		} else {
 			if (eleRow.id.indexOf("_m") < 0) {
 				var idcId = "idc_" + eleRow.id.substring(5);
-				var eleTxt = document.getElementById( idcId );
+				var eleTxt = document.getElementById( idcId );				
 				if (eleTxt) {
 					if (eleTxt.children.length > 0) { // il testo è diviso in due sezione: la prima col testo originale ed il secondo con parole evidenziate
 						eleTxt.innerHTML = eleTxt.children[0].innerHTML; 
@@ -2208,7 +2238,16 @@ function onclickResetHideForNow(numId1) {
 				}	
 			}
 		}
+		
+		if (( v >= oldFrom) && (v <= oldTo) && (oldFrom >= 0) ) document.getElementById("idb_" + v).children[0].style.display = oldDisplay; 
 	} // end for v 
+	//------------------------------------------
+
+	var numView=0; 
+	try{ numView = document.getElementById("id_toSave_fromNum").value; } catch(e1) {}
+	if (oldFrom > numView) numView = oldFrom;
+	scroll_row_intoView( numView );  	
+	
 	
 } // end of onclickResetHideForNow 
 
@@ -2851,11 +2890,11 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 			if (swSep1) {
 				speedRed = speed00;	
 				if (swAlfa) speedRed = 0.8; // swAlfA=TRUE solo in spezza_righe3 ( esplosione riga in parole)
-				var txtOrigW= get_words_fromRow( swAlfa,  ele_txtOrig.innerHTML.replaceAll("<br>", "")  );
+				var txtOrigW= get_words_fromRow( swAlfa,  getInner_idc( ele_txtOrig ).replaceAll("<br>", "")  );
 				righeDaLeggere.push( [IX_ORIG, txtOrigW,speedRed, ele_txtOrig, swShowOrig[z]] ) ; 
 				tot_ixorig++;  
 			} else {	
-				righeDaLeggere.push( [IX_ORIG, ele_txtOrig.innerHTML.replaceAll("<br>", ""),speed00, ele_txtOrig, swShowOrig[z]] ) ; 
+				righeDaLeggere.push( [IX_ORIG, getInner_idc( ele_txtOrig ).replaceAll("<br>", ""),speed00, ele_txtOrig, swShowOrig[z]] ) ; 
 				tot_ixorig++;  
 				
 				//console.log("      tot_ixorig=", tot_ixorig, " da leggere =",ele_txtOrig.innerHTML.replaceAll("<br>", "") ); 
@@ -3930,7 +3969,7 @@ function onclick_tts_seeWords3(this1, numId) {
 	var anal_ele_idc   = document.getElementById(idc1 );		  // frase originale 
 		
 	if (anal_ele_idc) {
-		anal_txt = anal_ele_idc.innerHTML;
+		anal_txt = getInner_idc( anal_ele_idc );
 	} else {
 		return;
 	}
@@ -4906,7 +4945,7 @@ function loadPrintGroupData() {
 
 	for (let z3 = begix; z3 <= endix; z3++) {
 		if (document.getElementById("idtr_" + z3).classList.contains("hideForNow") ) continue; 
-		txt1     = document.getElementById("idc_" + z3).innerHTML.replaceAll("<br>",""); 		
+		txt1     = getInner_idc( document.getElementById("idc_" + z3) ).replaceAll("<br>",""); 		
 		trantxt1 = document.getElementById("idt_" + z3).innerHTML.replaceAll("<br>","");		
 
 		printStringBilingual += '<div class="print_row"><div class="print_orig">' + txt1 + '</div><div class="print_tran">' + trantxt1 + '</div></div> \n'  ;
