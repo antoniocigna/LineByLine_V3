@@ -2007,17 +2007,21 @@ function trovataUnaParola(ele_orText, unaParola) {
 			rigaEvid =  ele_orText.children[1].innerHTML;
 		}	
 	}	
+	
+	rigaEvid  = highlight_aWord_inText(rigaEvid, unaParola, "cl_evidWord", 'äöüß'); 
+	/**
+	
 	var unaParolaLw   = unaParola.toLowerCase() ; 
 	var unaParolaUpUp = unaParola.toUpperCase();  
 	var unaParolaUp1  = unaParola.substr(0,1).toUpperCase() + unaParola.substring(1).toLowerCase();   
 	var evidLw    = boldWord(unaParolaLw  ) ;
 	var evidUpUp  = boldWord(unaParolaUpUp) ;
 	var evidUp1   = boldWord(unaParolaUp1 ) ;
-	
+		
 	if (rigaEvid.indexOf(evidLw)   < 0) rigaEvid = rigaEvid.replaceAll( unaParolaLw,   evidLw   );
 	if (rigaEvid.indexOf(evidUpUp) < 0) rigaEvid = rigaEvid.replaceAll( unaParolaUpUp, evidUpUp );
 	if (rigaEvid.indexOf(evidUp1)  < 0) rigaEvid = rigaEvid.replaceAll( unaParolaUp1,  evidUp1  );
-	
+	**/
 	ele_orText.children[0].innerHTML = rigaOrig;	
 	ele_orText.children[1].innerHTML = rigaEvid;
 	//console.log(" trovata ", unaParola,  " in ", rigaOrig); 
