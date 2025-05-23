@@ -10,7 +10,16 @@ license MIT: you can share and modify the software, but you must include the lic
 //----------------------------------------------
 var currScript = document.currentScript.src; var bar1 = currScript.lastIndexOf("\\");var bar2 = currScript.lastIndexOf("/"); 
 console.log("LOADED file SCRIPT " + currScript.substring( 1+Math.max(bar1,bar2) )) ;	// ... script3_GOHTML
+
 //----------------------------------------------------------------------------------------
+
+// charList constant contains a list of alphabetic characters to add to the ascii a-z
+// got from google German, Italian, French, Spanish, Portuguese, Swedish, Norwegian, Danish, Hungarian  virtual keyboard.
+
+const charList = 'äöüß' + 'àéèòù' + 'ç' + 'ñº' + '~' + 'å' + 'øæå' + 'őúűéá' ; 
+
+//----------------------------------------------
+
 const DURATA_TRADUZIONE = 2 * 1000;    // tempo di permanenza in milliSecondi di visibilità della traduzione
 const listaTipi = ",Tr00,Tr10,Tr20,Tr21,Tr22,Tg00,Tg10,Tg20,Tg21,Tg22,Tg30,Tg31,Tg32," ;  // row and group
 const typeList = listaTipi.split(",").slice(1); 
@@ -2008,7 +2017,7 @@ function trovataUnaParola(ele_orText, unaParola) {
 		}	
 	}	
 	
-	rigaEvid  = highlight_aWord_inText(rigaEvid, unaParola, "cl_evidWord", 'äöüß'); 
+	rigaEvid  = highlight_aWord_inText(rigaEvid, unaParola, "cl_evidWord", charList); 
 	/**
 	
 	var unaParolaLw   = unaParola.toLowerCase() ; 
@@ -4038,18 +4047,14 @@ function onclick_tts_seeWords3(this1, numId) {
 // ===================================================================
 function tts_3_spezzaRiga3(orig_riga, numId) {
 
-	//console.log("tts_3_spezzaRiga3(orig_riga, numId)" );
-
-    //var endix2 = -1;
-
-
-
+	/**
     var orig_riga2 = orig_riga.replaceAll(". ", ". §").replaceAll("! ", "! §").replaceAll("? ", "? §").replaceAll("; ", "; §").
 							replaceAll(": ", ": §").replaceAll(", ", ", §").replaceAll(" ", " §");
 
     var listaParole =  orig_riga2.split("§");
-
-  
+	**/
+	var listaParole = getListOfWords_inText(orig_riga, charList);
+	  
     let clipSub_showTxt = "";
 	
 	clipSub_showTxt += `
