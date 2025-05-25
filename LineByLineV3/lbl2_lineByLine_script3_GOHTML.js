@@ -592,10 +592,10 @@ let div_voices =  `
 				<div  style="width:60%; border:0px solid blue;background-color: var(--main-bg-color);margin-left:20%;margin-right:20%;
 					border-radius:0.8em;">
 					<div style="display: inline-block; width:30%;text-align:right;">
-						<button class="buttonTD" style="width:12em;text-align:center;" onclick="onclick_showtabLoop('id_show_voices')">hide/change<br>voice parameters</button>
+						<button class="buttonTD" style="width:100%;text-align:center;" onclick="onclick_showtabLoop('id_show_voices')">hide/change<br>voice parameters</button>
 					</div>
 					<div style="display: inline-block; width:30%;text-align:left;">
-						<button class="buttonTD" style="width:12em;text-align:center;" onclick="onclick_showtabLoop('id_tabLoopShow')">hide/change<br>loop parameters</button>
+						<button class="buttonTD" style="width:100%;text-align:center;" onclick="onclick_showtabLoop('id_tabLoopShow')">hide/change<br>loop parameters</button>
 					</div>
 				</div>
 					
@@ -1658,13 +1658,14 @@ function plus_initial_from_localStorage_values() {
 	
 	
 	
-	console.log("\nXXXXXXXXXXXXXXXXXXXXXXX  INITIAL LOCAL_STORAGE  XXXXXXXXXXXXXXXX, \nplus_initial_from_localStorage_values() ") ;
+	//console.log("\nXXXXXXXXXXXXXXXXXXXXXXX  INITIAL LOCAL_STORAGE  XXXXXXXXXXXXXXXX, \nplus_initial_from_localStorage_values() ") ;
+	//console.log("stored_cbc_localStor.length=", stored_cbc_localStor.length, " VV21=", VV21);
 	
 	var lenS=0; let nFields = 6; 
 	if (stored_cbc_localStor) {
 		lenS = stored_cbc_localStor.length; 
 		if (lenS > VV21) {  
-			console.log("lenS > VV21=", VV21); 
+			//console.log("lenS > VV21=", VV21); 
 			sel_voice_ix[0]        = stored_cbc_localStor[VV00];        
 			sel_voiceName[0]       = stored_cbc_localStor[VV01];                  
 			sel_voiceLangRegion[0] = stored_cbc_localStor[VV02];                   	
@@ -1683,9 +1684,10 @@ function plus_initial_from_localStorage_values() {
 		
 			sel_loopTypeSet_str    = stored_cbc_localStor[VV20];   
 			sel_begin_fromNumRow_str = stored_cbc_localStor[VV21];  
+			//console.log("esegue load_sel_loopTypeSet ()");
 			load_sel_loopTypeSet(sel_loopTypeSet_str);  
 			
-			//console.log("plus initial sel_loopTypeSet_str=", sel_loopTypeSet_str, "\n\t" + " sel_loopTypeSet [0]=",   sel_loopTypeSet.join("\n\t\t") );   
+			//console.log("plus initial sel_loopTypeSet_str=", sel_loopTypeSet_str , "\n\t" + " sel_loopTypeSet [0]=",   sel_loopTypeSet.join("\n\t\t") );   
 		}
 	}
 
@@ -1719,7 +1721,9 @@ function scroll_row_intoView( numId ) {
 //----------------------------------------------------------------
 
 function load_sel_loopTypeSet( set_str) {
-	//console.log("load_sel_loopTypeSet()"); // set_str=", set_str); 
+	
+	var mioJ1 = set_str.indexOf("==loop_Tr10") ; var mioJ2 = set_str.indexOf("==loop_", mioJ1) ; 
+	//console.log("load_sel_loopTypeSet ()"  , " set_str= ...", mioJ1, " ", mioJ2, " " , set_str.substring(mioJ1, mioJ2) ); 
 	set_str = set_str.trim();
 	if (set_str == "") return;  
 	
@@ -1748,12 +1752,13 @@ function load_sel_loopTypeSet( set_str) {
 		//console.log("loopTypeId=", loopTypeId, " ", storeLoop)
 		index = loopIndexOfType( loopTypeId );
 		if (index < 0) {
-			console.log( "load_sel_loopTypeSet() " , storeLoop);
+			console.log( "load_sel_loopTypeSet () " , storeLoop);
 			continue;
 		}  
+		
 		sel_loopTypeSet[index] = storeLoop;
 		
-		//console.log( "load_sel_loopTypeSet() " , loopTypeId, " index=", index, " ==> sel_loopTypeSet [index] = ", sel_loopTypeSet [index]);		
+		//if (index==1) console.log( "load_sel_loopTypeSet () " , loopTypeId, " index=", index, " ==> sel_loopTypeSet [index] = ", sel_loopTypeSet [index]);		
 		
 	}
 	
@@ -1814,6 +1819,7 @@ function plus_set_localStorage_var(xx, ltid, sw00, this11) {
 	***/
 	
 	if (runByGo) {
+		//console.log("esegue 'scrive su local storage' localStorage_setItemFile(cbc_LOCALSTOR_key, cbc_LOCALSTOR_val_list =" ,  cbc_LOCALSTOR_val_list); 
 		localStorage_setItemFile(cbc_LOCALSTOR_key, cbc_LOCALSTOR_val_list );   // vedi _localStorage_routine.js	
 	} else { 	
 		localStorage.setItem(cbc_LOCALSTOR_key, JSON.stringify(cbc_LOCALSTOR_val_list));
@@ -2821,27 +2827,29 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 	//------------
 	
 	let perc_speed_reduce = 100; 
+	let perc_speed_reduce_Sp = 100;
+	let perc_speed_reduce_Wb  = 100;
 	var lenLis = thisLineList_swSpeedReduceX.length; // numero di colonne previste nelle righe r1, r2 e gruppi g1,g2,g3   (può essere maggiore o minore di numeroDiRipetizioni  
+	if  ( lenLis > 1)  {
+			if (thisLineList_swSpeedReduceX[0]) {    
+				if (thisLineList_swSpeedReduceX[0] != "_")	perc_speed_reduce_Sp = parseInt( thisLineList_swSpeedReduceX[0] ); 	
+			}
+			if (thisLineList_swWordByWordX[0]) {    
+				if (thisLineList_swWordByWordX[0] != "_")	perc_speed_reduce_Wb = parseInt( thisLineList_swWordByWordX[0] ); 	 	
+			}
+	}	
 	if (sw_NO_LOOP == false) {
 		if  ( lenLis < 1)  {
 			console.log("%cErrore numero di colonne in r1 r2 g1 g2 g3 DEVE essere maggiore di 1", "color:red;");   
 		}	
-		if  ( lenLis > 1)  {
-			if (thisLineList_swSpeedReduceX[0]) {    
-				if (thisLineList_swSpeedReduceX[0] != "_")	perc_speed_reduce = parseInt( thisLineList_swSpeedReduceX[0] ); 	
-			}
-			if (thisLineList_swWordByWordX[0]) {    
-				if (thisLineList_swWordByWordX[0] != "_")	perc_speed_reduce = parseInt( thisLineList_swSpeedReduceX[0] ); 	 	
-			}
-			
+		if  ( lenLis > 1)  {			
 			swSpeedReduce	  = thisLineList_swSpeedReduceX.slice(1) ; 
 			swWordByWord	  = thisLineList_swWordByWordX.slice(1) ; 
 			swTranslation     = thisLineList_swTranX.slice(1)        ; 
 			swShowOrig        = thisLineList_swShowOrigX.slice(1)    ;  		
 			swShowTran        = thisLineList_swShowTranX.slice(1)    ;  
 		}
-	}
-	
+	} 
 	
 	lenLis = swSpeedReduce.length;
 		
@@ -2870,7 +2878,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 	}
 	//let shL;	
 	let speed0 = speechRate[0];
-	let speed00=1;
+	
 	let speed1 = speechRate[1];
 	
 	
@@ -2905,25 +2913,29 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 			default: break;	
 		}
 		
-		if (swSpeedReduce[z]) {
-				speed00 = perc_speed_reduce * speed0/100;     
+		if (swWordByWord[z]) {
+			perc_speed_reduce = perc_speed_reduce_Wb * speed0/100;     
 		} else {
-			speed00 = speed0;
-		}				
-		
-		
+			if (swSpeedReduce[z]) {
+				perc_speed_reduce = perc_speed_reduce_Sp * speed0/100;     
+			} else {
+				perc_speed_reduce = speed0;
+			}
+		}
+		 
 		
 		let swTran1 = swTranslation[z];
 		let swSep1  = swWordByWord[z];   //   
 		
 		if (sw_NO_LOOP) { 
-			//if (swPause) {	swSep1  = true; }
-			swSep1  = swPause; 
+			//if (swPause) {	swSep1  = true; }			
 			swTran1 = swOrigAndTran;
-			speed00 = speed0; 
+			swSep1  = swPause; 
+			if (swSep1) perc_speed_reduce = perc_speed_reduce_Wb * speed0/100;   
+			//console.log("  sw_NO_LOOP=",sw_NO_LOOP, " swSep1=", swSep1, " perc_speed_reduce_Wb=", perc_speed_reduce_Wb,  " perc_speed_reduce=",  perc_speed_reduce); 
 		}
 		
-		//console.log("  ripetiz. z=", z, "  swTranslation[z]=", swTranslation[z], " swTran1=", swTran1 , " XX swWordByWord[z]=", swWordByWord[z], " swSep1=", swSep1 );  
+		//console.log("  ripetiz. z=", z, "  swTranslation[z]=", swTranslation[z], " swTran1=", swTran1 , " XX swWordByWord[z]=", swWordByWord[z], " swSep1=", swSep1 , " perc_speed_reduce=",perc_speed_reduce);  
 		var f; 
 		//console.log("accumRowToPlay ( , thisLineList_loopTypeX=", thisLineList_loopTypeX, "minIndice=", minIndice, " numId=", numId, " minimo=", minimo,  " begix=", begix, "  endix=", endix, "module=", module);  
 		for(var f1=minIndice; f1 <= numId; f1++) {
@@ -2956,18 +2968,19 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 			
 			
 			if (swSep1) {
-				speedRed = speed00;	
-				if (swAlfa) speedRed = 0.8; // swAlfA=TRUE solo in spezza_righe3 ( esplosione riga in parole)
+				speedRed = perc_speed_reduce;	
+				//if (swAlfa) speedRed = 0.8; // swAlfA=TRUE solo in spezza_righe3 ( esplosione riga in parole)
+				if (swAlfa) speedRed = perc_speed_reduce_Wb * speed0/100;     // swAlfA=TRUE solo in spezza_righe3 ( esplosione riga in parole)	
 				var txtOrigW= get_words_fromRow( swAlfa,  getInner_idc( ele_txtOrig ).replaceAll("<br>", "")  );
-			
+				//console.log("111 swSep1=", swSep1, " speedRed=", speedRed); 
 				righeDaLeggere.push( [IX_SetMSG, msg_ix_set2 + " velocità=" + speedRed, swOrigAndTran,null ] ) ;  // set msg under loop type button
 			
 				righeDaLeggere.push( [IX_ORIG, txtOrigW,speedRed, ele_txtOrig, swShowOrig[z]] ) ; 
 				tot_ixorig++;  
 			} else {	
-				righeDaLeggere.push( [IX_SetMSG, msg_ix_set2 + " velocità=" + speed00,swOrigAndTran,null ] ) ;  // set msg under loop type button
-			
-				righeDaLeggere.push( [IX_ORIG, getInner_idc( ele_txtOrig ).replaceAll("<br>", ""),speed00, ele_txtOrig, swShowOrig[z]] ) ; 
+				righeDaLeggere.push( [IX_SetMSG, msg_ix_set2 + " velocità=" + perc_speed_reduce,swOrigAndTran,null ] ) ;  // set msg under loop type button
+				//console.log("222 speedRed=", perc_speed_reduce); 
+				righeDaLeggere.push( [IX_ORIG, getInner_idc( ele_txtOrig ).replaceAll("<br>", ""),perc_speed_reduce, ele_txtOrig, swShowOrig[z]] ) ; 
 				tot_ixorig++;  
 				
 				//console.log("      tot_ixorig=", tot_ixorig, " da leggere =",ele_txtOrig.innerHTML.replaceAll("<br>", "") ); 
@@ -3185,10 +3198,12 @@ function get_words_fromRow(swAlfa, txt3) {
 		}
 		return newTxt3;
 	}	
-
+	var ww1 = getListOfWords_inText(txt3, charList) ;
+	/**
 	var ww1 =  (txt3+" ").replaceAll("–"," ").replaceAll("-"," ").
 			replaceAll(", "," ").replaceAll(" ."," ").replaceAll(". "," ").replaceAll("..."," ").
 			replaceAll("? "," ").replaceAll("! "," ").split(" "); 
+	**/			
 	txt3 = "";
 	for(var g=0; g < ww1.length; g++) {	
 		var ww2 = ww1[g].trim(); 
@@ -3252,7 +3267,7 @@ function set_var_rLoopT() {
 //---------------------
 function restore_prevRun_loop_parameters_to_htmlPage() {
 	
-	//console.log("\nxxxxxxxxxxxxx\nrestore_prevRun_loop_parameters_to_htmlPage    ( update html page )\n") 
+	console.log("\nxxxxxxxxxxxxx\nrestore_prevRun_loop_parameters_to_htmlPage    ( update html page )\n") 
 	
 	restore_fromStor_loopType_toHTML("Tr00"); 
 	restore_fromStor_loopType_toHTML("Tr10");
@@ -3270,7 +3285,7 @@ function restore_prevRun_loop_parameters_to_htmlPage() {
 	restore_fromStor_loopType_toHTML("Tg31");
 	restore_fromStor_loopType_toHTML("Tg32");
 		
-	//plus_set_localStorage_var();
+	//plus_set_localStorage_var ();
 	
 }
 
@@ -3278,7 +3293,7 @@ function restore_prevRun_loop_parameters_to_htmlPage() {
 
 //---------------------------------------
 function restore_fromStor_loopType_toHTML(loopTypeId ) {
-		
+		//console.log("restore_fromStor_loopType_toHTM INIZIO ");
 		//console.log("restore_fromStor_loopType_toHTML(loopTypeId ", loopTypeId,   " id=" +  loopTypeId + "_rLoop" + "<==") ;
 		
 		var ele_rLoop         = document.getElementById( loopTypeId + "_rLoop");  	
@@ -3360,31 +3375,25 @@ function restore_fromStor_loopType_toHTML(loopTypeId ) {
 		
 		//console.log("1 restore ", loopTypeId, " ele_nrLoop=",  ele_nrLoop ); 
 		
-		if (ele_read_rowspeed == null        ) { onclick_refresh_loopParms( loopTypeId ,"restore1"); return; } 
+		if (ele_read_rowspeed == null        ) { 
+			//console.log("restore_fromStor_loopType_toHTM chiama 1 onclick_refresh_loopParms");
+			onclick_refresh_loopParms( loopTypeId ,"restore1"); 
+			return; 
+		} 
 		
 		if (ele_read_rowspeed.innerHTML == "") { 
+			//console.log("restore_fromStor_loopType_toHTM chiama 2 onclick_refresh_loopParms");
 			onclick_refresh_loopParms( loopTypeId , "restore2"); 
 			return; 
 		} 
 		
-		var eleTr_swList_sepW        = document.getElementById( loopTypeId + "_sepW"    );
+		
 		var eleTr_swList_SpeedReduce = document.getElementById( loopTypeId + "_spRedSw" );
 		var eleTr_swList_WordByWord  = document.getElementById( loopTypeId + "_wbwSw" );
 		var eleTr_swList_Tran        = document.getElementById( loopTypeId + "_tranSw"  );	
 		var eleTr_swList_ShowOrig    = document.getElementById( loopTypeId + "_showOrigSw" ); 
 		var eleTr_swList_ShowTran    = document.getElementById( loopTypeId + "_showTranSw" );
-		
-		
-		//console.log("2 restore ", loopTypeId, " ele_nrLoop=",  ele_nrLoop ); 
-		
-		if (eleTr_swList_sepW == null) { onclick_refresh_loopParms( loopTypeId , "restore3"); return; }
-		
-		//console.log("3 restore ", loopTypeId, " ele_nrLoop=",  ele_nrLoop ); 
-		
-		
-		//if (sw1) console.log(loopTypeId , "   eleTr_swList_sepW=", eleTr_swList_sepW)
-		
-		
+				
 		putListSw_onHTML(true,  eleTr_swList_SpeedReduce, ret_txLoopT_speedReduce );
 		putListSw_onHTML(true,  eleTr_swList_WordByWord,  ret_txLoopT_wordByWord );
 		putListSw_onHTML(false, eleTr_swList_Tran       , ret_txLoopT_swTran      );
@@ -3430,6 +3439,7 @@ function restore_fromStor_loopType_toHTML(loopTypeId ) {
 			}		
 			
 		} //-------	
+		//console.log("restore_fromStor_loopType_toHTM FINE ");
 		
 } // end of restore_fromStor_loopType 
 //---------------------------------------
@@ -3494,6 +3504,7 @@ function getTypeName( loopTypeId ) {
 } // end of getTypeName
 
 //--------------------------
+//      onclick_refresh_loopParms ("§§","spRedSw" , true,this)  
 function onclick_refresh_loopParms( loopTypeId , where, sw0,this1) {
 		// eg. id_loop = "20"
 		var index = loopIndexOfType( loopTypeId );  
@@ -3504,7 +3515,7 @@ function onclick_refresh_loopParms( loopTypeId , where, sw0,this1) {
 			
 		
 		//if (sw1) {
-		//console.log("\nXXXXXXXXXXXXXXXXXXXXXXXXXX\n onclick_refresh_loopParms(" , "loopTypeId=", loopTypeId + " in ",where, " sw0=", sw0, ")"  +    " index=", index)
+		//console.log("\nXXXXXXXXXXXXXXXXXXXXXXXXXX\n onclick_refresh_loopParms(" , "loopTypeId=", loopTypeId + " in ",where, " sw0=", sw0, "\n1tthis=", this1, ")"  +    " index=", index)
 		//if (this1) 	console.log("\t ", this1.parentElement.parentElement.innerHTML)
 		//}		
 		
@@ -3555,14 +3566,13 @@ function onclick_refresh_loopParms( loopTypeId , where, sw0,this1) {
 				**/
 				//var pref= '_' + ele_read_rowspeed.id.substring(0,4);
 				//console.log( "id=" +  "rSepW"    + pref)
-				var eleTr_swList_sepW        = document.getElementById( loopTypeId + "_sepW"    );				
+						
 				var eleTr_swList_SpeedReduce = document.getElementById( loopTypeId + "_spRedSw" );
 				var eleTr_swList_WordByWord  = document.getElementById( loopTypeId + "_wbwSw" );
 				var eleTr_swList_Tran        = document.getElementById( loopTypeId + "_tranSw"  );
 				var eleTr_swList_ShowOrig    = document.getElementById( loopTypeId + "_showOrigSw"  );
 				var eleTr_swList_ShowTran    = document.getElementById( loopTypeId + "_showTranSw"  );
-				//if (eleTr_swList_sepW) 			txLoopT_limit_swSepar[      index] = getListSw_fromHTML(false, eleTr_swList_sepW       );
-				//else {  console.log("ERRORE ", " elem ", loopTypeId + "_sepW" , " non esiste "); signalError(11); }
+				
 				if (eleTr_swList_SpeedReduce)	txLoopT_limit_swSpeedReduce[index] = getListSw_fromHTML(true,  eleTr_swList_SpeedReduce);
 				if (eleTr_swList_WordByWord)	txLoopT_limit_swWordByWord[index]  = getListSw_fromHTML(true,  eleTr_swList_WordByWord);
 				if (eleTr_swList_Tran       )	txLoopT_limit_swTran[       index] = getListSw_fromHTML(false, eleTr_swList_Tran       );
@@ -3581,7 +3591,7 @@ function onclick_refresh_loopParms( loopTypeId , where, sw0,this1) {
 		
 		sel_loopTypeSet[index] = storeLoop; 
 	
-		//console.log("XXXXXXXXXXXXX onclick_refresh_loopParms(" , loopTypeId, "\n\tstorizza with HTML values  sel_loopTypeSet [index=", index, "] =", sel_loopTypeSet [index]); 
+		//console.log("  onclick_refresh_loopParms  chiama  plus_set_localStorage_var (1"); 
 		
 		plus_set_localStorage_var(1,  loopTypeId , sw0,this1);
 				
@@ -3648,7 +3658,7 @@ function fun_getLoopTypeValFromStore( storeLoop ) {
 	console.log("get Loop: ", "ret_txLoopT_nome    = ",  ret_txLoopT_nome  ) ;
 	console.log("get Loop: ", "ret_txLoopT_nRighe  = ",  ret_txLoopT_nRighe) ;
 	console.log("get Loop: ", "ret_txLoopT_nRepeat = ",  ret_txLoopT_nRepeat ) ;	
-	console.log("get Loop: ", "ret_txLoopT_swSpeedReduce = ",  ret_txLoopT_wordByWord  ) ;
+	console.log("get Loop: ", "ret_txLoopT_ret_txLoopT_wordByWord = ",  ret_txLoopT_wordByWord  ) ;
 	console.log("get Loop: ", "ret_txLoopT_swSpeedReduce = ",  ret_txLoopT_speedReduce ) ;
 	console.log("get Loop: ", "ret_txLoopT_swTran  = ",  ret_txLoopT_swTran  ) ;
 	console.log("get Loop: ", "ret_txLoopT_swShowOrig  = ",  ret_txLoopT_swShowOrig ) ;	
@@ -3696,7 +3706,7 @@ function build_loopType_rowspeed_inHTML( loopTypeId, headSpeed ) {
 
 //----------------------------------------------------
 function load_loop_parameters_fromHTML_to_vars(wh) {
-	
+	//console.log("%cload_loop_parameters_fromHTML_to_vars ", "color:blue;");
 	onclick_refresh_loopParms("Tr00", "load_loop_parameters_fromHTML_to_vars" );
 	onclick_refresh_loopParms("Tr10", "load_loop_parameters_fromHTML_to_vars" );
 	onclick_refresh_loopParms("Tr20", "load_loop_parameters_fromHTML_to_vars" );
@@ -3713,6 +3723,9 @@ function load_loop_parameters_fromHTML_to_vars(wh) {
 	onclick_refresh_loopParms("Tg32", "load_loop_parameters_fromHTML_to_vars" );
 	
 	lista_loop_parms_byType("Tr00");
+	
+	//console.log("  lista_loop_parms_byType ()  lista_loop_parms_byType('Tr00')");	
+	
 	lista_loop_parms_byType("Tr10");	
 	lista_loop_parms_byType("Tr20");
 	lista_loop_parms_byType("Tr21");
@@ -3898,6 +3911,11 @@ function onclick_anotherLoopType(this1, sw_group, sw_incr, wh) {
 	thisLineList_swTran0  	    = txLoopT_limit_swTran[     index0].slice(); 
 	thisLineList_swShowOrig0 	= txLoopT_limit_swShowOrig[ index0].slice(); 	
 	thisLineList_swShowTran0    = txLoopT_limit_swShowTran[ index0].slice();  
+	
+	if (index0 == 0) {
+		thisLineList_swSpeedReduce0	= txLoopT_limit_swSpeedReduce[1].slice();  
+		thisLineList_swWordByWord0	= txLoopT_limit_swWordByWord[1].slice();  		
+	}
 	
 	//var field0 = thisLineList_swSpeedReduce0[0].split(":"); 
 	//thisLineList_swSpeedReduce0[0] = field0[1]; 
@@ -4285,7 +4303,7 @@ function get_languageName( en_GB ) {
 
 function lev2_build_all_clip() {
 	
-	console.log("lev2_build_all_clip ()" );
+	//console.log("lev2_build_all_clip ()" );
 	
     let clipSub_showTxt = "", txt1;
   
@@ -4305,9 +4323,9 @@ function lev2_build_all_clip() {
 	var zero1 = "0".repeat( 2+(""+numRowInput).length );
 	numWordBase = parseInt("1"+ zero1 ); 
 	numRowForWordBase  = parseInt("2"+ zero1 ); 
+		
+	//console.log("lev3_build_all_clip 3" , " numRowInput=", numRowInput, " numWordBase=", numWordBase, "  numRowForWordBase=",numRowForWordBase );
 	
-	
-	console.log("lev3_build_all_clip 3" , " numRowInput=", numRowInput, " numWordBase=", numWordBase, "  numRowForWordBase=",numRowForWordBase );
 	let nota1 = "";
 	let traduzSeconda=""; 
 	let numCh=0; 
