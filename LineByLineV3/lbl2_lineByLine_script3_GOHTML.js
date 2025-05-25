@@ -670,24 +670,26 @@ var table_read_rowspeed = `
 									</tr>
 									<tr style="background-color:lightgrey;">	
 										<td>n.1</td><td>n.2</td><td>n.3</td><td>n.4</td><td>altre</td>
-									</tr>
-									<tr id="§§_sepW">
-										<td style="text-align:left;">separa le parole</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
-									</tr>
+									</tr>									
 									<tr id="§§_spRedSw">
 										<td style="text-align:left;">
-											<span>velocità ridotta</span> 
-											<input id="§§_lowSpeed1" type="number" value="80"  min="50" max="100" style="width:3em;text-align:right;" onchange='onclick_refresh_loopParms("§§","spRedSw" , true,this)'>%</td>
+											<span>ascolta testo a velocità ridotta</span> 
+											<input type="number" value="80"  min="50" max="100" style="width:3em;text-align:right;" onchange='onclick_refresh_loopParms("§§","spRedSw" , true,this)'>%</td>
 										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
 										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
 										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","spRedSw" )' checked ></td>  
 										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
 										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+									</tr>  
+									<tr id="§§_wbwSw">
+										<td style="text-align:left;">
+											<span>parole separate e velocità ridotta</span> 
+											<input type="number" value="80"  min="50" max="100" style="width:3em;text-align:right;" onchange='onclick_refresh_loopParms("§§","wbwSw" , true,this)'>%</td>
+										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","wbwSw" )' checked ></td>  
+										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
 									</tr>  
 									<tr id="§§_tranSw">
 										<td style="text-align:left;">ascolta traduzione</td>
@@ -725,23 +727,26 @@ var table_read_rowspeed = `
 									<tr style="background-color:lightgrey;visibility: collapse;">	
 										<td>n.1</td><td>n.2</td><td>n.3</td><td>n.4</td><td>altre</td>
 									</tr>
-									<tr id="§§_sepW" style="visibility: collapse;">	
-										<td style="text-align:left;">separa le parole</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","sepw" )' ></td>
-									</tr>
+									
 									<tr id="§§_spRedSw" >
 										<td style="text-align:left;">
-											<span>velocità ridotta</span> 
-											<input id="§§_lowSpeed1" type="number" value="80"  min="50" max="100" style="width:3em;text-align:right;" onchange='onclick_refresh_loopParms("§§","spRedSw" , true,this)'>%</td>
+											<span>ascolta testo a velocità ridotta</span> 
+											<input type="number" value="80"  min="50" max="100" style="width:3em;text-align:right;" onchange='onclick_refresh_loopParms("§§","spRedSw" , true,this)'>%</td>
 										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
 										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
 										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>  
 										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
 										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+									</tr>  
+									<tr id="§§_wbwSw" >
+										<td style="text-align:left;">
+											<span>parole separate e velocità ridotta</span> 
+											<input type="number" value="80"  min="50" max="100" style="width:3em;text-align:right;" onchange='onclick_refresh_loopParms("§§","wbwSw" , true,this)'>%</td>
+										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>  
+										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
 									</tr>  
 									<tr id="§§_tranSw">
 										<td style="text-align:left;">ascolta traduzione</td>
@@ -1484,18 +1489,18 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 			   <!--<div style="font-size:0.5em;line-height: 80%;"></div> -->
             </td>    
 			<td class="playBut1 bordLeft c_m2">
-               <button class="buttonWhite buttonSpeak" onclick="onclick_play_Orig_and_Tran_group(§1§,false,false,§abc§)">
+               <button class="buttonWhite buttonSpeak" onclick="onclick_play_Orig_and_Tran_group(§1§,false,false,§swAlfaHtml§)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">Orig</span>
                </button>
             </td>	
 			<td class="playBut1 c_m2">
-               <button class="buttonWhite buttonSpeak" onclick="onclick_play_Orig_and_Tran_group(§1§,true,false,§abc§)">
+               <button class="buttonWhite buttonSpeak" onclick="onclick_play_Orig_and_Tran_group(§1§,true,false,§swAlfaHtml§)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">Orig + Tran</span>
                </button>
             </td>		
 			<td class="playBut1 c_m2">
 				<!--
-				<button class="buttonWhite buttonSpeak" onclick="onclick_play_Orig_and_Tran_group(§1§,true,true,§abc§)">
+				<button class="buttonWhite buttonSpeak" onclick="onclick_play_Orig_and_Tran_group(§1§,true,true,§swAlfaHtml§)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">${word_pause_symb}</span>
                </button>
 				-->
@@ -1562,18 +1567,18 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
             </td>          
 			
 			<td class="playBut1 bordLeft  c_m1g" >
-               <button class="buttonWhite buttonSpeak" onclick="onclick_play_Orig_and_Tran_row(§1§,false,false,§abc§)">
+               <button class="buttonWhite buttonSpeak" onclick="onclick_play_Orig_and_Tran_row(§1§,false,false,§swAlfaHtml§)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">Orig</span>
                </button>
             </td>
 			<td class="playBut1  c_m1g">
-               <button class="buttonWhite buttonSpeak" onclick="onclick_play_Orig_and_Tran_row(§1§,true,false,§abc§)">
+               <button class="buttonWhite buttonSpeak" onclick="onclick_play_Orig_and_Tran_row(§1§,true,false,§swAlfaHtml§)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">Orig + Tran</span>
                </button>
             </td>
 			
             <td class="playBut1  c_m1g">
-               <button class="buttonWhite buttonSpeak" onclick="onclick_play_Orig_and_Tran_row(§1§,false,true,§abc§)">
+               <button class="buttonWhite buttonSpeak" onclick="onclick_play_Orig_and_Tran_row(§1§,false,true,§swAlfaHtml§)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span>
 					<span style="font-size:0.9em;">${word_pause_symb}</span>
 					<br><span style="font-size:0.5em;">§spelling§</span>
@@ -1950,7 +1955,7 @@ function rotateVoice( numLang ) {
 	let listIdSelVox = ["origSelVox","tranSelVox"];		
 	let ixVoice0V = 0;
 	
-	//console.log( "onclick_play_Orig_and_Tran_row()    totNumSelVoices=", totNumSelVoices); 
+	//console.log( "onclick_play_Orig_and_Tran_row ()    totNumSelVoices=", totNumSelVoices); 
 	var voice_ix; 
 	let v = numLang;
 	
@@ -2071,21 +2076,17 @@ function onclickSelectWord(tipo,id1,unaParola) {
 		wordLista1 = unaParola; 	
 	} 
 	//console.log("1 wordLista1  = ", wordLista1 , "\n", "1 wordLista2  = ", wordLista2);  
-	wordLista1 = wordLista1.toLowerCase().replaceAll("\t"," ").replaceAll("\r"," ").replaceAll("\n"," ").replaceAll(","," ").replace(/\s+/g, " ").trim();
-	wordLista2 = wordLista2.toLowerCase().replaceAll("\t"," ").replaceAll("\r"," ").replaceAll("\n"," ").replaceAll(","," ").replace(/\s+/g, " ").trim();
-	//console.log("2 wordLista1  =" + wordLista1 +"<==", "\n", "2 wordLista2  =" + wordLista2+"<==");  
-	var paroleDaCercare1 = wordLista1.split(" ");
-	var paroleDaCercare2 = wordLista2.split(" ");
+	/**
+	wordLista1 = wordLista1.toLowerCase().replaceAll("\t"," ").replaceAll("\r"," ").replaceAll("\n"," ").replaceAll(","," ").replace(/\s+/g, " ").trim();  
+	wordLista2 = wordLista2.toLowerCase().replaceAll("\t"," ").replaceAll("\r"," ").replaceAll("\n"," ").replaceAll(","," ").replace(/\s+/g, " ").trim(); 
 	if (wordLista1 == "") paroleDaCercare1 = [];
-	if (wordLista2 == "") paroleDaCercare2 = [];
-	//console.log("paroleDaCercare1=", paroleDaCercare1, "    paroleDaCercare2=", paroleDaCercare2); 
+	if (wordLista2 == "") paroleDaCercare2 = [];	
+	**/
+	var paroleDaCercare1 = getListOfWords_inText(wordLista1, charList);
+	var paroleDaCercare2 = getListOfWords_inText(wordLista2, charList);		
 	var numParole1 = paroleDaCercare1.length;
 	var numParole2 = paroleDaCercare2.length;
 	
-	//var unaParolaLw = unaParola.toLowerCase().trim();  
-	
-	
-	//console.log("%conclickSelectWord(" + unaParola+ ")" , "color:blue; font-size:2em;");  
 	var tabBody = document.getElementById("id_tabSub_tbody");
 	var numRows = tabBody.children.length;
 	var numFirst = -1, numLast = -1;
@@ -2104,14 +2105,15 @@ function onclickSelectWord(tipo,id1,unaParola) {
 			continue;
 		}	
 		eleRow.classList.add("hideForNow");   
-		//console.log("1 v=", v, "  idtr1=", idtr1, " tr_num=", tr_num); 
+		
 		var ele_orText = document.getElementById( "idc_" + tr_num );  
 		var origText = getInner_idc( ele_orText ); 
 		
-		//console.log("XXXXX ", origText);	
-		var orig_riga3 = origText.toLowerCase().replace(/[.,?!<>()]/g, " ").replace(/\s+/g, " ").trim(); 
-		
+		/**
+		var orig_riga3 = origText.toLowerCase().replace(/[.,?!<>()]/g, " ").replace(/\s+/g, " ").trim();  		
 		var paroleDellaFrase = orig_riga3.split(" ");  
+		**/
+		var paroleDellaFrase = getListOfWords_inText(orig_riga3, charList);
 	
 		var swFound1=false; var swFound2 = false; 
 		if (numParole1 == 0) swFound1 = true; 
@@ -2362,8 +2364,9 @@ let thisLineList_loopType0		= "";
 let thisLineList_nome0    		= "";  
 let thisLineList_nRighe0  		= 0; 
 let thisLineList_nRepeat0 		= 0;
-let thisLineList_swSepar0 		= [];  
+//let thisLineList_swSepar0 		= [];  
 let thisLineList_swSpeedReduce0	= [];  
+let thisLineList_swWordByWord0	= [];  
 let thisLineList_swTran0  	    = []; 
 let thisLineList_swShowOrig0   	= []; 	
 let	thisLineList_swShowTran0   	= []; 	
@@ -2372,8 +2375,9 @@ let thisLineList_loopType1		= "";
 let thisLineList_nome1    		= "";  
 let thisLineList_nRighe1  		= 0; 
 let thisLineList_nRepeat1 		= 0;
-let thisLineList_swSepar1 		= [];  
-let thisLineList_swSpeedReduce1	= [];  
+//let thisLineList_swSepar1 		= [];  
+let thisLineList_swSpeedReduce1	= []; 
+let thisLineList_swWordByWord1	= [];  
 let thisLineList_swTran1  	    = []; 
 let thisLineList_swShowOrig1   	= []; 	
 let	thisLineList_swShowTran1   	= []; 	
@@ -2382,8 +2386,9 @@ let thisLineList_loopType2		= "";
 let thisLineList_nome2    		= "";  
 let thisLineList_nRighe2  		= 0; 
 let thisLineList_nRepeat2 		= 0;
-let thisLineList_swSepar2 		= [];  
+//let thisLineList_swSepar2 		= [];  
 let thisLineList_swSpeedReduce2	= [];  
+let thisLineList_swWordByWord2	= [];  
 let thisLineList_swTran2  	    = []; 
 let thisLineList_swShowOrig2   	= []; 	
 let	thisLineList_swShowTran2   	= []; 	
@@ -2417,8 +2422,9 @@ let txLoopT_limit_loopType = [];
 let txLoopT_limit_nRighe  = []; 
 let	txLoopT_limit_nRepeat = []; 	
 
-let	txLoopT_limit_swSepar       = []; 
+//let	txLoopT_limit_swSepar       = []; 
 let	txLoopT_limit_swSpeedReduce = [];
+let	txLoopT_limit_swWordByWord  = [];
 let	txLoopT_limit_swTran        = []; 	
 let	txLoopT_limit_swShowOrig    = []; 	
 let	txLoopT_limit_swShowTran    = []; 
@@ -2497,7 +2503,7 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 	var typL = eleTyLoop_button.children[0].innerHTML;	
 	var tXXX = typeList[ parseInt( typL )  ];
 	
-	//console.log("\nxxxx ROW onclick_play_Orig_and_Tran_row(numId=", numId,  " typL =" + typL + "<==   tXXX="  + tXXX + "<==");  
+	//console.log("%conclick_play_Orig_and_Tran_row () ","color:blue;"); console.log("\nxxxx ROW onclick_play_Orig_and_Tran_row (numId=", numId,  " typL =" + typL + "<==   tXXX="  + tXXX + "<==");  
 
 	
 	righeDaLeggere = [];
@@ -2513,20 +2519,42 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 	
 	switch (tXXX) {
 		case "Tr00":	
-			minNumId = numId ;					
+			minNumId = numId ;			
+			/**
+			console.log("%conclick_play_Orig_and_Tran_row ()  Tr00 noLoop ", "color:blue;");  	
+			console.log("accumRowToPlay(0, ", "minNumId, numId0, swOrigAndTran=", swOrigAndTran, " swPause=",swPause, " swAlfa=",swAlfa,  
+							"thisLineList_loopType0=", thisLineList_loopType0,  " thisLineList_nome0=", thisLineList_nome0, 
+							thisLineList_nRighe0, 
+							" thisLineList_nRepeat0=",thisLineList_nRepeat0, 
+							" thisLineList_swSpeedReduce0=", thisLineList_swSpeedReduce0, 
+							" thisLineList_swWordByWord0=", thisLineList_swWordByWord0, 
+							" thisLineList_swTran0=", thisLineList_swTran0,
+							thisLineList_swShowOrig0, thisLineList_swShowTran0,"BEG" );		
+			**/					
 			accumRowToPlay(0, minNumId, numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType0,  thisLineList_nome0, 
-							thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSepar0, thisLineList_swSpeedReduce0, thisLineList_swTran0,
+							thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSpeedReduce0, thisLineList_swWordByWord0, thisLineList_swTran0,
 							thisLineList_swShowOrig0, thisLineList_swShowTran0,"BEG",
 							0, 0, 0,0);
-			play_accum(swOrigAndTran);				
+			play_accum(7,"TR00", swOrigAndTran);				
 			return;	
 		case "Tr10":	
-			minNumId = numId ;				
+			minNumId = numId ;	
+			/**
+			console.log("%conclick_play_Orig_and_Tran_row ()  Tr10 r1 ", "color:blue;");  			
+			console.log("accumRowToPlay(1, ", "minNumId, numId0, swOrigAndTran=", swOrigAndTran, " swPause=",swPause, " swAlfa=",swAlfa,  
+							"thisLineList_loopType0=", thisLineList_loopType0,  " thisLineList_nome0=", thisLineList_nome0, 
+							thisLineList_nRighe0, 
+							" thisLineList_nRepeat0=",thisLineList_nRepeat0,  
+							" thisLineList_swSpeedReduce0=", thisLineList_swSpeedReduce0, 
+							" thisLineList_swWordByWord0=", thisLineList_swWordByWord0, 
+							" thisLineList_swTran0=", thisLineList_swTran0,
+							thisLineList_swShowOrig0, thisLineList_swShowTran0,"BEG" );		
+			**/
 			accumRowToPlay(1, minNumId, numId0, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType0,  thisLineList_nome0, 
-							thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSepar0, thisLineList_swSpeedReduce0, thisLineList_swTran0,
+							thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSpeedReduce0, thisLineList_swWordByWord0, thisLineList_swTran0,
 							thisLineList_swShowOrig0, thisLineList_swShowTran0,"BEG",
 							0, 0, 0, 0);
-			play_accum(swOrigAndTran);				
+			play_accum(8,"Tr10", swOrigAndTran);				
 			return;	
 		case "Tr20":	
 			row_r20();
@@ -2541,7 +2569,7 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 		//mms1 = thisLineList_nRepeat0 + " volte "; 
 		//if (thisLineList_nRepeat0 == 1) mms1 = "1 volta "; 
 		accumRowToPlay(1, minNumId, numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType0,  thisLineList_nome0, 
-								thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSepar0, thisLineList_swSpeedReduce0, thisLineList_swTran0 , 
+								thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSpeedReduce0, thisLineList_swWordByWord0, thisLineList_swTran0 , 
 								thisLineList_swShowOrig0, thisLineList_swShowTran0,"BEG",
 								0, 0, 0 ,0);
 		
@@ -2553,7 +2581,7 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 		//mms1 = thisLineList_nRepeat1 + " volte "; 
 		//if (thisLineList_nRepeat1 == 1) mms1 = "1 volta "; 
 		accumRowToPlay(2, minNumId, numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType1,  thisLineList_nome1, 
-								thisLineList_nRighe1, thisLineList_nRepeat1, thisLineList_swSepar1, thisLineList_swSpeedReduce1, thisLineList_swTran1 ,  
+								thisLineList_nRighe1, thisLineList_nRepeat1, thisLineList_swSpeedReduce1, thisLineList_swTran1 ,  
 								thisLineList_swShowOrig1, thisLineList_swShowTran1,"BEG",
 								0, 0,  0, 0 );
 		
@@ -2563,10 +2591,10 @@ function onclick_play_Orig_and_Tran_row(numId0,swOrigAndTran, swPause,swAlfa) {
 		//mms1 = thisLineList_nRepeat2 + " volte "; 
 		//if (thisLineList_nRepeat2 == 1) mms1 = "1 volta "; 
 		accumRowToPlay(2, minNumId, numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType2,  thisLineList_nome2, 
-								thisLineList_nRighe2, thisLineList_nRepeat2, thisLineList_swSepar2, thisLineList_swSpeedReduce2, thisLineList_swTran2 ,  
+								thisLineList_nRighe2, thisLineList_nRepeat2, thisLineList_swSpeedReduce2, thisLineList_swTran2 ,  
 								thisLineList_swShowOrig2, thisLineList_swShowTran2,"BEG",
 								0, 0, 0, 0);	
-		play_accum(swOrigAndTran);		
+		play_accum(9,"r20", swOrigAndTran);		
 	
 	} // end of tr20
 	
@@ -2614,7 +2642,9 @@ function bold_spoken_line(eleObjToSpeak, swShow) {
 //----------------------------
 
 //----------------------------------------
-async function play_accum(swOrigAndTran, bigLoop00) {
+async function play_accum(num123, tipo123, swOrigAndTran, bigLoop00) {
+	
+	//console.log("%c  play_accum", "color:red; font-size:2em;"); console.log("  play_accum(", num123, " ", tipo123, " swOrigAndTran=", swOrigAndTran, " bigLoop00=", bigLoop00); 
 	
 	//console.log("%cplay_accum", "color:red; font-size:2em;");
 		//if (swShowOrig[z]) ele_txtOrig.style.display = "block"; else ele_txtOrig.style.display = "none";
@@ -2649,7 +2679,7 @@ async function play_accum(swOrigAndTran, bigLoop00) {
 	
 	for(g=0; g < righeDaLeggere.length; g++) {
 		[ltr_vox, ltr_txt,ltr_speedP, eleObjToSpeak, swShow] = righeDaLeggere[g]; // 
-		//console.log("play_.. righe da leggere  DUE g=",g, " ltr_speedP=", ltr_speedP, " swShow=", swShow)
+		//console.log("play_.. righe da leggere  DUE g=",g, " ltr_vox=",ltr_vox, " ltr_txt=", ltr_txt, " ltr_speedP=", ltr_speedP, " swShow=", swShow)
 		if (ltr_vox == IX_SetMSG) {
 			if (ltr_txt == "") continue;	 
 			document.getElementById("id_showLoop").innerHTML = bigLoop + ltr_txt;				
@@ -2664,14 +2694,16 @@ async function play_accum(swOrigAndTran, bigLoop00) {
 		}
 			
 		let ixVoice0X ;
-		//console.log("   tre"); 
-		if (swOrigAndTran) { document.getElementById("showVoice_1").style.display = "block";} else {document.getElementById("showVoice_1").style.display = "none";}
+		
+		//if (swOrigAndTran) { document.getElementById("showVoice_1").style.display = "block";} else {document.getElementById("showVoice_1").style.display = "none";}
 		
 		if (ltr_vox == 	IX_TRAN) {
+			/**
 			if (swOrigAndTran == false) {
 				await bold_spoken_line(eleObjToSpeak, swShow);						
 				continue;
 			}	
+			**/
 			last_TranObj = eleObjToSpeak;
 			ixVoice0X = rotateVoice(1);   
 			document.getElementById("showVoice_0").style.display = "none";  // orig. voice			
@@ -2681,8 +2713,7 @@ async function play_accum(swOrigAndTran, bigLoop00) {
 			 document.getElementById("showVoice_0").style.display = "block";  // orig. voice
 			 document.getElementById("showVoice_1").style.display = "none";   // transl. voice 
 		}		
-		//console.log("  quattro"); 
-		//console.log("leggo ", ["originale","traduzione"][ ltr_vox ] , " ", ltr_txt)		
+		
 		await bold_spoken_line(eleObjToSpeak, swShow);
 		if (ltr_speedP > 0) { 
 			await sayVoiceNum( ltr_txt, ltr_vox, ixVoice0X, speechVolume[ltr_vox], ltr_speedP, speechPitch[ltr_vox]); // un gruppo"); 
@@ -2754,7 +2785,7 @@ function showUpperMsg( idLoop, loopType0 , groupLimit, numPrec, numId, numRiga, 
 //--------------------------------------------------
 function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa, thisLineList_loopTypeX, thisLineList_nomeX, 
 			thisLineList_nRigheX, thisLineList_nRepeatX,
-			thisLineList_swSeparX,  thisLineList_swSpeedReduceX, 
+			thisLineList_swSpeedReduceX,  thisLineList_swWordByWordX,
 			thisLineList_swTranX, 
 			thisLineList_swShowOrigX,
 			thisLineList_swShowTranX,
@@ -2766,8 +2797,11 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 	var totGiri1 =  thisLineList_nRepeatX;	
 	var numGiro1 = 0; 
 	
+	var sw_NO_LOOP = (thisLineList_loopTypeX == "Tr00"); 
 	//-------------------------------------
-	let numeroDiRipetizioni = thisLineList_nRepeatX	; 
+	let numeroDiRipetizioni = thisLineList_nRepeatX	;     // numero di ripetizioni richieste  nelle righe r1, r2 o nei gruppi g1, g2, g3
+	
+	
 	//let numeroDiRighe       = thisLineList_nRigheX	; // il numero di righe da leggere
 	//console.log("accumRowToPlay( ... type1=", type1, " numId=", numId, " swOrigAndTran=", swOrigAndTran, " thisLineList_nRigheX=",thisLineList_nRigheX, "_swShowOrigX=",thisLineList_swShowOrigX, " [0]=",thisLineList_swShowOrigX[0]  ); 
 	/**
@@ -2776,39 +2810,48 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 	else minIndice = numId - numeroDiRighe;  
 	if (minIndice < 0) { minIndice = 0;}
 	**/
-	
+	//console.log("%c  accum...  thisLineList_loopTypeX=" + thisLineList_loopTypeX + " numeroDiRipetizioni=" + numeroDiRipetizioni + " lenLis=" + thisLineList_swSpeedReduceX.length, "color:green;");
 	//----------------------	
-	let swSepar           = [false];  
+	
 	let swSpeedReduce	  = [false]; 
+	let swWordByWord	  = [false]; 
 	let swTranslation     = [true ];
 	let swShowOrig        = [false ];
 	let swShowTran        = [false ];
 	//------------
 	
 	let perc_speed_reduce = 100; 
-	var lenLis = thisLineList_swSpeedReduceX.length;
-	if  ( lenLis > 1)  {
-		if (thisLineList_swSpeedReduceX[0]) {
-			if (thisLineList_swSpeedReduceX[0] != "_")	perc_speed_reduce = parseInt( thisLineList_swSpeedReduceX[0] ); 	
+	var lenLis = thisLineList_swSpeedReduceX.length; // numero di colonne previste nelle righe r1, r2 e gruppi g1,g2,g3   (può essere maggiore o minore di numeroDiRipetizioni  
+	if (sw_NO_LOOP == false) {
+		if  ( lenLis < 1)  {
+			console.log("%cErrore numero di colonne in r1 r2 g1 g2 g3 DEVE essere maggiore di 1", "color:red;");   
+		}	
+		if  ( lenLis > 1)  {
+			if (thisLineList_swSpeedReduceX[0]) {    
+				if (thisLineList_swSpeedReduceX[0] != "_")	perc_speed_reduce = parseInt( thisLineList_swSpeedReduceX[0] ); 	
+			}
+			if (thisLineList_swWordByWordX[0]) {    
+				if (thisLineList_swWordByWordX[0] != "_")	perc_speed_reduce = parseInt( thisLineList_swSpeedReduceX[0] ); 	 	
+			}
+			
+			swSpeedReduce	  = thisLineList_swSpeedReduceX.slice(1) ; 
+			swWordByWord	  = thisLineList_swWordByWordX.slice(1) ; 
+			swTranslation     = thisLineList_swTranX.slice(1)        ; 
+			swShowOrig        = thisLineList_swShowOrigX.slice(1)    ;  		
+			swShowTran        = thisLineList_swShowTranX.slice(1)    ;  
 		}
-		swSepar           = thisLineList_swSeparX.slice(1)       ;  
-		swSpeedReduce	  = thisLineList_swSpeedReduceX.slice(1) ; 
-		swTranslation     = thisLineList_swTranX.slice(1)        ; 
-		swShowOrig        = thisLineList_swShowOrigX.slice(1)    ;  		
-		swShowTran        = thisLineList_swShowTranX.slice(1)    ;  
 	}
 	
-	lenLis = swSepar.length;
+	lenLis = swSpeedReduce.length;
 		
 	
-	for(var a=1; a < numeroDiRipetizioni; a++) {
-		if (a >= lenLis) {
-			swSepar[a]       = swSepar[      lenLis-1];
-			swSpeedReduce[a] = swSpeedReduce[lenLis-1];
-			swTranslation[a] = swTranslation[lenLis-1];
-			swShowOrig[a]    = swShowOrig[lenLis-1];
-			swShowTran[a]    = swShowTran[lenLis-1];
-		}			
+	for(var a=lenLis; a < numeroDiRipetizioni; a++) {
+		if (a < 1) {break;}
+		swSpeedReduce[a] = swSpeedReduce[lenLis-1];
+		swWordByWord[a]  = swWordByWord[ lenLis-1];
+		swTranslation[a] = swTranslation[lenLis-1];
+		swShowOrig[a]    = swShowOrig[   lenLis-1];
+		swShowTran[a]    = swShowTran[   lenLis-1];
 	}
 		
 	//ele_showWh.innerHTML = "";	
@@ -2816,7 +2859,8 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 	let ele_txtOrig;  //= document.getElementById("idc_" + numId);
 	let ele_txtTran;  //= document.getElementById("idt_" + numId);
 	
-	if (type1 == 0) { // play no loop, leave swShow... according to the already existing text display   
+	//if (type1 == 0) { // play no loop, leave swShow... according to the already existing text display   
+	if (sw_NO_LOOP) {  // play no loop, leave swShow... according to the already existing text display   
 		ele_txtOrig = document.getElementById("idc_" + numId);
 		ele_txtTran = document.getElementById("idt_" + numId);
 		swShowOrig[0] = (ele_txtOrig.style.display == "block");
@@ -2838,8 +2882,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 	
 	
 	//--------------------
-	for(let z=0; z < numeroDiRipetizioni; z++) {	
-	
+	for(let z=0; z < numeroDiRipetizioni; z++) {
 	  
 		switch( thisLineList_loopTypeX ) {
 			case "Tg10": 
@@ -2861,16 +2904,20 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 			default: break;	
 		}
 		
-		if (swSpeedReduce[z]) speed00 = perc_speed_reduce * speed0/100; 
-		else speed00 = speed0;   
-		let swTran1 = (swOrigAndTran && swTranslation[z]);
-		let swSep1  = swSepar[z];
-		if (swPause) {
-			swSep1  = true; 
+		//if (swSpeedReduce[z]) speed00 = perc_speed_reduce * speed0/100;  else speed00 = speed0;   
+		speed00 = perc_speed_reduce * speed0/100;
+		let swTran1 = swTranslation[z];
+		let swSep1  = swWordByWord[z];   //   
+		
+		if (sw_NO_LOOP) { 
+			//if (swPause) {	swSep1  = true; }
+			swSep1  = swPause; 
+			swTran1 = swOrigAndTran;
+			speed00 = speed0; 
 		}
+		//console.log("  ripetiz. z=", z, "  swTranslation[z]=", swTranslation[z], " swTran1=", swTran1 , " XX swWordByWord[z]=", swWordByWord[z], " swSep1=", swSep1 );  
 		var f; 
-		//console.log("accumRowToPlay( , thisLineList_loopTypeX=", thisLineList_loopTypeX, 
-		//			"minIndice=", minIndice, " numId=", numId, " minimo=", minimo,  " begix=", begix, "  endix=", endix, "module=", module);  
+		//console.log("accumRowToPlay ( , thisLineList_loopTypeX=", thisLineList_loopTypeX, "minIndice=", minIndice, " numId=", numId, " minimo=", minimo,  " begix=", begix, "  endix=", endix, "module=", module);  
 		for(var f1=minIndice; f1 <= numId; f1++) {
 			f = f1;  
 			if (f < minimo) {
@@ -2914,12 +2961,12 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 			}
 			
 			if (swTran1) {
-					//console.log("   traduz.  swTran1=true z=", z, " swShowTran[z]=", swShowTran[z] )
+					//console.log(" 1  traduz.  swTran1=true z=", z, " swShowTran[z]=", swShowTran[z] )
 					ele_txtTran = document.getElementById("idt_" + f);	
 					righeDaLeggere.push( [IX_TRAN, ele_txtTran.innerHTML.replaceAll("<br>", ""),speed1, ele_txtTran, swShowTran[z] ] ) ;	 
 					tot_ixtran++;  			
 			} else {
-				//console.log("   traduz.  swTran1=FALSE z=", z , " swShowTran[z]=", swShowTran[z])
+				//console.log("   2 traduz.  swTran1=FALSE z=", z , " swShowTran[z]=", swShowTran[z])
 				if (swShowTran[z]) {
 					ele_txtTran = document.getElementById("idt_" + f);	
 					//console.log("           traduz.  swTran1=FALSE z=", z , " swShowTran[z]=", swShowTran[z] ," f=", f, " indice righe=", righeDaLeggere.length)
@@ -2986,23 +3033,23 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 		case "Tg00":
 			// g00
 			accumRowToPlay(0, begix, endix, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType0,  thisLineList_nome0, 
-							thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSepar0, thisLineList_swSpeedReduce0, 
+							thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSpeedReduce0, thisLineList_swWordByWord0, 
 							thisLineList_swTran0,
 							thisLineList_swShowOrig0,
 							thisLineList_swShowTran0,"BEG",
 							begix, endix, 0, 0);
-			play_accum(swOrigAndTran);		
+			play_accum(0,"Tg00", swOrigAndTran);		
 				
 			return;	
 		case "Tg10":	
 			//mms1 = thisLineList_nRepeat0 + " volte "; 
 		    //if (thisLineList_nRepeat0 == 1) mms1 = "1 volta ";  // g10
 			accumRowToPlay(1, begix, endix, swOrigAndTran, swPause, swAlfa, thisLineList_loopType0,  thisLineList_nome0, 
-							thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSepar0, thisLineList_swSpeedReduce0, thisLineList_swTran0,
+							thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSpeedReduce0, thisLineList_swWordByWord0, thisLineList_swTran0,
 							thisLineList_swShowOrig0,
 							thisLineList_swShowTran0,"BEG",
 							begix, endix, 0, 0); 
-			play_accum(swOrigAndTran);				
+			play_accum(1,"Tg10", swOrigAndTran);				
 			return;	
 			
 		case "Tg20":
@@ -3017,7 +3064,7 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 	//---------------
 	async function group_g20() {		
 		for( var f1=0; f1 < thisLineList_nRepeat0; f1++) {			
-			await play_accum(swOrigAndTran);	
+			await play_accum(2,"g20", swOrigAndTran);	
 			if (f1 > 0) { 	
 				righeDaLeggere.push( [IX_SOUND,null, soundFreq[0], f1 ] ); 
 				tot_ixsound++; 	
@@ -3026,12 +3073,12 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 			for(var f2 = begix; f2 <= endix; f2++) {
 				// g21
 				accumRowToPlay(1, f2, f2, swOrigAndTran, false, false,  "Tg21",  thisLineList_nome1, 
-					thisLineList_nRighe1, thisLineList_nRepeat1, thisLineList_swSepar1, thisLineList_swSpeedReduce1, thisLineList_swTran1,  
+					thisLineList_nRighe1, thisLineList_nRepeat1, thisLineList_swSpeedReduce1, thisLineList_swTran1,  
 					thisLineList_swShowOrig1, thisLineList_swShowTran1,"BEG",
 					begix, endix, f1, thisLineList_nRepeat0 );    							
 			} 			
 		} 
-		await play_accum(swOrigAndTran);	
+		await play_accum(3,"g20",  swOrigAndTran);	
 	} // end of g20
 	//---------------
 	async function group_g30() {
@@ -3050,7 +3097,7 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 			
 			for (var bg_numId = begix; bg_numId<= endix; bg_numId++) {
 				//console.log("\nLOOP sulla riga ", bg_numId , " -----------------"); 
-				await play_accum(swOrigAndTran,  "loop g3 (loop di loop r2) ripetiz." + bmBig( (1+ bgR2)) + " del set di loop r2 su ogni riga del ");		
+				await play_accum(5,"g30", swOrigAndTran,  "loop g3 (loop di loop r2) ripetiz." + bmBig( (1+ bgR2)) + " del set di loop r2 su ogni riga del ");		
 				sw_told_group_row_list[bg_numId] = true;
 				f1++;
 				if (f1 > 0) { 
@@ -3069,7 +3116,7 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 				//				" thisLineList_loopType0=",  thisLineList_loopType0, " thisLineList_nRighe0=", thisLineList_nRighe0	); 
 				
 				accumRowToPlay(1, bg_numId, bg_numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType0,  thisLineList_nome0, 
-										thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSepar0, thisLineList_swSpeedReduce0, thisLineList_swTran0 , 
+										thisLineList_nRighe0, thisLineList_nRepeat0, thisLineList_swSpeedReduce0, thisLineList_swWordByWord0, thisLineList_swTran0 , 
 										thisLineList_swShowOrig0, thisLineList_swShowTran0,"BEG",
 										begix, endix, 0, 0);
 				
@@ -3082,7 +3129,7 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 				//				" thisLineList_loopType1=",  thisLineList_loopType1, " thisLineList_nRighe1=", thisLineList_nRighe1	);  
 
 				accumRowToPlay(2, minNumId, bg_numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType1,  thisLineList_nome1, 
-										thisLineList_nRighe1, thisLineList_nRepeat1, thisLineList_swSepar1, thisLineList_swSpeedReduce1, thisLineList_swTran1 ,  
+										thisLineList_nRighe1, thisLineList_nRepeat1, thisLineList_swSpeedReduce1, thisLineList_swTran1 ,  
 										thisLineList_swShowOrig1, thisLineList_swShowTran1,"BEG",
 										begix, endix, 0, 0);
 										
@@ -3096,14 +3143,14 @@ async function onclick_play_Orig_and_Tran_group(numId0,swOrigAndTran, swPause,sw
 								" thisLineList_loopType2=",  thisLineList_loopType2, " thisLineList_nRighe2=", thisLineList_nRighe2	);  							
 				
 				accumRowToPlay(2, minNumId, bg_numId, swOrigAndTran, swPause, swAlfa,  thisLineList_loopType2,  thisLineList_nome2, 
-										thisLineList_nRighe2, thisLineList_nRepeat2, thisLineList_swSepar2, thisLineList_swSpeedReduce2, thisLineList_swTran2 ,  
+										thisLineList_nRighe2, thisLineList_nRepeat2, thisLineList_swSpeedReduce2, thisLineList_swTran2 ,  
 										thisLineList_swShowOrig2, thisLineList_swShowTran2,"BEG",
 										begix, endix, 0, 0);	
 				
 				//console.log("                 zzz fine r2 - riprova con numId diverso"); 	
 			} // end bg_numId
 			
-			await play_accum(swOrigAndTran,  "loop g3 (loop di loop r2) ripetiz." + bmBig( (1+ bgR2)) + " del set di loop r2 su ogni riga del ");	
+			await play_accum(6,"g30", swOrigAndTran,  "loop g3 (loop di loop r2) ripetiz." + bmBig( (1+ bgR2)) + " del set di loop r2 su ogni riga del ");	
 		
 		} // end of bgR2 
 		
@@ -3253,8 +3300,8 @@ function restore_fromStor_loopType_toHTML(loopTypeId ) {
 		var ret_txLoopT_nome    = "";   
 		var ret_txLoopT_nRighe  = "";   
 		var ret_txLoopT_nRepeat = "";   
-		var ret_txLoopT_swSepar = "";   
-		var ret_txLoopT_speedReduce = "";   
+		var ret_txLoopT_speedReduce = "";  
+		var ret_txLoopT_wordByWord  = ""; 	
 		var ret_txLoopT_swTran      = "";	
 		var ret_txLoopT_swShowOrig  = "";	
 		var ret_txLoopT_swShowTran  = "";	
@@ -3268,11 +3315,11 @@ function restore_fromStor_loopType_toHTML(loopTypeId ) {
 		function assignLoopVal(item) {
 			var val1 = item.substring(3); 
 			switch(item.substr(0,3) ) {
-			   case "1n=": ret_txLoopT_nome    = val1; break;   
-			   case "2r=": ret_txLoopT_nRighe  = val1; break;   
-			   case "3r=": ret_txLoopT_nRepeat = val1; break;   
-			   case "4s=": ret_txLoopT_swSepar = val1; break;   
-			   case "5r=": ret_txLoopT_speedReduce = val1; break;   
+			   case "1n=": ret_txLoopT_nome        = val1; break;   
+			   case "2r=": ret_txLoopT_nRighe      = val1; break;   
+			   case "3r=": ret_txLoopT_nRepeat     = val1; break;  			     
+			   case "4w=": ret_txLoopT_wordByWord  = val1; break; 
+			   case "5r=": ret_txLoopT_speedReduce = val1; break;  
 			   case "6t=": ret_txLoopT_swTran      = val1; break;   
 			   case "7s=": ret_txLoopT_swShowOrig  = val1; break;   
 			   case "8s=": ret_txLoopT_swShowTran  = val1; break;   
@@ -3309,6 +3356,7 @@ function restore_fromStor_loopType_toHTML(loopTypeId ) {
 		
 		var eleTr_swList_sepW        = document.getElementById( loopTypeId + "_sepW"    );
 		var eleTr_swList_SpeedReduce = document.getElementById( loopTypeId + "_spRedSw" );
+		var eleTr_swList_WordByWord  = document.getElementById( loopTypeId + "_wbwSw" );
 		var eleTr_swList_Tran        = document.getElementById( loopTypeId + "_tranSw"  );	
 		var eleTr_swList_ShowOrig    = document.getElementById( loopTypeId + "_showOrigSw" ); 
 		var eleTr_swList_ShowTran    = document.getElementById( loopTypeId + "_showTranSw" );
@@ -3323,8 +3371,9 @@ function restore_fromStor_loopType_toHTML(loopTypeId ) {
 		
 		//if (sw1) console.log(loopTypeId , "   eleTr_swList_sepW=", eleTr_swList_sepW)
 		
-		putListSw_onHTML(false, eleTr_swList_sepW       , ret_txLoopT_swSepar     );
+		
 		putListSw_onHTML(true,  eleTr_swList_SpeedReduce, ret_txLoopT_speedReduce );
+		putListSw_onHTML(true,  eleTr_swList_WordByWord,  ret_txLoopT_wordByWord );
 		putListSw_onHTML(false, eleTr_swList_Tran       , ret_txLoopT_swTran      );
 		putListSw_onHTML(false, eleTr_swList_ShowOrig   , ret_txLoopT_swShowOrig  );
 		putListSw_onHTML(false, eleTr_swList_ShowTran   , ret_txLoopT_swShowTran  );
@@ -3348,35 +3397,7 @@ function restore_fromStor_loopType_toHTML(loopTypeId ) {
 			} else {
 				swList  = ret_txLoopT_swList.split(","); 
 			}
-			//console.log("    ret_tx=", ret_tx ); 
-			
-			
-			//console.log("    putListSw_onHTML swList=" + swList); 
-			
-			//putListSw_onHTML=6:,1.false,2.true,3.false,4.false,5.false,
-						
-			
-			/**
-			var numCh = eleTrList.children.length;
-			var pp; var ix; var sw1;
-			for(var z=1; z < numE; z++) {
-				pp=swList[z].split("."); 
-				ix = parseInt(pp[0]);	
-				sw1 = pp[1];
-				eleTd = eleTrList.children[ix]; 				
-				eleSw = eleTd.children[0];
-				if (eleSw.tagName == "INPUT") eleSw.checked = (sw1 == "true");  
-			} 
-			if (swSpeed) {
-				eleTd = eleTrList.children[0]; 	
-				if (eleTd.children.length > 0) {	
-					eleSw = eleTd.children[1];
-					if (eleSw.tagName == "INPUT") eleSw.value = parseInt(swList[0]); 
-				}
-			}		
-			***/
-			//console.log("    putListSw_onHTML eleTrList=", eleTrList.innerHTML ); 
-			
+				
 			
 			for(var f=1; f < eleTrList.children.length; f++) {		
 				try{
@@ -3394,11 +3415,8 @@ function restore_fromStor_loopType_toHTML(loopTypeId ) {
 					if (eleSw.tagName == "INPUT") eleSw.value = parseInt(swList[0]); 
 				}
 			}		
-			//console.log("    putListSw_onHTML eleTrList=", eleTrList.innerHTML ); 
+			
 		} //-------	
-		
-		
-		//???onclick_refresh_loopParms( loopTypeId );  	
 		
 } // end of restore_fromStor_loopType 
 //---------------------------------------
@@ -3507,8 +3525,9 @@ function onclick_refresh_loopParms( loopTypeId , where, sw0,this1) {
 		
 		storeLoop+= " ::1n=" + nome + " ::2r=" + numRighe + " ::3r=" + numRepit + " "; 
 		
-		txLoopT_limit_swSepar[      index] = [];
+		
 		txLoopT_limit_swSpeedReduce[index] = [];
+		txLoopT_limit_swWordByWord[ index] = [];
 		txLoopT_limit_swTran[       index] = []; 	
 		txLoopT_limit_swShowOrig[   index] = []; 	
 		txLoopT_limit_swShowTran[   index] = []; 
@@ -3525,21 +3544,24 @@ function onclick_refresh_loopParms( loopTypeId , where, sw0,this1) {
 				//console.log( "id=" +  "rSepW"    + pref)
 				var eleTr_swList_sepW        = document.getElementById( loopTypeId + "_sepW"    );				
 				var eleTr_swList_SpeedReduce = document.getElementById( loopTypeId + "_spRedSw" );
+				var eleTr_swList_WordByWord  = document.getElementById( loopTypeId + "_wbwSw" );
 				var eleTr_swList_Tran        = document.getElementById( loopTypeId + "_tranSw"  );
 				var eleTr_swList_ShowOrig    = document.getElementById( loopTypeId + "_showOrigSw"  );
 				var eleTr_swList_ShowTran    = document.getElementById( loopTypeId + "_showTranSw"  );
-				if (eleTr_swList_sepW) 			txLoopT_limit_swSepar[      index] = getListSw_fromHTML(false, eleTr_swList_sepW       );
-				else {  console.log("ERRORE ", " elem ", loopTypeId + "_sepW" , " non esiste "); signalError(11); }
+				//if (eleTr_swList_sepW) 			txLoopT_limit_swSepar[      index] = getListSw_fromHTML(false, eleTr_swList_sepW       );
+				//else {  console.log("ERRORE ", " elem ", loopTypeId + "_sepW" , " non esiste "); signalError(11); }
 				if (eleTr_swList_SpeedReduce)	txLoopT_limit_swSpeedReduce[index] = getListSw_fromHTML(true,  eleTr_swList_SpeedReduce);
+				if (eleTr_swList_WordByWord)	txLoopT_limit_swWordByWord[index]  = getListSw_fromHTML(true,  eleTr_swList_WordByWord);
 				if (eleTr_swList_Tran       )	txLoopT_limit_swTran[       index] = getListSw_fromHTML(false, eleTr_swList_Tran       );
 				if (eleTr_swList_ShowOrig   )   txLoopT_limit_swShowOrig[   index] = getListSw_fromHTML(false, eleTr_swList_ShowOrig   );  				
 				if (eleTr_swList_ShowTran   )   txLoopT_limit_swShowTran[   index] = getListSw_fromHTML(false, eleTr_swList_ShowTran   );  	
 			}
 		} 
-		storeLoop+= " ::4s=" + txLoopT_limit_swSepar[index] + " ::5r=" + txLoopT_limit_swSpeedReduce[index] + 
-			" ::6t=" + txLoopT_limit_swTran[index]      +
-			" ::7s=" + txLoopT_limit_swShowOrig[index]  + 
-			" ::8s=" + txLoopT_limit_swShowTran[index]   
+		storeLoop+= " ::4w=" + txLoopT_limit_swWordByWord[index]  + 	
+					" ::5r=" + txLoopT_limit_swSpeedReduce[index] + 			
+					" ::6t=" + txLoopT_limit_swTran[index]        +
+					" ::7s=" + txLoopT_limit_swShowOrig[index]    + 
+					" ::8s=" + txLoopT_limit_swShowTran[index]  		
 		;  
 	    
 		//if (sw1) console.log("index=", index, " storeLoop ==>" + storeLoop); 
@@ -3588,8 +3610,9 @@ function fun_getLoopTypeValFromStore( storeLoop ) {
 	var ret_txLoopT_nome    = "";   
 	var ret_txLoopT_nRighe  = "";   
 	var ret_txLoopT_nRepeat = "";   
-	var ret_txLoopT_swSepar = "";   
-	var ret_txLoopT_speedReduce = "";   
+	
+	var ret_txLoopT_speedReduce = "";  
+	var ret_txLoopT_wordByWord  = "";  	
 	var ret_txLoopT_swTran  = "";		
 	var ret_txLoopT_swShowOrig= "";	
 	var ret_txLoopT_swShowTran= "";		
@@ -3598,11 +3621,11 @@ function fun_getLoopTypeValFromStore( storeLoop ) {
 	function assignLoopVal(item) {
 		var val1 = item.substr(3); 
 		switch(item.substr(0,3) ) {
-		   case "1n=": ret_txLoopT_nome    = val1; break;   
-		   case "2r=": ret_txLoopT_nRighe  = val1; break;   
-		   case "3r=": ret_txLoopT_nRepeat = val1; break;   
-		   case "4s=": ret_txLoopT_swSepar = val1; break;   
-		   case "5r=": ret_txLoopT_speedReduce = val1; break;   
+		   case "1n=": ret_txLoopT_nome        = val1; break;   
+		   case "2r=": ret_txLoopT_nRighe      = val1; break;   
+		   case "3r=": ret_txLoopT_nRepeat     = val1; break;  
+		   case "4w=": ret_txLoopT_wordByWord  = val1; break;   		   
+		   case "5r=": ret_txLoopT_speedReduce = val1; break; 		  
 		   case "6t=": ret_txLoopT_swTran      = val1; break;   
 		   case "7s=": ret_txLoopT_swShowOrig  = val1; break;   
 		   case "8s=": ret_txLoopT_swShowTran  = val1; break;   
@@ -3611,8 +3634,8 @@ function fun_getLoopTypeValFromStore( storeLoop ) {
 	}
 	console.log("get Loop: ", "ret_txLoopT_nome    = ",  ret_txLoopT_nome  ) ;
 	console.log("get Loop: ", "ret_txLoopT_nRighe  = ",  ret_txLoopT_nRighe) ;
-	console.log("get Loop: ", "ret_txLoopT_nRepeat = ",  ret_txLoopT_nRepeat ) ;
-	console.log("get Loop: ", "ret_txLoopT_swSepar = ",  ret_txLoopT_swSepar ) ;
+	console.log("get Loop: ", "ret_txLoopT_nRepeat = ",  ret_txLoopT_nRepeat ) ;	
+	console.log("get Loop: ", "ret_txLoopT_swSpeedReduce = ",  ret_txLoopT_wordByWord  ) ;
 	console.log("get Loop: ", "ret_txLoopT_swSpeedReduce = ",  ret_txLoopT_speedReduce ) ;
 	console.log("get Loop: ", "ret_txLoopT_swTran  = ",  ret_txLoopT_swTran  ) ;
 	console.log("get Loop: ", "ret_txLoopT_swShowOrig  = ",  ret_txLoopT_swShowOrig ) ;	
@@ -3856,8 +3879,9 @@ function onclick_anotherLoopType(this1, sw_group, sw_incr, wh) {
 	thisLineList_nome0    		= txLoopT_limit_nome[    index0] ;  	
 	thisLineList_nRighe0  		= txLoopT_limit_nRighe[  index0] ; 
 	thisLineList_nRepeat0 		= txLoopT_limit_nRepeat[ index0] ;
-	thisLineList_swSepar0 		= txLoopT_limit_swSepar[ index0].slice();  
+	//thisLineList_swSepar0 		= txLoopT_limit_swSepar[ index0].slice();  
 	thisLineList_swSpeedReduce0	= txLoopT_limit_swSpeedReduce[index0].slice();  
+	thisLineList_swWordByWord0	= txLoopT_limit_swWordByWord[index0].slice();  
 	thisLineList_swTran0  	    = txLoopT_limit_swTran[     index0].slice(); 
 	thisLineList_swShowOrig0 	= txLoopT_limit_swShowOrig[ index0].slice(); 	
 	thisLineList_swShowTran0    = txLoopT_limit_swShowTran[ index0].slice();  
@@ -3877,7 +3901,7 @@ function onclick_anotherLoopType(this1, sw_group, sw_incr, wh) {
 		thisLineList_nome1    		= "";  
 		thisLineList_nRighe1  		= 0; 
 		thisLineList_nRepeat1 		= 0;
-		thisLineList_swSepar1 		= [];  
+		//thisLineList_swSepar1 		= [];  
 		thisLineList_swSpeedReduce1	= [];  
 		thisLineList_swTran1 	    = [];       
 		thisLineList_swShowOrig1   	= []; 	
@@ -3889,8 +3913,9 @@ function onclick_anotherLoopType(this1, sw_group, sw_incr, wh) {
 		thisLineList_nome1    		= txLoopT_limit_nome[    index1] ;  
 		thisLineList_nRighe1  		= txLoopT_limit_nRighe[  index1] ; 
 		thisLineList_nRepeat1 		= txLoopT_limit_nRepeat[ index1] ;
-		thisLineList_swSepar1 		= txLoopT_limit_swSepar[ index1].slice();  
+		//thisLineList_swSepar1 		= txLoopT_limit_swSepar[ index1].slice();  
 		thisLineList_swSpeedReduce1	= txLoopT_limit_swSpeedReduce[index1].slice();  
+		thisLineList_swWordByWord1	= txLoopT_limit_swWordByWord[index1].slice(); 
 		thisLineList_swTran1      	= txLoopT_limit_swTran[index1].slice(); 			
 		thisLineList_swShowOrig1   	= txLoopT_limit_swShowOrig[index1].slice(); 	
 		thisLineList_swShowTran1   	= txLoopT_limit_swShowTran[index1].slice(); 	
@@ -3900,7 +3925,7 @@ function onclick_anotherLoopType(this1, sw_group, sw_incr, wh) {
 		thisLineList_nome2    		= "";  
 		thisLineList_nRighe2  		= 0; 
 		thisLineList_nRepeat2 		= 0;
-		thisLineList_swSepar2 		= [];  
+		//thisLineList_swSepar2 		= [];  
 		thisLineList_swSpeedReduce2	= [];  
 		thisLineList_swTran2 	    = [];       
 		thisLineList_swShowOrig2   	= []; 	
@@ -3912,8 +3937,9 @@ function onclick_anotherLoopType(this1, sw_group, sw_incr, wh) {
 		thisLineList_nome2    		= txLoopT_limit_nome[    index2] ;  
 		thisLineList_nRighe2  		= txLoopT_limit_nRighe[  index2] ; 
 		thisLineList_nRepeat2 		= txLoopT_limit_nRepeat[ index2] ;
-		thisLineList_swSepar2 		= txLoopT_limit_swSepar[ index2].slice();  
+		//thisLineList_swSepar2 		= txLoopT_limit_swSepar[ index2].slice();  
 		thisLineList_swSpeedReduce2	= txLoopT_limit_swSpeedReduce[index2].slice();  
+		thisLineList_swWordByWord2	= txLoopT_limit_swWordByWord[index2].slice();  
 		thisLineList_swTran2     	= txLoopT_limit_swTran[index2].slice(); 
 		thisLineList_swShowOrig2   	= txLoopT_limit_swShowOrig[index2].slice(); 	
 		thisLineList_swShowTran2   	= txLoopT_limit_swShowTran[index2].slice(); 	
@@ -4089,14 +4115,16 @@ function tts_3_spezzaRiga3(orig_riga, numId) {
 	let z3Base = numWordBase + numId * 100;
 
 	//console.log("numWordBase=", numWordBase, "  numId=", numId, "  z3Base=", z3Base); 
+
+	// "§swAlfaHtml§" = "true")  in tts_3_spezzaRiga3  in onclick_tts_seeWords3
 	
 	for (let z3 = 0; z3 <listaParole.length; z3++) {  
 		let unaParola = listaParole[z3]; 
-		unaParola = unaParola.replace(/[.,?!]/g, "").trim();
+		
 		if (unaParola == "") continue; 		
         let rowclip = string_tr_xxWord.replaceAll("§1§", (z3Base + z3) ).
 			replaceAll("§4txt§", unaParola).replaceAll("§5txt§", "").replaceAll("§5dftxt§", "").
-			replaceAll("§abc§","true").	
+			replaceAll("§swAlfaHtml§","true").	
 			replaceAll("§ttstxt§", "").
 			replaceAll('§spelling§','spelling'); 
 		//console.log("numId=", numId, " z3=", z3, " rowclip=",  	rowclip ); 
@@ -4301,7 +4329,7 @@ function lev2_build_all_clip() {
 			replaceAll("§5txt§",    trantxt1).
 			replaceAll("§5dftxt§",  nota1). 
 			replaceAll("§52txt§" ,  traduzSeconda). 
-			replaceAll("§abc§",     "false").
+			replaceAll("§swAlfaHtml§",     "false").
 			replaceAll("§ttstxt§",  tts1).
 			replaceAll('§spelling§',''); 
 		
@@ -4505,7 +4533,7 @@ function insert_TR_m1_m2(z3) {
 	//console.log("eleTrX=", eleTrX.id, " z3=", z3,  " rowIndex=", rowIx);
 	
 	//-------------
-	let rowclip = prototype_tr_m1_tts.replaceAll("§1§", z3).replaceAll("§abc§","false");	
+	let rowclip = prototype_tr_m1_tts.replaceAll("§1§", z3).replaceAll("§swAlfaHtml§","false");	
 	let rowX = eleTabX.insertRow( rowIx ); 
 	rowX.outerHTML = rowclip; 
 	
@@ -5024,11 +5052,11 @@ function unused_functions() {
 
 function htmlPageCalledFunctions() {
 	var uno, due, tre, quattro; 
-	  onclick_anotherLoopType(uno,due, tre) ;           // 	9		
+	  onclick_anotherLoopType (uno,due, tre) ;           // 	9		
 	  onclick_chgVoxRotate()             ;           // 16
 	  onclick_loopType_change()          ;           //  4
 	  onclick_play_Orig_and_Tran_group(uno,due, tre, quattro) ;    // 9
-	  onclick_play_Orig_and_Tran_row(uno,due, tre, quattro) ;    // 18
+	  onclick_play_Orig_and_Tran_row (uno,due, tre, quattro) ;    // 18
 	  onclick_refresh_loopParms(uno)        ;           //  128 
 	  onclick_showtabLoop(uno)              ;           //    2
 	  onclick_tts_arrowFromIx(uno,due)      ;           //    6
