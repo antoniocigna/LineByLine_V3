@@ -2842,6 +2842,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 		}
 	}
 	
+	
 	lenLis = swSpeedReduce.length;
 		
 	
@@ -2904,8 +2905,14 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 			default: break;	
 		}
 		
-		//if (swSpeedReduce[z]) speed00 = perc_speed_reduce * speed0/100;  else speed00 = speed0;   
-		speed00 = perc_speed_reduce * speed0/100;
+		if (swSpeedReduce[z]) {
+				speed00 = perc_speed_reduce * speed0/100;     
+		} else {
+			speed00 = speed0;
+		}				
+		
+		
+		
 		let swTran1 = swTranslation[z];
 		let swSep1  = swWordByWord[z];   //   
 		
@@ -2915,6 +2922,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 			swTran1 = swOrigAndTran;
 			speed00 = speed0; 
 		}
+		
 		//console.log("  ripetiz. z=", z, "  swTranslation[z]=", swTranslation[z], " swTran1=", swTran1 , " XX swWordByWord[z]=", swWordByWord[z], " swSep1=", swSep1 );  
 		var f; 
 		//console.log("accumRowToPlay ( , thisLineList_loopTypeX=", thisLineList_loopTypeX, "minIndice=", minIndice, " numId=", numId, " minimo=", minimo,  " begix=", begix, "  endix=", endix, "module=", module);  
@@ -2942,7 +2950,7 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 			
 			msg_ix_set2 = showUpperMsg( thisLineList_loopTypeX, thisLineList_nomeX,  groupLimit, numPrec,numId, f, totGiri1, numGiro1, totGiri20, numGiro20); 
 			//console.log("msg_ix_set2=", msg_ix_set2); 
-			righeDaLeggere.push( [IX_SetMSG, msg_ix_set2,swOrigAndTran,null ] ) ;  // set msg under loop type button
+			//righeDaLeggere.push( [IX_SetMSG, msg_ix_set2,swOrigAndTran,null ] ) ;  // set msg under loop type button
 			tot_ixsetmsg++;  
 			
 			
@@ -2951,9 +2959,14 @@ function accumRowToPlay( type1, minIndice, numId, swOrigAndTran, swPause, swAlfa
 				speedRed = speed00;	
 				if (swAlfa) speedRed = 0.8; // swAlfA=TRUE solo in spezza_righe3 ( esplosione riga in parole)
 				var txtOrigW= get_words_fromRow( swAlfa,  getInner_idc( ele_txtOrig ).replaceAll("<br>", "")  );
+			
+				righeDaLeggere.push( [IX_SetMSG, msg_ix_set2 + " velocità=" + speedRed, swOrigAndTran,null ] ) ;  // set msg under loop type button
+			
 				righeDaLeggere.push( [IX_ORIG, txtOrigW,speedRed, ele_txtOrig, swShowOrig[z]] ) ; 
 				tot_ixorig++;  
 			} else {	
+				righeDaLeggere.push( [IX_SetMSG, msg_ix_set2 + " velocità=" + speed00,swOrigAndTran,null ] ) ;  // set msg under loop type button
+			
 				righeDaLeggere.push( [IX_ORIG, getInner_idc( ele_txtOrig ).replaceAll("<br>", ""),speed00, ele_txtOrig, swShowOrig[z]] ) ; 
 				tot_ixorig++;  
 				
