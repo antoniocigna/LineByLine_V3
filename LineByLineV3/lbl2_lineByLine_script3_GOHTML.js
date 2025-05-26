@@ -2119,7 +2119,7 @@ function onclickSelectWord(tipo,id1,unaParola) {
 		var orig_riga3 = origText.toLowerCase().replace(/[.,?!<>()]/g, " ").replace(/\s+/g, " ").trim();  		
 		var paroleDellaFrase = orig_riga3.split(" ");  
 		**/
-		var paroleDellaFrase = getListOfWords_inText(orig_riga3, charList);
+		var paroleDellaFrase = getListOfWords_inText(origText, charList);
 	
 		var swFound1=false; var swFound2 = false; 
 		if (numParole1 == 0) swFound1 = true; 
