@@ -1603,7 +1603,7 @@ function tts_2_fill_the_voices_OneLanguage( numLang , voiceSelect) {
 	//**
 	let prototype_tr_ttsWord = prototype_tr_tts;
 	let toFind  = 'style="display:none;" id="idc_§1§">§4txt§</div>';
-	let toRepl  = `style="display:block;" id="idc_§1§"><button onclick="onclickSelectWord(1,'§x1§','§4txt§')" class="word">§4txt§</button></div>` ;
+	let toRepl  = `style="display:block;" id="idc_§1§"><button onclick="onclickSelectWord(1,'§x1§','§4txt§')" class="but_word">§4txt§</button></div>` ;
 	
 	if (prototype_tr_ttsWord.indexOf( toFind) < 0) {
 			console.log("%cerrore prototype word not found", "color:red;"); 
@@ -2050,12 +2050,19 @@ function trovataUnaParola(ele_orText, unaParola) {
 //-----------------------------------------------
 function getInner_idc( ele_orText ) {
 	var origText; 
-	if (ele_orText.children.length > 0) {
-		origText = ele_orText.children[0].innerHTML.toLowerCase();
-		//console.log(ele_orText.id + " children origText children[0] =", origText);  
-	} else {
-		origText = ele_orText.innerHTML.toLowerCase();	
-		//console.log(ele_orText.id + " NO children origText =", origText);  
+	try{ 
+		if (ele_orText.children.length > 0) {
+			origText = ele_orText.children[0].innerHTML.toLowerCase();
+			//console.log(ele_orText.id + " children origText children[0] =", origText);  
+		} else {
+			origText = ele_orText.innerHTML.toLowerCase();	
+			//console.log(ele_orText.id + " NO children origText =", origText);  
+		}
+	} catch(e1) {
+		console.log("%cerrore in getInner_idc ","color:red;");
+		console.log("ele_orText=", ele_orText); 
+		console.log(errore); // provoca ERRORE
+		return ""; 	
 	}
 	return origText; 
 }
@@ -2069,14 +2076,19 @@ function onclickSelectWord(tipo,id1,unaParola) {
 	if (salvaSel_fromIxToIxLimit[0] < 0) salvaSel_fromIxToIxLimit = fromIxToIxLimit.slice(); 
 
 	var wordLista1 = "", wordLista2=""; 
+	var ele_lista1 , ele_lista2;  
+	
+	var idMsg = "err_" + id1;
+	var eleMsg = document.getElementById(idMsg);  
+	if (eleMsg)  eleMsg.style.display ="none";
+	
 	if (tipo == 2) {
 		var id_wordLista1 = "idwS1_" + id1; 
 		var id_wordLista2 = "idwS2_" + id1; 
-		var ele_lista1 = document.getElementById(id_wordLista1);  
-		var ele_lista2 = document.getElementById(id_wordLista2);  
+		ele_lista1 = document.getElementById(id_wordLista1);  
+		ele_lista2 = document.getElementById(id_wordLista2);  
 		if (ele_lista1) wordLista1 = ele_lista1.value;
-		if (ele_lista2) wordLista2 = ele_lista2.value;		
-		
+		if (ele_lista2) wordLista2 = ele_lista2.value;	
 	} 
 	if (tipo == 1) {
 		wordLista1 = unaParola; 	
@@ -2092,10 +2104,12 @@ function onclickSelectWord(tipo,id1,unaParola) {
 	var paroleDaCercare2 = getListOfWords_inText(wordLista2, charList);		
 	var numParole1 = paroleDaCercare1.length;
 	var numParole2 = paroleDaCercare2.length;
+	//console.log("paroleDaCercare 1:[", paroleDaCercare1.join(". ") , "]  2:[", paroleDaCercare2.join(". ") , "]" ); 
 	
 	var tabBody = document.getElementById("id_tabSub_tbody");
 	var numRows = tabBody.children.length;
 	var numFirst = -1, numLast = -1;
+	var swSomeFound1 = false; var swSomeFound2 = false; 
 	//---------------	
 	for(var v = 0; v < numRows; v++) {
 		//console.log("v=", v); 
@@ -2122,8 +2136,9 @@ function onclickSelectWord(tipo,id1,unaParola) {
 		var paroleDellaFrase = getListOfWords_inText(origText, charList);
 	
 		var swFound1=false; var swFound2 = false; 
-		if (numParole1 == 0) swFound1 = true; 
-		if (numParole2 == 0) swFound2 = true; 
+		
+		if (numParole1 == 0) {swFound1 = true; swSomeFound1 = true; } 
+		if (numParole2 == 0) {swFound2 = true;; swSomeFound2 = true; }  
 		var targWord1, targWord2; 
 		var w1, w2; var unaParolaDellaFrase;
 		if (swFound1 == false) {
@@ -2133,6 +2148,7 @@ function onclickSelectWord(tipo,id1,unaParola) {
 					if ( paroleDaCercare1[w1] == unaParolaDellaFrase) {targWord1= unaParolaDellaFrase; swFound1=true; break; }
 				}  
 				if (swFound1) { //console.log(" trovata parola1 ",unaParolaDellaFrase ); 
+					swSomeFound1 = true; 
 					break; 
 				}
 			} 
@@ -2144,6 +2160,7 @@ function onclickSelectWord(tipo,id1,unaParola) {
 					if ( paroleDaCercare2[w2] == unaParolaDellaFrase) {targWord2 = unaParolaDellaFrase; swFound2=true; break; }
 				} 	
 				if (swFound2) { //console.log(" trovata parola2 ",unaParolaDellaFrase ); 
+					swSomeFound2 = true; 					
 					break; 
 				}
 			} 
@@ -2171,12 +2188,16 @@ function onclickSelectWord(tipo,id1,unaParola) {
 				if (swFound2) {swFound1 = true}  
 			} 
 		}	
+		
 		//console.log("2 swFound1=", swFound1 , "   ", " swFound2=", swFound2, " swFound1 && swFound2=", (swFound1 && swFound2) ) 
 		if (swFound1 && swFound2) {
 			//console.log("la frase ", tr_num, " contiene le parole richieste: ", origText);	
 		} else {
-			continue
-		};
+			continue;
+		}
+		
+		var eleW   = document.getElementById( "idw_" + tr_num );  
+		//console.log("3 swFound1=", swFound1 ,  " swSomeFound1=", swSomeFound1); 
 		
 		var eleW   = document.getElementById( "idw_" + tr_num );  
 	
@@ -2194,8 +2215,34 @@ function onclickSelectWord(tipo,id1,unaParola) {
 		//var eleRowM2 = document.getElementById( idtr1 + "_m2"); 
 		//var eleRowM1 = document.getElementById( idtr1 + "_m1"); 
 	}	
-	//--------------
+	//---------------------
+	var msgErr="";
+	if (swSomeFound1 == false)  {
+		if (wordLista1 != "") 
+			if (ele_lista1){ 
+				ele_lista1.value = wordLista1 + " XXX  NOT FOUND XXX"; 
+				msgErr+=  wordLista1 + "  NOT FOUND "; 
+			}
+	} 
+	if (swSomeFound2 == false)  {
+		if (wordLista2 != "") 
+			if (ele_lista2) { 
+				ele_lista2.value = wordLista2 + " XXX  NOT FOUND XXX"; 
+				msgErr+=  "<br>" + wordLista2 + " NOT FOUND "; 
+			}	
+	} 
+	if (msgErr != "") {		
+		if (eleMsg) {
+			eleMsg.innerHTML = msgErr;
+			eleMsg.style.display ="block";
+		}				
+	}
 	
+	//--------------
+	if (numFirst < 0) {
+		onclickResetHideForNow(-1);
+		return;
+	}		
 	//console.log("numRows=", numRows, "  numFirst=", numFirst, "  numLast=", numLast); 
 	if (document.getElementById("b1_" + numFirst) == null) console.log("errore manca id  b1_" + numFirst); 
 	if (document.getElementById("b2_" + numLast ) == null) console.log("errore manca id  b2_" + numLast ); 
@@ -2207,6 +2254,7 @@ function onclickSelectWord(tipo,id1,unaParola) {
 	if (document.getElementById("resetHideForNow_" + numFirst) ) {
 		document.getElementById("resetHideForNow_" + numFirst).style.display = "block"; 
 	}
+	
 	document.getElementById( "idtr_" + numFirst + "_m1").scrollIntoView();
 	
 } // end of onclickSelectWord
@@ -2214,12 +2262,14 @@ function onclickSelectWord(tipo,id1,unaParola) {
 function onclickResetHideForNow(numId1) {
 	var tabBody = document.getElementById("id_tabSub_tbody");
 	var numRows = tabBody.children.length;
-	var ele_numEndGr = document.getElementById("id_end_" + numId1);
-	//console.log("ele_numEndGr=", ele_numEndGr.innerHTML); 
-	document.getElementById("resetHideForNow_" + numId1).style.display = "none"; 
-	document.getElementById("idtr_" + numId1+ "_m2").style.display = "none"; 
-	document.getElementById("idtr_" + numId1+ "_m1").style.display = "none"; 
-	
+	var ele_numEndGr; 
+	if (numId1 >=0) { 
+		ele_numEndGr = document.getElementById("id_end_" + numId1);
+		//console.log("ele_numEndGr=", ele_numEndGr.innerHTML); 
+		document.getElementById("resetHideForNow_" + numId1).style.display = "none"; 
+		document.getElementById("idtr_" + numId1+ "_m2").style.display = "none"; 
+		document.getElementById("idtr_" + numId1+ "_m1").style.display = "none"; 
+	}
 	if (salvaSel_fromIxToIxLimit[0] >= 0) {
 		//console.log("resetHide    numId1=", numId1, " salvaSel_fromIxToIxLimit=", salvaSel_fromIxToIxLimit[0], " ", salvaSel_fromIxToIxLimit[1] ); 
 		fromIxToIxLimit = salvaSel_fromIxToIxLimit.slice();
@@ -2227,43 +2277,68 @@ function onclickResetHideForNow(numId1) {
 	}
 	var oldFrom, oldTo;
 	[oldFrom, oldTo] = fromIxToIxLimit; 
+	
+	//console.log("onclickResetHideForNow  oldFrom=", oldFrom, " oldTo=", oldTo);
+	
 	document.getElementById("idtr_" + oldFrom + "_m2").style.display = "table-row"; 
 	document.getElementById("idtr_" + oldFrom + "_m1").style.display = "table-row";  
 	
-	if (document.getElementById("idtr_" + oldTo + "_m2") )  document.getElementById("idtr_" + oldTo + "_m2").style.display = "table-row"; 
+	//if (document.getElementById("idtr_" + oldTo + "_m2") )  document.getElementById("idtr_" + oldTo + "_m2").style.display = "table-row"; 
 	
-	var oldDisplay = document.getElementById("idb_" + oldFrom).children[0].style.display; 
+	var oldDisplay0 = document.getElementById("idb_" + oldFrom + "_m").children[0].style.display; 
+	var oldDisplay1 = document.getElementById("idb_" + oldFrom + "_m").children[1].style.display; 
 	
+	//console.log("oldDiplay0=", oldDisplay0) ; console.log("oldDiplay1=", oldDisplay1) 
 	
-	if (ele_numEndGr) {
-		var idEnd = 1 + 1*ele_numEndGr.innerHTML; 
-		if (idEnd >= numRows) idEnd = numRows-1; 
-		var ele_endGr = document.getElementById("idtr_" + idEnd + "_m2");
-		if (ele_endGr) ele_endGr.style.display = "none"; 
+	if (numId1 >=0) { 
+		if (ele_numEndGr) {
+			var idEnd = 1 + 1*ele_numEndGr.innerHTML; 
+			if (idEnd >= numRows) idEnd = numRows-1; 
+			var ele_endGr = document.getElementById("idtr_" + idEnd + "_m2");
+			if (ele_endGr) ele_endGr.style.display = "none"; 
+		}
 	}
 	document.getElementById("id_showLoop").innerHTML = ""; 
 	
+	//onclick_tts_arrowFromIx(  document.getElementById("b1_" + oldFrom), oldFrom) ; 
+	//onclick_tts_arrowToIx(    document.getElementById("b2_" + oldTo  ), oldTo  ) ; 	
+	//-----------------
 	for(var v = 0; v < numRows; v++) {
 		var eleRow = tabBody.children[v];
 		if (eleRow == null) continue;		
 		if (eleRow.classList.contains("hideForNow")) {
 			eleRow.classList.remove("hideForNow");   
-		} else {
-			if (eleRow.id.indexOf("_m") < 0) {
-				var idcId = "idc_" + eleRow.id.substring(5);
-				var eleTxt = document.getElementById( idcId );				
-				if (eleTxt) {
-					if (eleTxt.children.length > 0) { // il testo è diviso in due sezione: la prima col testo originale ed il secondo con parole evidenziate
-						eleTxt.innerHTML = eleTxt.children[0].innerHTML; 
-					}					
-				}	
-			}
-		}
+		} 
+		/**
+		if (( v < oldFrom) || (v > oldTo)) continue;
 		
-		if (( v >= oldFrom) && (v <= oldTo) && (oldFrom >= 0) ) document.getElementById("idb_" + v).children[0].style.display = oldDisplay; 
+		document.getElementById("idb_" + v).children[0].style.display = oldDisplay0; 
+		document.getElementById("idb_" + v).children[1].style.display = oldDisplay1; 
+		
+		if (eleRow.id.indexOf("_m") >= 0) continue;
+		
+		var idcId = "idc_" + eleRow.id.substring(5);
+		var eleTxt = document.getElementById( idcId );				
+		if (eleTxt == null) continue;
+		
+		if (eleTxt.children.length > 0) { // il testo è diviso in due sezione: la prima col testo originale ed il secondo con parole evidenziate
+			eleTxt.innerHTML = eleTxt.children[0].innerHTML; 
+		}	
+		eleTxt.style.display = oldDisplay0; 	
+		**/			
 	} // end for v 
+	//----
+	onclick_tts_arrowFromIx(  document.getElementById("b1_" + oldFrom), oldFrom) ; 
+	onclick_tts_arrowToIx(    document.getElementById("b2_" + oldTo  ), oldTo  ) ; 	
+	
+	var ele1_from = document.getElementById("idb_" + oldFrom + "_m"); 
+	//console.log("1 ele1_from.outer=", ele1_from.outerHTML); 
+	
+	ele1_from.children[0].style.display	= oldDisplay1; // display scambiato perchè il click è alternato 
+	//console.log("2 ele1_from.outer=", ele1_from.outerHTML); 	
+	onclick_tts_OneClipRow_showHide_sub( ele1_from, true);
+	//console.log("3 ele1_from.outer=", ele1_from.outerHTML); 	
 	//------------------------------------------
-
 	var numView=0; 
 	try{ numView = document.getElementById("id_toSave_fromNum").value; } catch(e1) {}
 	if (oldFrom > numView) numView = oldFrom;
@@ -4114,17 +4189,10 @@ function tts_3_spezzaRiga3(orig_riga, numId) {
 	  
     let clipSub_showTxt = "";
 	
-	clipSub_showTxt += `
-		<div class="centerFlex">
-			<div style="font-size:0.6em;color: black;text-align:left;margin-top:0.5em;">		
-				<button class="buttonTD2" onclick="onclickSelectWord(2,'§x1§')">lista le frasi che contengono una delle parole in lista1  ed una delle parole in lista2</button><br>	
-				<table>								
-					<tr><td>1) lista di parole</td><td><textarea id="idwS1_§x1§" cols="80" rows="1" placeholder="ab" >ab</textarea></td></tr>
-					<tr><td>2) lista di parole</td><td><textarea id="idwS2_§x1§" cols="80" rows="2" placeholder="gebe gebt gab gegeben" >gehen, gehe, geht, ging, gegangen</textarea></td></tr>
-				</table>
-				clicca su una parola di questa frase per listare tutte le frasi che la contengono							
-			</div>
-		</div> `;
+	clipSub_showTxt += `		
+			<div style="font-size:0.6em;color: black;text-align:center;margin-top:0.5em;">					
+				clicca su una parola per ottenere la lista di tutte le frasi che la contengono							
+			</div>  `;
 						
 	clipSub_showTxt += '<table style="display:block; width:100%;margin-top:0.5em;"> \n'; 		
 	clipSub_showTxt +=  `		
@@ -4163,6 +4231,26 @@ function tts_3_spezzaRiga3(orig_riga, numId) {
     } // end of for z3
 	
 	clipSub_showTxt += "</table> \n"; 		
+	clipSub_showTxt += `
+		<div class="centerFlex">
+			<div>
+				<div style="font-size:0.5em;color: black;text-align:left;margin-top:1.5em;">	
+					è possibile ottenere la lista delle frasi che contengono una qualunque parola o combinazione di parole, 
+					inserendo le parole richieste nelle 2 liste e poi premendo il pulsante di ricerca.
+					<br>Per soddisfare il criterio di scelta una parola delle lista1 deve essere presente insieme ad una parola della lista2  (una delle due lista può essere vuota).
+					<br>(es. la prima lista potrebbe contenere il prefisso di un verbi composto tedesco, la seconda le voci di paradigma dello stesso verbo)   
+					<table>								
+						<tr><td>1) lista di parole</td><td><textarea id="idwS1_§x1§" cols="50" rows="1" placeholder="ab" ></textarea></td></tr>
+						<tr><td>2) lista di parole</td><td><textarea id="idwS2_§x1§" cols="50" rows="2" placeholder="gebe gebt gab gegeben" ></textarea></td></tr>
+					</table>
+				</div>	
+				<div style="font-size:0.6em;text-align:center;margin-bottom:1.5em;padding-bottom:2em; border-bottom:1px solid black;">
+					<button class="but_word" style="font-size:1.0em;" onclick="onclickSelectWord(2,'§x1§')">cerca tutte le frasi che contengono le parole delle liste1 e 2</button>	
+					<br><span id="err_§x1§" + style="color:red; font-weight:bold;display:none;"></span>
+				</div>
+				
+			</div>
+		</div> `;
 	
 	return clipSub_showTxt;
 
