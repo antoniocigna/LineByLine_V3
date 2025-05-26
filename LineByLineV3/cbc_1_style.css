@@ -692,6 +692,8 @@ div.fixed_bottom {
 	text-decoration: none;
 	border: 0;
 	background-color: var(--main-bg-color);
+	  border-radius: 1.4em;
+	box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.6);  
 }
 .but_word:hover {
 	background-color: lightGrey;
