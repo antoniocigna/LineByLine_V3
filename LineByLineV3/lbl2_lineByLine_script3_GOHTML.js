@@ -551,7 +551,7 @@ let div_voices =  `
    .bordLeft{ border-left: 1px solid black;}
    .bordRight{ border-right: 1px solid black;}
    .buttonSpeak { height:7em;border:2px solid green;"  }
-   
+   .sticky { position: sticky;  top: 0; background-color: yellow;}
 </style>
 
 <div  style="display:flex;justify-content: center;  width:100%;  height:100%;
@@ -581,15 +581,15 @@ let div_voices =  `
 			<col id="col_tts_cancel" 	 span="1" >
             <col id="col_numSub" 		 span="1" >
          </colgroup>
-         <thead id="id_tabSub_th">
+         <thead id="id_tabSub_th" >
             <tr id="id_tr_row_zero1" style="background-color:lightgrey;">
                <th id="m005x" class="msg header_1" style="border:0px solid green;" colspan="2">gruppo di righe</th>
                <th id="m007" class="msg header_1 bott1" rowspan="2"   >mostra / nascondi<br>testo</th>
                <th id="m008" class="msg header_1 bott1" rowspan="2">mostra / nascondi<br>ascolta traduzione</th>
                <th id="m013" class="msg header_1 bott1" rowspan="2">parola<br>per<br>parola</th>
-               <th id="id_h_textCol00" class="bordLeft borderRight" style="text-align:center;  vertical-align:bottom;color:black;font-weight:bold; border:0px solid black;"  >
+               <th id="id_h_textCol00" class="bordLeft borderRight sticky" style="text-align:center;  vertical-align:bottom;color:black;font-weight:bold; border:0px solid black;"  >
                   
-				<div  style="width:60%; border:0px solid blue;background-color: var(--main-bg-color);margin-left:20%;margin-right:20%;
+				<div style="width:60%; border:0px solid blue;background-color: var(--main-bg-color);margin-left:20%;margin-right:20%;
 					border-radius:0.8em;">
 					<div style="display: inline-block; width:30%;text-align:right;">
 						<button class="buttonTD" style="width:100%;text-align:center;" onclick="onclick_showtabLoop('id_show_voices')">hide/change<br>voice parameters</button>
@@ -663,114 +663,166 @@ let div_voices =  `
  
  //--------------------------------
 var table_read_rowspeed = `   
-								<table style="text-align:center;">
+								<table style="text-align:center; border:0px solid red;">
 									<tr style="background-color:lightgrey;">
 										<td id="§§_headSpe" style="text-align:left;" rowspan="2"></td>
-										<td colspan="5">numero lettura</td>
+										<td colspan="10">numero lettura</td>
 									</tr>
 									<tr style="background-color:lightgrey;">	
-										<td>n.1</td><td>n.2</td><td>n.3</td><td>n.4</td><td>altre</td>
+										<td>n.1</td><td>n.2</td><td>n.3</td><td>n.4</td><td>n.5</td><td>n.6</td><td>n.7</td><td>n.8</td><td>9</td><td>altre</td>
 									</tr>									
 									<tr id="§§_spRedSw">
 										<td style="text-align:left;">
 											<span>ascolta testo a velocità ridotta</span> 
 											<input type="number" value="80"  min="50" max="100" style="width:3em;text-align:right;" onchange='onclick_refresh_loopParms("§§","spRedSw" , true,this)'>%</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","spRedSw" )' checked ></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="1"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="2"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="3"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' checked ></td>  
+										<td><input type="checkbox" value="4"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="5"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="6"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="7"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="8"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>  
+										<td><input type="checkbox" value="9"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="10" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
 									</tr>  
 									<tr id="§§_wbwSw">
 										<td style="text-align:left;">
 											<span>parole separate e velocità ridotta</span> 
 											<input type="number" value="80"  min="50" max="100" style="width:3em;text-align:right;" onchange='onclick_refresh_loopParms("§§","wbwSw" , true,this)'>%</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","wbwSw" )' checked ></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="1"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="2"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="3"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>  
+										<td><input type="checkbox" value="4"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' checked ></td>
+										<td><input type="checkbox" value="5"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="6"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="7"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="8"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>  
+										<td><input type="checkbox" value="9"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="10" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+									</tr>  
+									
+									<tr id="§§_showOrigSw">
+										<td style="text-align:left;">mostra testo</td>
+										<td><input type="checkbox" value="1"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' ></td>
+										<td><input type="checkbox" value="2"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' ></td>
+										<td><input type="checkbox" value="3"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' ></td>  
+										<td><input type="checkbox" value="4"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' ></td>
+										<td><input type="checkbox" value="5"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
+										<td><input type="checkbox" value="6"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
+										<td><input type="checkbox" value="7"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>  
+										<td><input type="checkbox" value="8"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
+										<td><input type="checkbox" value="9"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
+										<td><input type="checkbox" value="10" onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
 									</tr>  
 									<tr id="§§_tranSw">
 										<td style="text-align:left;">ascolta traduzione</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
-									</tr>  
-									<tr id="§§_showOrigSw">
-										<td style="text-align:left;">mostra testo</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' ></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
+										<td><input type="checkbox" value="1"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>
+										<td><input type="checkbox" value="2"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>
+										<td><input type="checkbox" value="3"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>  
+										<td><input type="checkbox" value="4"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>
+										<td><input type="checkbox" value="5"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>
+										<td><input type="checkbox" value="6"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>
+										<td><input type="checkbox" value="7"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
+										<td><input type="checkbox" value="8"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>  
+										<td><input type="checkbox" value="9"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
+										<td><input type="checkbox" value="10" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
 									</tr>  
 									<tr id="§§_showTranSw">
 										<td style="text-align:left;">mostra traduzione</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","showTranSw"  )' ></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","showTranSw"  )' checked></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","showTranSwSw"  )' checked></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","showTranSwSw"  )' checked></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","showTranSw"  )' checked></td>
+										<td><input type="checkbox" value="1"  onchange='onclick_refresh_loopParms("§§","showTranSw"  )' ></td>
+										<td><input type="checkbox" value="2"  onchange='onclick_refresh_loopParms("§§","showTranSw"  )' ></td>
+										<td><input type="checkbox" value="3"  onchange='onclick_refresh_loopParms("§§","showTranSwSw")' ></td>  
+										<td><input type="checkbox" value="4"  onchange='onclick_refresh_loopParms("§§","showTranSwSw")' ></td>
+										<td><input type="checkbox" value="5"  onchange='onclick_refresh_loopParms("§§","showTranSw"  )' ></td>
+										<td><input type="checkbox" value="6"  onchange='onclick_refresh_loopParms("§§","showTranSw"  )' ></td>
+										<td><input type="checkbox" value="7"  onchange='onclick_refresh_loopParms("§§","showTranSw"  )' checked></td>
+										<td><input type="checkbox" value="8"  onchange='onclick_refresh_loopParms("§§","showTranSwSw")' checked></td>  
+										<td><input type="checkbox" value="9"  onchange='onclick_refresh_loopParms("§§","showTranSwSw")' checked></td>
+										<td><input type="checkbox" value="10" onchange='onclick_refresh_loopParms("§§","showTranSw"  )' checked></td>
 									</tr>  
 								</table>
  `  ; // end of table_read_rowspeed
  
  var table_tran_rowspeed = `   
-								<table style="text-align:center;">
+								<table style="text-align:center;border:0px solid green;">
 									<tr style="background-color:lightgrey;">
 										<td id="§§_headSpe" style="text-align:left;" rowspan="2"></td>
-										<td colspan="5">numero lettura</td>
+										<td colspan="10">numero lettura</td>
 									</tr>
-									<tr style="background-color:lightgrey;visibility: collapse;">	
-										<td>n.1</td><td>n.2</td><td>n.3</td><td>n.4</td><td>altre</td>
+									<tr style="background-color:lightgrey;">	
+										<td>n.1</td><td>n.2</td><td>n.3</td><td>n.4</td><td>n.5</td><td>n.6</td><td>n.7</td><td>n.8</td><td>9</td><td>altre</td>
 									</tr>
 									
 									<tr id="§§_spRedSw" >
 										<td style="text-align:left;">
 											<span>ascolta testo a velocità ridotta</span> 
 											<input type="number" value="80"  min="50" max="100" style="width:3em;text-align:right;" onchange='onclick_refresh_loopParms("§§","spRedSw" , true,this)'>%</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="1"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="2"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="3"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>  
+										<td><input type="checkbox" value="4"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="5"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="6"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="7"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="8"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>  
+										<td><input type="checkbox" value="9"  onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
+										<td><input type="checkbox" value="10" onchange='onclick_refresh_loopParms("§§","spRedSw" )' ></td>
 									</tr>  
 									<tr id="§§_wbwSw" >
 										<td style="text-align:left;">
 											<span>parole separate e velocità ridotta</span> 
 											<input type="number" value="80"  min="50" max="100" style="width:3em;text-align:right;" onchange='onclick_refresh_loopParms("§§","wbwSw" , true,this)'>%</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
-									</tr>  
-									<tr id="§§_tranSw">
-										<td style="text-align:left;">ascolta traduzione</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
+										<td><input type="checkbox" value="1"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="2"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="3"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>  
+										<td><input type="checkbox" value="4"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="5"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="6"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="7"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="8"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>  
+										<td><input type="checkbox" value="9"  onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
+										<td><input type="checkbox" value="10" onchange='onclick_refresh_loopParms("§§","wbwSw" )' ></td>
 									</tr>  
 									<tr id="§§_showOrigSw">
 										<td style="text-align:left;">mostra testo</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' ></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
+										<td><input type="checkbox" value="1"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' ></td>
+										<td><input type="checkbox" value="2"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' ></td>
+										<td><input type="checkbox" value="3"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' ></td>  
+										<td><input type="checkbox" value="4"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' ></td>
+										<td><input type="checkbox" value="5"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
+										<td><input type="checkbox" value="6"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
+										<td><input type="checkbox" value="7"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
+										<td><input type="checkbox" value="8"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>  
+										<td><input type="checkbox" value="9"  onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
+										<td><input type="checkbox" value="10" onchange='onclick_refresh_loopParms("§§","showOrigSw"  )' checked></td>
 									</tr>  
+									<tr id="§§_tranSw">
+										<td style="text-align:left;">ascolta traduzione</td>
+										<td><input type="checkbox" value="1"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>
+										<td><input type="checkbox" value="2"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>
+										<td><input type="checkbox" value="3"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>  
+										<td><input type="checkbox" value="4"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>
+										<td><input type="checkbox" value="5"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' ></td>
+										<td><input type="checkbox" value="6"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
+										<td><input type="checkbox" value="7"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
+										<td><input type="checkbox" value="8"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>  
+										<td><input type="checkbox" value="9"  onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
+										<td><input type="checkbox" value="10" onchange='onclick_refresh_loopParms("§§","tranSw"  )' checked></td>
+									</tr>  
+									
 									<tr id="§§_showTranSw">
 										<td style="text-align:left;">mostra traduzione</td>
-										<td><input type="checkbox" value="1" onchange='onclick_refresh_loopParms("§§","showTranSw"  )' ></td>
-										<td><input type="checkbox" value="2" onchange='onclick_refresh_loopParms("§§","showTranSw"  )' checked></td>
-										<td><input type="checkbox" value="3" onchange='onclick_refresh_loopParms("§§","showTranSwSw"  )' checked></td>  
-										<td><input type="checkbox" value="4" onchange='onclick_refresh_loopParms("§§","showTranSwSw"  )' checked></td>
-										<td><input type="checkbox" value="5" onchange='onclick_refresh_loopParms("§§","showTranSw"  )' checked></td>
+										<td><input type="checkbox" value="1"  onchange='onclick_refresh_loopParms("§§","showTranSw"  )' ></td>
+										<td><input type="checkbox" value="2"  onchange='onclick_refresh_loopParms("§§","showTranSw"  )' ></td>
+										<td><input type="checkbox" value="3"  onchange='onclick_refresh_loopParms("§§","showTranSwSw")' ></td>  
+										<td><input type="checkbox" value="4"  onchange='onclick_refresh_loopParms("§§","showTranSwSw")' ></td>
+										<td><input type="checkbox" value="5"  onchange='onclick_refresh_loopParms("§§","showTranSw"  )' ></td>
+										<td><input type="checkbox" value="6"  onchange='onclick_refresh_loopParms("§§","showTranSw"  )' checked></td>
+										<td><input type="checkbox" value="7"  onchange='onclick_refresh_loopParms("§§","showTranSw"  )' checked></td>
+										<td><input type="checkbox" value="8"  onchange='onclick_refresh_loopParms("§§","showTranSwSw")' checked></td>  
+										<td><input type="checkbox" value="9"  onchange='onclick_refresh_loopParms("§§","showTranSwSw")' checked></td>
+										<td><input type="checkbox" value="10" onchange='onclick_refresh_loopParms("§§","showTranSw"  )' checked></td>
 									</tr>  
 								</table>
  `  ; // end of table_tran_rowspeed
@@ -796,8 +848,8 @@ var table_idTabHloop = `
 				<table id="idTabHloop1" class="tabHparm" style="border:1px solid black;  font-size:80%;text-align:left;border-collapse:collapse; margin-top:2em; ">                           
 					<colgroup>
 						<col span="1" style="width:1%; text-align.left;border:1px solid black;">
-						<col span="1" style="width:20%;text-align.left;border:1px solid black;border-right:0px solid black;">
-						<col span="1" style="width:20%;text-align.left;border:1px solid black;border-left:0px solid black;">
+						<col span="1" style="width:15%;text-align.left;border:1px solid black;border-right:0px solid black;">
+						<col span="1" style="width:15%;text-align.left;border:1px solid black;border-left:0px solid black;">
 						<col span="1" style="border:1px solid black;">
 					</colgroup>						   
 					<tbody>			
@@ -805,10 +857,10 @@ var table_idTabHloop = `
 							<th colspan="4" style="border-bottom:1px solid black"></th>
 						</tr>  
 						<tr style="margin-top:5em;">
-							<th colspan="4" style="border:0;margin-top:5em;padding:0.5em;vertical-align:top;"></th>
+							<th colspan="4" style="border:1;margin-top:5em;padding:0.5em;vertical-align:top;"></th>
 						</tr>
 						<tr style="margin-top:5em;">
-							<th colspan="4" style="text-align:center;border:0;margin-top:5em;padding:0.5em;vertical-align:top;">LOOP RIGHE</th>
+							<th colspan="4" style="text-align:center;border:1;margin-top:5em;padding:0.5em;vertical-align:top;">LOOP RIGHE</th>
 						</tr>
 						<tr style="margin-top:5em;">
 							<th colspan="4" style="border:0;margin-top:5em;padding:0.5em;vertical-align:top;"></th>
@@ -830,7 +882,7 @@ var table_idTabHloop = `
 						</tr>
 						
 						
-						<!--    -->
+						<!--    -->						
 						<tr style="margin-top:5em;">
 						<th colspan="4" style="border:0;margin-top:5em;padding:0.5em;vertical-align:top;"></th>
 						</tr>
@@ -840,7 +892,7 @@ var table_idTabHloop = `
 						<tr style="text-align:left;">
 							<td></td>
 							<td>ripete 
-								<input id="Tr10_rLoop" class="tabHloopInput" type="number" value="4" onchange="onclick_refresh_loopParms('Tr10')">&nbsp;<span>volte</span>
+								<input id="Tr10_rLoop" class="tabHloopInput" type="number" value="10" onchange="onclick_refresh_loopParms('Tr10')">&nbsp;<span>volte</span>
 							</td>
 							<td style="padding-bottom:0.5em;">la riga richiesta 
 								<input id="Tr10_nrLoop" class="tabHloopInput" type="number" value="1" onchange="onclick_refresh_loopParms('Tr10')" style="display:none;">
@@ -856,7 +908,7 @@ var table_idTabHloop = `
 						</tr>						
 						<tr style="text-align:left;">
 							<td>1)</td>
-							<td>ripete <input id="Tr20_rLoop" class="tabHloopInput" type="number" value="4" 
+							<td>ripete <input id="Tr20_rLoop" class="tabHloopInput" type="number" value="10" 
 								onchange="onclick_loopType_change()">&nbsp;<span>volte</span>
 							</td>
 							<td style="padding-bottom:0.5em;">la riga richiesta 
@@ -867,7 +919,7 @@ var table_idTabHloop = `
 						</tr>
 						<tr style="text-align:left;">
 							<td>2)</td>
-							<td>ripete <input id="Tr21_rLoop" class="tabHloopInput" type="number" value="3" onchange="onclick_refresh_loopParms('Tr21')">&nbsp;<span>volte</span></td>
+							<td>ripete <input id="Tr21_rLoop" class="tabHloopInput" type="number" value="7" onchange="onclick_refresh_loopParms('Tr21')">&nbsp;<span>volte</span></td>
 							<td style="padding-bottom:0.5em;">
 								prima le ultime <input id="Tr21_nrLoop" class="tabHloopInput" type="number" value="3" onchange="onclick_refresh_loopParms('Tr21')"> 
 								<br>righe precedenti<br>e poi quella richiesta
@@ -894,8 +946,8 @@ var table_idTabHloop = `
 				<table id="idTabHloop2" class="tabHparm" style="border:1px solid black;  font-size:80%;text-align:left;border-collapse:collapse;">                           
 					<colgroup>
 						<col span="1" style="width:1%; text-align.left;border:1px solid black;">
-						<col span="1" style="width:20%;text-align.left;border:1px solid black;border-right:0px solid black;">
-						<col span="1" style="width:20%;text-align.left;border:1px solid black;border-left:0px solid black;">
+						<col span="1" style="width:15%;text-align.left;border:1px solid black;border-right:0px solid black;">
+						<col span="1" style="width:15%;text-align.left;border:1px solid black;border-left:0px solid black;">
 						<col span="1" style="border:1px solid black;">
 					</colgroup>						   
 					<tbody>			
@@ -929,7 +981,7 @@ var table_idTabHloop = `
 						<tr style="text-align:left;">
 							<td></td>
 							<td>ripete 
-								<input id="Tg10_rLoop" class="tabHloopInput" type="number" value="4" onchange="onclick_refresh_loopParms('Tg10')">&nbsp;<span>volte</span>
+								<input id="Tg10_rLoop" class="tabHloopInput" type="number" value="10" onchange="onclick_refresh_loopParms('Tg10')">&nbsp;<span>volte</span>
 							</td>
 							<td style="padding-bottom:0.5em;">il gruppo richiesto 
 								<input id="Tg10_nrLoop" class="tabHloopInput" type="number" value="1" onchange="onclick_refresh_loopParms('Tg10')" style="display:none;">
@@ -971,7 +1023,7 @@ var table_idTabHloop = `
 						</td>
 						<tr style="text-align:left;">
 							<td></td>
-							<td>1) ripete <input id="Tg30_rLoop" class="tabHloopInput" type="number" value="4" 
+							<td>1) ripete <input id="Tg30_rLoop" class="tabHloopInput" type="number" value="10" 
 								onchange="onclick_loopType_change()">&nbsp;<span>volte</span>
 							</td>
 							<td style="padding-bottom:0.5em;">la riga richiesta 
@@ -982,7 +1034,7 @@ var table_idTabHloop = `
 						</tr>
 						<tr style="text-align:left;">
 							<td></td>
-							<td>2) ripete <input id="Tg31_rLoop" class="tabHloopInput" type="number" value="3" onchange="onclick_refresh_loopParms('Tg31')">&nbsp;<span>volte</span></td>
+							<td>2) ripete <input id="Tg31_rLoop" class="tabHloopInput" type="number" value="7" onchange="onclick_refresh_loopParms('Tg31')">&nbsp;<span>volte</span></td>
 							<td style="padding-bottom:0.5em;">
 								prima le ultime <input id="Tg31_nrLoop" class="tabHloopInput" type="number" value="3" onchange="onclick_refresh_loopParms('Tg31')"> 
 								<br>righe precedenti<br>e poi quella richiesta
