@@ -372,7 +372,7 @@ let div_voices =  `
 			</div>
          </div>
 		 <!-- <button onclick="onclick_showtabLoop('id_show_voices')">show/hide parameters</button><br> -->
-		 <div id="id_show_voices" class="centerFlex" style="text-align:center;width:100%;display:block;"> \n
+		 <div id="id_show_voices" class="centerFlex" style="text-align:center;width:100%;display:none;"> \n
 			<div> \n
 			 <table id="id_tb12" style="border:1px solid black;border-bottom: 0; bord-collapse:collapse;width:100%;">  
 				<tbody>
@@ -510,29 +510,46 @@ let div_voices =  `
 						</div>
 					</td>
 				</tr>
-				<!--  xxxxxxxxxxxxx  -->
-				
+				<!--  xxxxxxxxxxxxx  -->		
+		
 				
 				<tr style="border:1px solid black;"> 
-					<td ></td>
+					<td></td>
 					<td>					
-						<label  class="header_1" >start from line number</span>
-							<input type="number" id="id_toSave_fromNum" min="0" value="0" onchange="onclickSaveFromNum(this,true)" style="width:4em;text-align:right;">
-						</label>
+					
 					</td>
 					<td>
-						
+					
 					</td>				
 				</tr>
 				</tbody>
 			</table> 	
-			<!--
-			<div id="divTabHloop" style="width:100%;"> 
-			-->
-		   </div>
-		</div>				
-	</div>	
+			
+			
+		</div>	
+		
+		
+		
+	</div>
+	<div style="width:100%;"  class="centerFlex"> 
+				<div style="border:1px solid blue;background-color: var(--main-bg-color);margin-left:20%;margin-right:20%;
+							border-radius:0.8em;">
+							<div style="display: inline-block; width:35%;text-align:right;vertical-align:top;">
+								<button class="buttonTD" style="width:100%;text-align:center;" onclick="onclick_showtabLoop(&#39;id_show_voices&#39;)">hide/change<br>voice parameters</button>
+							</div>
+							<div style="display: inline-block; width:20%;text-align:center;vertical-align:bottom;">								
+								<label class="header_1">start from line number
+								<input type="number" id="id_toSave_fromNum" min="0" value="0" onchange="onclickSaveFromNum(this,true)" style="width:4em;text-align:right;">
+								</label>					
+							</div>
+							<div style="display: inline-block; width:35%;text-align:left;vertical-align:top;">
+								<button class="buttonTD" style="width:100%;text-align:center;" onclick="onclick_showtabLoop(&#39;id_tabLoopShow&#39;)">hide/change<br>loop parameters</button>
+							</div>
+						</div>
+		</div>
 	
+	</div>   		
+		
  ` ; // end of div_voices
  
  
@@ -588,18 +605,6 @@ let div_voices =  `
                <th id="m008" class="msg header_1 bott1" rowspan="2">mostra / nascondi<br>ascolta traduzione</th>
                <th id="m013" class="msg header_1 bott1" rowspan="2">parola<br>per<br>parola</th>
                <th id="id_h_textCol00" class="bordLeft borderRight sticky" style="text-align:center;  vertical-align:bottom;color:black;font-weight:bold; border:0px solid black;"  >
-                  
-				<div style="width:60%; border:0px solid blue;background-color: var(--main-bg-color);margin-left:20%;margin-right:20%;
-					border-radius:0.8em;">
-					<div style="display: inline-block; width:30%;text-align:right;">
-						<button class="buttonTD" style="width:100%;text-align:center;" onclick="onclick_showtabLoop('id_show_voices')">hide/change<br>voice parameters</button>
-					</div>
-					<div style="display: inline-block; width:30%;text-align:left;">
-						<button class="buttonTD" style="width:100%;text-align:center;" onclick="onclick_showtabLoop('id_tabLoopShow')">hide/change<br>loop parameters</button>
-					</div>
-				</div>
-					
-				
 			   </th>	
                <th id="m123c" class="msg header_1  bott1 bordLeft" rowspan="2">Tipo Loop <small>click to change</small></th>
                <th id="m123a" class="msg header_1  bott1 bordLeft  c_m1g" rowspan="2">Play Orig</th>
